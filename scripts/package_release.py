@@ -17,7 +17,7 @@ ROOT_FILES = {
     ".env.example", ".gitignore", ".dockerignore", "Dockerfile", "docker-compose.yml", "compose.yaml",
     "frontend/package.json", "frontend/package-lock.json", "frontend/index.html", "frontend/README.md",
     "frontend/tsconfig.json", "frontend/tsconfig.node.json", "frontend/vite.config.ts",
-    "frontend/eslint.config.js",
+    "frontend/eslint.config.js", "frontend/.prettierrc.json",
 }
 SOURCE_DIRS = ("backend", "engine", "custom_nodes", "deploy", "workflows", "scripts", "docs", "recipes", "tests", "frontend/src")
 SOURCE_SUFFIXES = {".py", ".md", ".json", ".toml", ".txt", ".yaml", ".yml", ".sh", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".css", ".html", ".svg"}

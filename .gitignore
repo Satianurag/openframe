@@ -18,3 +18,4 @@ artifacts/reference/*.json
 .openframe/
 *.egg-info/
 artifacts/
+*.tsbuildinfo
