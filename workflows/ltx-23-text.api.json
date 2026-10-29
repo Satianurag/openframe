@@ -1,0 +1,279 @@
+{
+  "model": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "ltx-2.3-22b-dev.safetensors"
+    },
+    "_meta": {
+      "title": "CheckpointLoaderSimple"
+    }
+  },
+  "text_encoder": {
+    "class_type": "LTXAVTextEncoderLoader",
+    "inputs": {
+      "text_encoder": "gemma_3_12B_it_fp8_scaled.safetensors",
+      "ckpt_name": "ltx-2.3-22b-dev.safetensors",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "LTXAVTextEncoderLoader"
+    }
+  },
+  "distill": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "model",
+        0
+      ],
+      "lora_name": "ltx-2.3-22b-distilled-lora-384-1.1.safetensors",
+      "strength_model": 0.5
+    },
+    "_meta": {
+      "title": "LoraLoaderModelOnly"
+    }
+  },
+  "positive": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "text_encoder",
+        0
+      ],
+      "text": "Cinematic natural footage of a sunlit courtyard, detailed stone textures, a gentle breeze moves the leaves, smooth camera movement."
+    },
+    "_meta": {
+      "title": "CLIPTextEncode"
+    }
+  },
+  "negative": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "text_encoder",
+        0
+      ],
+      "text": "low quality, distorted anatomy, flicker, text, watermark"
+    },
+    "_meta": {
+      "title": "CLIPTextEncode"
+    }
+  },
+  "condition": {
+    "class_type": "LTXVConditioning",
+    "inputs": {
+      "positive": [
+        "positive",
+        0
+      ],
+      "negative": [
+        "negative",
+        0
+      ],
+      "frame_rate": 24.0
+    },
+    "_meta": {
+      "title": "LTXVConditioning"
+    }
+  },
+  "empty": {
+    "class_type": "EmptyLTXVLatentVideo",
+    "inputs": {
+      "width": 512,
+      "height": 288,
+      "length": 49,
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "EmptyLTXVLatentVideo"
+    }
+  },
+  "audio_vae": {
+    "class_type": "LTXVAudioVAELoader",
+    "inputs": {
+      "ckpt_name": "ltx-2.3-22b-dev.safetensors"
+    },
+    "_meta": {
+      "title": "LTXVAudioVAELoader"
+    }
+  },
+  "audio_latent": {
+    "class_type": "LTXVEmptyLatentAudio",
+    "inputs": {
+      "frames_number": 49,
+      "frame_rate": 24.0,
+      "batch_size": 1,
+      "audio_vae": [
+        "audio_vae",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "LTXVEmptyLatentAudio"
+    }
+  },
+  "av_latent": {
+    "class_type": "LTXVConcatAVLatent",
+    "inputs": {
+      "video_latent": [
+        "empty",
+        0
+      ],
+      "audio_latent": [
+        "audio_latent",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "LTXVConcatAVLatent"
+    }
+  },
+  "noise": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 42
+    },
+    "_meta": {
+      "title": "RandomNoise"
+    }
+  },
+  "guider": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "model": [
+        "distill",
+        0
+      ],
+      "positive": [
+        "condition",
+        0
+      ],
+      "negative": [
+        "condition",
+        1
+      ],
+      "cfg": 1.0
+    },
+    "_meta": {
+      "title": "CFGGuider"
+    }
+  },
+  "sampler": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler_ancestral_cfg_pp"
+    },
+    "_meta": {
+      "title": "KSamplerSelect"
+    }
+  },
+  "sigmas": {
+    "class_type": "ManualSigmas",
+    "inputs": {
+      "sigmas": "1.00000000, 0.99375000, 0.98750000, 0.98125000, 0.97500000, 0.90937500, 0.72500000, 0.42187500, 0.00000000"
+    },
+    "_meta": {
+      "title": "ManualSigmas"
+    }
+  },
+  "sample": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "noise",
+        0
+      ],
+      "guider": [
+        "guider",
+        0
+      ],
+      "sampler": [
+        "sampler",
+        0
+      ],
+      "sigmas": [
+        "sigmas",
+        0
+      ],
+      "latent_image": [
+        "av_latent",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "SamplerCustomAdvanced"
+    }
+  },
+  "separate": {
+    "class_type": "LTXVSeparateAVLatent",
+    "inputs": {
+      "av_latent": [
+        "sample",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "LTXVSeparateAVLatent"
+    }
+  },
+  "decode_audio": {
+    "class_type": "LTXVAudioVAEDecode",
+    "inputs": {
+      "samples": [
+        "separate",
+        1
+      ],
+      "audio_vae": [
+        "audio_vae",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "LTXVAudioVAEDecode"
+    }
+  },
+  "decode": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "separate",
+        0
+      ],
+      "vae": [
+        "model",
+        2
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    },
+    "_meta": {
+      "title": "VAEDecodeTiled"
+    }
+  },
+  "save": {
+    "class_type": "OpenFrameSaveVideo",
+    "inputs": {
+      "images": [
+        "decode",
+        0
+      ],
+      "fps": 24.0,
+      "frames": 49,
+      "filename_prefix": "OpenFrame",
+      "preserve_outside_mask": true,
+      "preserve_audio": true,
+      "source_filename": "",
+      "trim_start": 0.0,
+      "export_mask": true,
+      "audio": [
+        "decode_audio",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "OpenFrameSaveVideo"
+    }
+  }
+}

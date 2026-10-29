@@ -1,0 +1,108 @@
+export type Asset = {
+  id: string;
+  name: string;
+  kind: string;
+  url: string;
+  thumbnail_url?: string | null;
+  width?: number;
+  height?: number;
+  duration?: number;
+  fps?: number;
+  created_at?: string;
+  role?: string;
+};
+export type Model = {
+  id: string;
+  name: string;
+  family: string;
+  description: string;
+  tasks: string[];
+  supports_reference?: boolean;
+  reference_tasks?: string[];
+  recommended_vfx_longest_side?: number;
+  strength_controls?: Record<string, { label: string; hint: string }>;
+  aspect_ratios?: string[];
+  defaults?: Partial<JobRequest>;
+  [key: string]: unknown;
+};
+export type Effect = {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  task: string;
+  prompt: string;
+  model_ids: string[];
+  requires_video: boolean;
+  requires_image: boolean;
+  requires_mask: boolean;
+  [key: string]: unknown;
+};
+export type Provider = {
+  id: string;
+  name: string;
+  configured?: boolean;
+  available?: boolean | null;
+  detail?: string;
+  supported_tracking_methods?: string[];
+};
+export type Catalog = {
+  models: Model[];
+  effects: Effect[];
+  providers: Provider[];
+};
+export type JobRequest = {
+  model_id: string;
+  effect_id: string;
+  provider: string;
+  prompt: string;
+  negative_prompt: string;
+  seed: number;
+  width: number;
+  height: number;
+  frames: number;
+  fps: number;
+  steps: number;
+  guidance: number;
+  source_asset_id?: string;
+  mask_asset_id?: string;
+  reference_asset_id?: string;
+  strength: number;
+  preserve_audio: boolean;
+  preserve_outside_mask: boolean;
+  mask_tracking: boolean;
+  mask_tracking_method: string;
+  trim_start: number;
+  mask_dilation: number;
+  mask_edit_margin?: number | null;
+  mask_feather: number;
+  generate_audio: boolean;
+};
+export type Job = {
+  id: string;
+  status: 'queued' | 'running' | 'succeeded' | 'failed' | 'cancelled';
+  progress: number;
+  stage: string;
+  created_at: string;
+  updated_at: string;
+  request: JobRequest;
+  outputs: Asset[];
+  error?: string;
+  warnings?: string[];
+  favorite: boolean;
+  metadata?: { execution?: string; [key: string]: unknown };
+};
+export type Preset = { id: string; name: string; request: JobRequest };
+export type Settings = {
+  default_provider?: string;
+  comfy_url?: string;
+  comfy_cloud_url?: string;
+  comfy_cli_path?: string;
+  comfy_cloud_auth?: {
+    mode: 'api-key' | 'cli-oauth' | 'missing';
+    cli_installed: boolean;
+    cli_signed_in: boolean;
+  };
+  modal_app?: string;
+  [key: string]: unknown;
+};

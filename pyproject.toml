@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openframe-studio"
+version = "0.1.0"
+description = "A portable ComfyUI video generation and VFX studio"
+requires-python = ">=3.11,<3.15"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.34,<1",
+  "python-multipart>=0.0.20,<1",
+  "pydantic>=2.10,<3",
+  "pillow>=11,<13",
+  "httpx>=0.28,<1",
+  "python-dotenv>=1,<2",
+  "numpy>=2,<3",
+  "websocket-client>=1.8,<2",
+  "huggingface-hub>=0.30,<2",
+]
+
+[project.optional-dependencies]
+modal = ["modal==1.5.5"]
+cloud = ["comfy-sdk>=0.5,<1", "opencv-python-headless>=4.11,<5"]
+
+[tool.setuptools.packages.find]
+include = ["backend*", "engine*", "custom_nodes.openframe*"]

@@ -1,0 +1,15 @@
+{
+  "model_id": "ltx-0.9.8",
+  "effect_id": "text-to-video",
+  "provider": "modal",
+  "prompt": "A cinematic locked-off shot of a single red ceramic vase on a pale stone table in a sunlit minimalist room. Soft shadows, realistic materials, slight movement in the curtains, stable composition.",
+  "negative_prompt": "text, watermark, distorted objects, camera shake",
+  "seed": 42,
+  "width": 512,
+  "height": 320,
+  "frames": 97,
+  "fps": 24,
+  "steps": 8,
+  "guidance": 1,
+  "preserve_audio": false
+}

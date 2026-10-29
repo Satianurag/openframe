@@ -1,0 +1,19 @@
+{
+  "model_id": "ltx-2.3",
+  "effect_id": "remove-object",
+  "provider": "modal",
+  "prompt": "An empty pale stone tabletop in a sunlit minimalist room. Natural scene detail, consistent shadows and smooth coherent camera movement.",
+  "negative_prompt": "artifacts, distortion, text, watermark",
+  "seed": 42,
+  "width": 512,
+  "height": 320,
+  "frames": 97,
+  "fps": 24,
+  "steps": 8,
+  "guidance": 1,
+  "strength": 1,
+  "preserve_audio": true,
+  "preserve_outside_mask": true,
+  "mask_tracking": true,
+  "mask_tracking_method": "sam2"
+}

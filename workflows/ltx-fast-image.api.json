@@ -1,0 +1,224 @@
+{
+  "image": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "source.png"
+    },
+    "_meta": {
+      "title": "LoadImage"
+    }
+  },
+  "model": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "ltxv-2b-0.9.8-distilled.safetensors"
+    },
+    "_meta": {
+      "title": "CheckpointLoaderSimple"
+    }
+  },
+  "text_encoder": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "t5xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "ltxv",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "CLIPLoader"
+    }
+  },
+  "positive": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "text_encoder",
+        0
+      ],
+      "text": "Cinematic natural footage of a sunlit courtyard, detailed stone textures, a gentle breeze moves the leaves, smooth camera movement."
+    },
+    "_meta": {
+      "title": "CLIPTextEncode"
+    }
+  },
+  "negative": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "text_encoder",
+        0
+      ],
+      "text": "low quality, distorted anatomy, flicker, text, watermark"
+    },
+    "_meta": {
+      "title": "CLIPTextEncode"
+    }
+  },
+  "condition": {
+    "class_type": "LTXVConditioning",
+    "inputs": {
+      "positive": [
+        "positive",
+        0
+      ],
+      "negative": [
+        "negative",
+        0
+      ],
+      "frame_rate": 24.0
+    },
+    "_meta": {
+      "title": "LTXVConditioning"
+    }
+  },
+  "empty": {
+    "class_type": "EmptyLTXVLatentVideo",
+    "inputs": {
+      "width": 512,
+      "height": 288,
+      "length": 49,
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "EmptyLTXVLatentVideo"
+    }
+  },
+  "image_condition": {
+    "class_type": "LTXVImgToVideoInplace",
+    "inputs": {
+      "vae": [
+        "model",
+        2
+      ],
+      "image": [
+        "image",
+        0
+      ],
+      "latent": [
+        "empty",
+        0
+      ],
+      "strength": 1.0,
+      "bypass": false
+    },
+    "_meta": {
+      "title": "LTXVImgToVideoInplace"
+    }
+  },
+  "noise": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 42
+    },
+    "_meta": {
+      "title": "RandomNoise"
+    }
+  },
+  "guider": {
+    "class_type": "CFGGuider",
+    "inputs": {
+      "model": [
+        "model",
+        0
+      ],
+      "positive": [
+        "condition",
+        0
+      ],
+      "negative": [
+        "condition",
+        1
+      ],
+      "cfg": 1.0
+    },
+    "_meta": {
+      "title": "CFGGuider"
+    }
+  },
+  "sampler": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "euler"
+    },
+    "_meta": {
+      "title": "KSamplerSelect"
+    }
+  },
+  "sigmas": {
+    "class_type": "ManualSigmas",
+    "inputs": {
+      "sigmas": "1.00000000, 0.99375000, 0.98750000, 0.98125000, 0.97500000, 0.90937500, 0.72500000, 0.42187500, 0.00000000"
+    },
+    "_meta": {
+      "title": "ManualSigmas"
+    }
+  },
+  "sample": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "noise",
+        0
+      ],
+      "guider": [
+        "guider",
+        0
+      ],
+      "sampler": [
+        "sampler",
+        0
+      ],
+      "sigmas": [
+        "sigmas",
+        0
+      ],
+      "latent_image": [
+        "image_condition",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "SamplerCustomAdvanced"
+    }
+  },
+  "decode": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "sample",
+        0
+      ],
+      "vae": [
+        "model",
+        2
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    },
+    "_meta": {
+      "title": "VAEDecodeTiled"
+    }
+  },
+  "save": {
+    "class_type": "OpenFrameSaveVideo",
+    "inputs": {
+      "images": [
+        "decode",
+        0
+      ],
+      "fps": 24.0,
+      "frames": 49,
+      "filename_prefix": "OpenFrame",
+      "preserve_outside_mask": true,
+      "preserve_audio": true,
+      "source_filename": "",
+      "trim_start": 0.0,
+      "export_mask": true
+    },
+    "_meta": {
+      "title": "OpenFrameSaveVideo"
+    }
+  }
+}

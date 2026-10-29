@@ -1,0 +1,267 @@
+{
+  "source": {
+    "class_type": "OpenFrameVideoInput",
+    "inputs": {
+      "filename": "source.mp4",
+      "width": 512,
+      "height": 288,
+      "frames": 49,
+      "fps": 16.0,
+      "mask_filename": "mask.png",
+      "track_mask": true,
+      "mask_dilation": 8,
+      "mask_feather": 3,
+      "trim_start": 0.0,
+      "tracking_method": "sam2",
+      "feather_method": "smooth-inward",
+      "edit_margin": 12
+    },
+    "_meta": {
+      "title": "OpenFrameVideoInput"
+    }
+  },
+  "model": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "wan2.1_vace_1.3B_fp16.safetensors",
+      "weight_dtype": "default"
+    },
+    "_meta": {
+      "title": "UNETLoader"
+    }
+  },
+  "shift": {
+    "class_type": "ModelSamplingSD3",
+    "inputs": {
+      "model": [
+        "model",
+        0
+      ],
+      "shift": 5.0
+    },
+    "_meta": {
+      "title": "ModelSamplingSD3"
+    }
+  },
+  "text_encoder": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan",
+      "device": "default"
+    },
+    "_meta": {
+      "title": "CLIPLoader"
+    }
+  },
+  "vae": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    },
+    "_meta": {
+      "title": "VAELoader"
+    }
+  },
+  "positive": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "text_encoder",
+        0
+      ],
+      "text": "Cinematic natural footage of a sunlit courtyard, detailed stone textures, a gentle breeze moves the leaves, smooth camera movement."
+    },
+    "_meta": {
+      "title": "CLIPTextEncode"
+    }
+  },
+  "negative": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "text_encoder",
+        0
+      ],
+      "text": "low quality, distorted anatomy, flicker, text, watermark"
+    },
+    "_meta": {
+      "title": "CLIPTextEncode"
+    }
+  },
+  "inverse_mask": {
+    "class_type": "InvertMask",
+    "inputs": {
+      "mask": [
+        "source",
+        1
+      ]
+    },
+    "_meta": {
+      "title": "InvertMask"
+    }
+  },
+  "mask_image": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": [
+        "inverse_mask",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "MaskToImage"
+    }
+  },
+  "masked_guide": {
+    "class_type": "ImageCompositeMasked",
+    "inputs": {
+      "destination": [
+        "source",
+        0
+      ],
+      "source": [
+        "mask_image",
+        0
+      ],
+      "x": 0,
+      "y": 0,
+      "resize_source": true,
+      "mask": [
+        "source",
+        1
+      ]
+    },
+    "_meta": {
+      "title": "ImageCompositeMasked"
+    }
+  },
+  "condition": {
+    "class_type": "WanVaceToVideo",
+    "inputs": {
+      "positive": [
+        "positive",
+        0
+      ],
+      "negative": [
+        "negative",
+        0
+      ],
+      "vae": [
+        "vae",
+        0
+      ],
+      "width": 512,
+      "height": 288,
+      "length": 49,
+      "batch_size": 1,
+      "strength": 0.8,
+      "control_video": [
+        "masked_guide",
+        0
+      ],
+      "control_masks": [
+        "source",
+        1
+      ]
+    },
+    "_meta": {
+      "title": "WanVaceToVideo"
+    }
+  },
+  "sample": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "shift",
+        0
+      ],
+      "positive": [
+        "condition",
+        0
+      ],
+      "negative": [
+        "condition",
+        1
+      ],
+      "latent_image": [
+        "condition",
+        2
+      ],
+      "seed": 42,
+      "steps": 20,
+      "cfg": 5.0,
+      "sampler_name": "uni_pc",
+      "scheduler": "simple",
+      "denoise": 1.0
+    },
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "trim_reference": {
+    "class_type": "TrimVideoLatent",
+    "inputs": {
+      "samples": [
+        "sample",
+        0
+      ],
+      "trim_amount": [
+        "condition",
+        3
+      ]
+    },
+    "_meta": {
+      "title": "TrimVideoLatent"
+    }
+  },
+  "decode": {
+    "class_type": "VAEDecodeTiled",
+    "inputs": {
+      "samples": [
+        "trim_reference",
+        0
+      ],
+      "vae": [
+        "vae",
+        0
+      ],
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8
+    },
+    "_meta": {
+      "title": "VAEDecodeTiled"
+    }
+  },
+  "save": {
+    "class_type": "OpenFrameSaveVideo",
+    "inputs": {
+      "images": [
+        "decode",
+        0
+      ],
+      "fps": 16.0,
+      "frames": 49,
+      "filename_prefix": "OpenFrame",
+      "preserve_outside_mask": true,
+      "preserve_audio": true,
+      "source_filename": "source.mp4",
+      "trim_start": 0.0,
+      "export_mask": true,
+      "source": [
+        "source",
+        0
+      ],
+      "mask": [
+        "source",
+        2
+      ],
+      "match_lighting": false
+    },
+    "_meta": {
+      "title": "OpenFrameSaveVideo"
+    }
+  }
+}
