@@ -22,7 +22,7 @@ export function AnchoredPopover({
   label: string;
   top?: number;
   bottomOffset?: number;
-  placement?: 'right-end' | 'bottom-end';
+  placement?: 'right-end' | 'bottom-end' | 'bottom-start';
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ left: 0, top: 0, visible: false });
@@ -41,7 +41,9 @@ export function AnchoredPopover({
                 innerWidth - box.width - 8,
                 placement === 'bottom-end'
                   ? (r?.right || innerWidth - 8) - box.width
-                  : (r?.right || 16) + 8,
+                  : placement === 'bottom-start'
+                    ? r?.left || 8
+                    : (r?.right || 16) + 8,
               ),
             ),
         top: Math.max(
@@ -51,7 +53,7 @@ export function AnchoredPopover({
             mobile
               ? innerHeight - box.height - 78
               : (top ??
-                  (placement === 'bottom-end'
+                  (placement !== 'right-end'
                     ? (r?.bottom || 16) + 8
                     : (r?.bottom || innerHeight / 2) - box.height + bottomOffset)),
           ),

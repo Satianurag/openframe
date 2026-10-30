@@ -11,3 +11,9 @@ frontend/dist
 **/__pycache__
 **/*.pyc
 .pytest_cache
+
+# Private testing infrastructure is not part of the public application image.
+deploy/
+docs/PRIVATE-DEVELOPMENT.md
+engine/tests/test_runner_modal.py
+tests/test_modal_transfer.py

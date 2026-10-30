@@ -6,13 +6,57 @@ import { Icon } from './Icon';
 import { EmptyState, ErrorBox, FieldSelect, Modal, Toggle, renderStage } from './ui';
 import { AnchoredPopover, ModelPopover } from './Popovers';
 import { MaskEditor } from './MaskEditor';
+import { RelightSphere } from './RelightSphere';
+import type { SphereSettings } from './RelightSphere';
 import { SettingsPanel } from './SettingsPanel';
 import { JobResult } from './JobResult';
 import { SceneArt } from './SceneArt';
 import { EffectsPanel, HistoryPanel, MediaLibrary, HelpPanel } from './StudioPanels';
+import { applications } from './apps/registry';
+import { modelProviderIssue, modelSupportsReference } from './apps/renderRequest';
+import { nativeVideoRoutes, nativeVideoCards } from './apps/NativeVideoTools';
+
+const vfxEffects = new Set([
+  'text-to-video',
+  'image-to-video',
+  'remove-object',
+  'replace-object',
+  'restyle',
+  'cinematic',
+  'slow-motion',
+  'dissolve',
+  'weather',
+  'relight',
+  'product-reveal',
+]);
+function vfxCatalog(value: Catalog): Catalog {
+  const effects = value.effects.filter((effect) => vfxEffects.has(effect.id));
+  const modelIds = new Set(effects.flatMap((effect) => effect.model_ids));
+  return { ...value, effects, models: value.models.filter((model) => modelIds.has(model.id) && !model.app_ids) };
+}
+function editedFrameSupported(model: Model | undefined, task: string | undefined) {
+  return task === 'inpaint' && !!model?.inpaint_reference_modes?.includes('edited-first-frame');
+}
+function plateFitSupported(model: Model | undefined, effectId: string | undefined) {
+  return model?.id === 'ltx-2.5' && effectId === 'replace-object' && model.inpaint_composite_modes?.some((mode) => mode.id === 'plate-fit' && (!mode.effect_ids || mode.effect_ids.includes(effectId)));
+}
+function sphereSettings(request: JobRequest): SphereSettings {
+  return { rotation: request.relight_rotation ?? 90, elevation: request.relight_elevation ?? 22, intensity: request.relight_intensity ?? 2 };
+}
+function relightDefaults(model: Model | undefined): Partial<JobRequest> {
+  if (model?.reference_role !== 'lighting-sphere')
+    return { relight_rotation: undefined, relight_elevation: undefined, relight_intensity: undefined };
+  return {
+    width: Number(model.fixed_width), height: Number(model.fixed_height), fps: Number(model.fixed_fps),
+    relight_rotation: 90, relight_elevation: 22, relight_intensity: 2,
+    strength: 1, video_refinement: 'single', enhance_prompt: false,
+    negative_prompt: String(model.default_negative_prompt || ''),
+    audio_mode: 'source', preserve_audio: true, generate_audio: false,
+  };
+}
 
 const initial: JobRequest = {
-  model_id: 'ltx-2.3',
+  model_id: 'ltx-2.5',
   effect_id: 'text-to-video',
   provider: '',
   prompt: '',
@@ -68,6 +112,8 @@ function effectDimensions(
   effect: Effect | undefined,
   explicit: boolean,
 ) {
+  if (model?.fixed_width && model.fixed_height)
+    return { width: Number(model.fixed_width), height: Number(model.fixed_height) };
   const target =
     effect?.requires_video && !explicit ? Number(model?.recommended_vfx_longest_side || 0) : 0;
   const scale = target ? target / Math.max(width, height) : 1;
@@ -140,12 +186,27 @@ export default function App() {
   const effect = catalog.effects.find((e) => e.id === draft.effect_id);
   const model = catalog.models.find((m) => m.id === draft.model_id);
   const provider = catalog.providers.find((p) => p.id === draft.provider);
+  const computeIssue = catalog.providers.length && !catalog.providers.some((item) => item.id === draft.provider)
+    ? 'The saved compute provider is disabled in this configuration. Choose an enabled connection; the recipe has not been changed.'
+    : modelProviderIssue(model, draft.provider, effect?.task);
   const hostedCloud =
     draft.provider === 'comfy-cloud' &&
     /^https:\/\/cloud\.comfy\.org\/?$/.test(settings.comfy_cloud_url || 'https://cloud.comfy.org');
   const cloudRemoval =
     hostedCloud && draft.model_id === 'ltx-2.3' && draft.effect_id === 'remove-object';
   const strengthControl = effect ? model?.strength_controls?.[effect.task] : undefined;
+  const restyleMethods = effect?.task === 'restyle' ? (model?.restyle_methods || []).filter((method) => !method.effect_ids || method.effect_ids.includes(effect.id)) : [];
+  const restyleMethod = draft.restyle_method || 'latent';
+  const cannyRestyle = effect?.task === 'restyle' && restyleMethod === 'canny';
+  const waterRestyle = effect?.task === 'restyle' && restyleMethod === 'water';
+  const sphereRelight = model?.reference_role === 'lighting-sphere';
+  const audioModes = effect ? (model?.audio_modes_by_task?.[effect.task] || []).filter((mode) => !waterRestyle || mode !== 'generated') : [];
+  // Display historical semantics without rewriting the recorded flag pair.
+  const legacyAudioFallback = !draft.audio_mode && model?.id === 'ltx-2.3' && draft.preserve_audio && draft.generate_audio;
+  const audioMode = draft.audio_mode || (legacyAudioFallback
+    ? 'legacy-source-fallback'
+    : draft.preserve_audio ? 'source'
+      : model?.id === 'ltx-2.3' && draft.generate_audio ? 'generated' : 'silent');
   const source =
     assets.find((a) => a.id === draft.source_asset_id) || assetCache[draft.source_asset_id || ''];
   const mask =
@@ -158,15 +219,28 @@ export default function App() {
     !!effect &&
     effect.task !== 'image-to-video' &&
     (!model.reference_tasks || model.reference_tasks.includes(effect.task));
+  const editedFirstFrame = editedFrameSupported(model, effect?.task);
   const currentJob = jobs.find((j) => j.id === selectedJob);
   const activeJobs = jobs.filter((j) => ['queued', 'running'].includes(j.status));
   const update = useCallback(
     (value: Partial<JobRequest>) => setDraft((d) => ({ ...d, ...value })),
     [],
   );
+  function chooseAudioMode(value: NonNullable<JobRequest['audio_mode']>) {
+    update({ audio_mode: value, preserve_audio: value === 'source', generate_audio: value === 'generated' });
+  }
+  async function applyRelightSphere(file: File, value: SphereSettings) {
+    const asset = await upload(file);
+    setAssets((items) => [asset, ...items.filter((item) => item.id !== asset.id)]);
+    setDraft((current) => {
+      const light = sphereSettings(current);
+      if (current.model_id !== model?.id || !sphereRelight || light.rotation !== value.rotation || light.elevation !== value.elevation || light.intensity !== value.intensity) return current;
+      return { ...current, reference_asset_id: asset.id, relight_rotation: value.rotation, relight_elevation: value.elevation, relight_intensity: value.intensity };
+    });
+  }
   useEffect(() => {
     if (model && effect && !supportsReference && draft.reference_asset_id)
-      update({ reference_asset_id: undefined });
+      update({ reference_asset_id: undefined, inpaint_reference_mode: undefined });
   }, [model, effect, supportsReference, draft.reference_asset_id, update]);
   useEffect(() => {
     const ids = [
@@ -211,7 +285,7 @@ export default function App() {
   const refresh = useCallback(async () => {
     const sequence = ++refreshSequence.current;
     try {
-      const [c, s, a, j, p] = await Promise.all([
+      const [fullCatalog, s, a, j, p] = await Promise.all([
         api<Catalog>('/catalog'),
         api<Settings>('/settings'),
         listPage<Asset>('/assets', assetLimit),
@@ -219,6 +293,7 @@ export default function App() {
         api<{ items: Preset[] }>('/presets'),
       ]);
       if (sequence !== refreshSequence.current) return;
+      const c = vfxCatalog(fullCatalog);
       setJobTotal(j.total);
       setAssetTotal(a.total);
       setCatalog(c);
@@ -229,13 +304,9 @@ export default function App() {
       setOffline(false);
       setDraft((d) => ({
         ...d,
-        provider: d.provider || s.default_provider || 'modal',
-        model_id: c.models.some((m) => m.id === d.model_id)
-          ? d.model_id
-          : c.models[0]?.id || d.model_id,
-        effect_id: c.effects.some((e) => e.id === d.effect_id)
-          ? d.effect_id
-          : c.effects[0]?.id || d.effect_id,
+        provider: d.provider || s.default_provider || 'local',
+        model_id: d.model_id || c.models[0]?.id || '',
+        effect_id: d.effect_id || c.effects[0]?.id || '',
       }));
     } catch (e) {
       setOffline(true);
@@ -314,10 +385,28 @@ export default function App() {
     const m = catalog.models.find((x) => x.id === id);
     if (!m) return;
     const grid = Number(m.dimension_multiple || 32);
+    const nextAudioModes = effect ? m.audio_modes_by_task?.[effect.task] : undefined;
+    const nextAudioMode = draft.audio_mode && nextAudioModes?.includes(draft.audio_mode)
+      ? draft.audio_mode : nextAudioModes?.includes('source') ? 'source' : undefined;
     update({
       ...alignDimensions(draft.width, draft.height, grid),
       model_id: id,
-      reference_asset_id: m.supports_reference ? draft.reference_asset_id : undefined,
+      export_uncomposited: effect?.task === 'inpaint' && m.supports_uncomposited ? draft.export_uncomposited : undefined,
+      inpaint_composite_mode: plateFitSupported(m, effect?.id) && draft.preserve_outside_mask
+        ? id !== draft.model_id ? 'plate-fit' : draft.inpaint_composite_mode : undefined,
+      audio_mode: nextAudioMode,
+      ...(nextAudioMode ? { preserve_audio: nextAudioMode === 'source', generate_audio: nextAudioMode === 'generated' } : {}),
+      restyle_method:
+        effect?.task === 'restyle' && m.restyle_methods?.some((method) => method.id === restyleMethod && (!method.effect_ids || method.effect_ids.includes(effect.id)))
+          ? restyleMethod
+          : 'latent',
+      reference_asset_id:
+        m.reference_role !== 'lighting-sphere' && model?.reference_role !== 'lighting-sphere' &&
+        modelSupportsReference(m, effect?.task) && effect?.task !== 'image-to-video' &&
+        (!editedFrameSupported(m, effect?.task) || draft.inpaint_reference_mode === 'edited-first-frame')
+          ? draft.reference_asset_id
+          : undefined,
+      inpaint_reference_mode: editedFrameSupported(m, effect?.task) && draft.inpaint_reference_mode === 'edited-first-frame' ? draft.inpaint_reference_mode : undefined,
       steps: Number(m.default_steps || 8),
       guidance: Number(m.default_guidance || 1),
       fps: Number(m.default_fps || 24),
@@ -330,11 +419,24 @@ export default function App() {
               Math.max(0, (source.duration || 0) - draft.trim_start),
             )
           : Number(m.default_frames || 97),
+      ...relightDefaults(m),
     });
   }
   function chooseEffect(e: Effect) {
+    const utility = Object.entries(nativeVideoRoutes).find(
+      ([, operation]) => operation === e.id,
+    )?.[0];
+    if (utility) {
+      location.assign(`${utility}${source?.kind === 'video' ? `?source=${source.id}` : ''}`);
+      return;
+    }
+    if (['trim-video', 'video-reframe', 'fps-boost', 'video-depth'].includes(e.id)) {
+      location.assign(`/apps/${e.id}${source?.kind === 'video' ? `?source=${source.id}` : ''}`);
+      return;
+    }
     const m =
       catalog.models.find((m) => m.id === draft.model_id && e.model_ids.includes(m.id)) ||
+      catalog.models.find((m) => m.id === e.default_model_id && e.model_ids.includes(m.id)) ||
       catalog.models.find((m) => e.model_ids.includes(m.id));
     // Preset selection already resets defaults; provider changes and recipe reuse do not.
     const defaultFrames =
@@ -344,6 +446,16 @@ export default function App() {
     setDraft((d) => ({
       ...d,
       effect_id: e.id,
+      export_uncomposited: e.task === 'inpaint' && m?.supports_uncomposited ? d.export_uncomposited : undefined,
+      inpaint_composite_mode: plateFitSupported(m, e.id) && d.preserve_outside_mask
+        ? e.id !== d.effect_id ? 'plate-fit' : d.inpaint_composite_mode : undefined,
+      enhance_prompt: e.task !== 'inpaint',
+      audio_mode: m?.audio_modes_by_task?.[e.task]?.includes('source') ? 'source' : undefined,
+      ...(m?.audio_modes_by_task?.[e.task]?.includes('source') ? { preserve_audio: true, generate_audio: false } : {}),
+      restyle_method:
+        e.task === 'restyle' && m?.restyle_methods?.some((method) => method.id === (d.restyle_method || 'latent') && (!method.effect_ids || method.effect_ids.includes(e.id)))
+          ? d.restyle_method || 'latent'
+          : 'latent',
       source_asset_id:
         (e.requires_video && source?.kind === 'video') ||
         (e.requires_image && source?.kind === 'image')
@@ -353,7 +465,13 @@ export default function App() {
       ...effectDimensions(d.width, d.height, m, e, resolutionChosen.current),
       prompt: e.prompt,
       model_id: m?.id || d.model_id,
-      reference_asset_id: m?.supports_reference ? d.reference_asset_id : undefined,
+      reference_asset_id:
+        m?.reference_role !== 'lighting-sphere' && model?.reference_role !== 'lighting-sphere' &&
+        modelSupportsReference(m, e.task) && e.task !== 'image-to-video' &&
+        (!editedFrameSupported(m, e.task) || (d.inpaint_reference_mode === 'edited-first-frame' && e.id === d.effect_id))
+          ? d.reference_asset_id
+          : undefined,
+      inpaint_reference_mode: editedFrameSupported(m, e.task) && d.inpaint_reference_mode === 'edited-first-frame' && e.id === d.effect_id ? d.inpaint_reference_mode : undefined,
       steps: Number(m?.default_steps || d.steps),
       guidance: Number(m?.default_guidance || d.guidance),
       fps: Number(m?.default_fps || d.fps),
@@ -366,6 +484,7 @@ export default function App() {
               Math.max(0, (source.duration || 0) - d.trim_start),
             )
           : defaultFrames,
+      ...relightDefaults(m),
     }));
     setEditingTools(false);
     setDrawMode(false);
@@ -376,7 +495,7 @@ export default function App() {
   }
   function selectAsset(asset: Asset, role: 'source' | 'reference') {
     if (role === 'reference') {
-      update({ reference_asset_id: asset.id });
+      update({ reference_asset_id: asset.id, inpaint_reference_mode: editedFirstFrame ? 'edited-first-frame' : undefined });
       return;
     }
     let selectedEffect = effect;
@@ -404,6 +523,7 @@ export default function App() {
       ),
       source_asset_id: asset.id,
       mask_asset_id: undefined,
+      ...(d.inpaint_reference_mode === 'edited-first-frame' ? { reference_asset_id: undefined, inpaint_reference_mode: undefined } : {}),
       trim_start: 0,
       ...(asset.kind === 'video'
         ? {
@@ -417,8 +537,16 @@ export default function App() {
         : {}),
       ...(selectedEffect && selectedEffect.id !== effect?.id
         ? {
+            relight_rotation: undefined, relight_elevation: undefined, relight_intensity: undefined,
+            ...(sphereRelight ? { reference_asset_id: undefined } : {}),
             effect_id: selectedEffect.id,
+            export_uncomposited: selectedEffect.task === 'inpaint' && selectedModel?.supports_uncomposited ? d.export_uncomposited : undefined,
+            inpaint_composite_mode: undefined,
             prompt: selectedEffect.prompt,
+            restyle_method: selectedEffect.task === 'restyle' && selectedModel?.restyle_methods?.some((method) => method.id === (d.restyle_method || 'latent') && (!method.effect_ids || method.effect_ids.includes(selectedEffect.id)))
+              ? d.restyle_method || 'latent' : 'latent',
+            audio_mode: selectedModel?.audio_modes_by_task?.[selectedEffect.task]?.includes('source') ? 'source' : undefined,
+            ...(selectedModel?.audio_modes_by_task?.[selectedEffect.task]?.includes('source') ? { preserve_audio: true, generate_audio: false } : {}),
             model_id: selectedEffect.model_ids.includes(d.model_id)
               ? d.model_id
               : selectedEffect.model_ids[0],
@@ -463,16 +591,54 @@ export default function App() {
   }
   function validation() {
     if (!draft.prompt.trim()) return 'Describe the scene you want to create.';
-    if (!effect || !model) return 'The model catalogue is not available yet.';
+    if (!effect || !model) return loading ? 'The model catalogue is not available yet.' : 'The saved model or operation is unavailable in this catalogue. Choose a supported operation and model; the saved recipe has not been changed.';
+    if (computeIssue) return computeIssue;
+    if (provider?.unsupported_tasks?.includes(effect.task))
+      return 'This compute connection does not support the selected operation. Choose another provider.';
     if (!effect.model_ids.includes(draft.model_id))
       return 'Select a model that supports this effect.';
+    if (draft.inpaint_composite_mode === 'plate-fit' && (!plateFitSupported(model, effect.id) || !draft.preserve_outside_mask))
+      return 'This saved finishing mode needs LTX2.5 replacement with outside-mask preservation and the current plate-fit capability.';
+    if (sphereRelight) {
+      if (!draft.prompt.trim().toLowerCase().startsWith('relight the video to match the light-direction ball.')) return 'Start the visible Relight prompt with “relight the video to match the light-direction ball.”, then describe the matching lighting direction and look.';
+      if (!reference) return 'Open the lighting sphere controls and apply a prepared sphere before generating.';
+      if (reference.kind !== 'image' || reference.width !== 512 || reference.height !== 512) return 'Apply a lighting sphere rendered by this editor; unrelated images are not lighting guidance.';
+      if (draft.width !== Number(model.fixed_width) || draft.height !== Number(model.fixed_height) || draft.fps !== Number(model.fixed_fps)) return `This Relight recipe requires ${model.fixed_width} × ${model.fixed_height} at ${model.fixed_fps} FPS.`;
+      if (draft.frames < Number(model.min_frames || 9) || draft.frames > Number(model.max_frames || 121) || (draft.frames - 1) % Number(model.frame_multiple || 8)) return 'Choose 9–121 frames in increments of 8 (9, 17, 25…).';
+      if (draft.mask_asset_id || draft.generate_audio || draft.audio_mode === 'generated') return 'Exterior Relight uses the source video and lighting sphere, with source audio or silence; masks and generated audio are unsupported.';
+      if (draft.steps !== Number(model.default_steps) || draft.guidance !== Number(model.default_guidance) || draft.strength !== 1 || draft.enhance_prompt || draft.video_refinement !== 'single') return 'Reselect the Relight profile to apply its fixed single-stage recipe; saved incompatible settings are not silently changed.';
+      const light = sphereSettings(draft);
+      if (light.rotation < -180 || light.rotation > 180 || light.elevation < 5 || light.elevation > 85 || light.intensity < 0.2 || light.intensity > 3) return 'Keep sphere rotation within −180–180°, elevation within 5–85°, and intensity within 0.2–3.';
+    }
+    if (restyleMethod !== 'latent' && !restyleMethods.some((method) => method.id === restyleMethod))
+      return 'The saved edit method is unavailable for this operation. Explicitly choose a supported method.';
+    if (waterRestyle) {
+      if (effect.id !== 'weather' || draft.reference_asset_id || draft.mask_asset_id) return 'Water Simulation uses only the dry source video; remove the saved reference or mask.';
+      if (draft.fps !== 24 || draft.frames > 185) return 'Water Simulation needs 24 FPS and at most 185 frames. Shorten the interval explicitly.';
+      if (Math.max(draft.width, draft.height) > 1920 || Math.min(draft.width, draft.height) > 1088) return 'Water Simulation supports at most 1920 pixels on the long side and 1088 on the short side.';
+      if (draft.steps !== 8 || draft.guidance !== 1 || draft.strength !== 1 || draft.video_refinement !== 'single' || draft.enhance_prompt !== false || draft.negative_prompt || draft.generate_audio) return 'Reselect Water Simulation to apply its fixed single-stage recipe; saved incompatible values are not silently changed.';
+      if (!draft.prompt.includes('ADD WATER') || !/Reference shows/i.test(draft.prompt) || !/Edited shows/i.test(draft.prompt)) return 'Water Simulation needs ADD WATER, Reference shows… and Edited shows… in the visible prompt. Describe the dry source and desired water effect.';
+    }
+    if (draft.audio_mode && !audioModes.includes(draft.audio_mode))
+      return 'The selected model does not support this saved audio mode. Choose a compatible model.';
     if (effect.requires_video && source?.kind !== 'video')
       return 'Upload a source video for this effect.';
     if (effect.requires_image && source?.kind !== 'image')
       return 'Upload a starting image for this effect.';
-    if (effect.requires_mask && !mask) return 'Paint a mask around the area you want to change.';
+    if (draft.inpaint_reference_mode === 'edited-first-frame' && (!editedFirstFrame || !reference))
+      return 'This saved recipe needs an edited full starting frame and a model that supports it. Choose that image, or remove the reference mode.';
+    if (reference && editedFirstFrame) {
+      if (draft.inpaint_reference_mode !== 'edited-first-frame')
+        return 'Choose an edited full starting frame explicitly; an existing object reference is not treated as a full-frame edit.';
+      if (reference.kind !== 'image' || reference.width !== source?.width || reference.height !== source?.height)
+        return `The edited starting frame must be an image at the source’s native ${source?.width} × ${source?.height} dimensions. It will not be silently resized.`;
+    }
+    if (effect.requires_mask && !model.mask_optional && !mask) return 'Paint a mask around the area you want to change.';
+    if (mask && Array.isArray(model.mask_input_kinds) && !model.mask_input_kinds.includes(mask.kind))
+      return 'This model accepts a painted first-frame mask, not a mask video.';
     if (
       effect.requires_mask &&
+      !model.native_mask_tracking &&
       mask?.kind !== 'video' &&
       draft.mask_tracking &&
       provider?.supported_tracking_methods &&
@@ -547,6 +713,27 @@ export default function App() {
     }
   }
   function reuse(job: Job) {
+    const utility = Object.entries(nativeVideoRoutes).find(
+      ([, operation]) => operation === job.request.effect_id,
+    )?.[0];
+    if (utility) {
+      location.assign(`${utility}?job=${job.id}`);
+      return;
+    }
+    if (
+      ['trim-video', 'video-reframe', 'fps-boost', 'video-depth'].includes(job.request.effect_id)
+    ) {
+      location.assign(`/apps/${job.request.effect_id}?job=${job.id}`);
+      return;
+    }
+    if (!vfxEffects.has(job.request.effect_id)) {
+      const app = applications.find((item) => item.id === job.app_context?.app_id);
+      if (app && job.app_context)
+        location.href = `${app.path}?document=${encodeURIComponent(job.app_context.document_id)}`;
+      else
+        setError('Open this generation in its image, speech, or motion app to reuse its inputs.');
+      return;
+    }
     preserveResolution();
     setDraft(job.request);
     setSelectedJob(null);
@@ -823,6 +1010,34 @@ export default function App() {
               </button>
               {editingTools ? (
                 <div className="editing-tools-list">
+                  <button
+                    onClick={() =>
+                      location.assign(
+                        `/apps/video-reframe${source?.kind === 'video' ? `?source=${source.id}` : ''}`,
+                      )
+                    }
+                  >
+                    <Icon name="square" />
+                    <span>
+                      <strong>Crop / Pad</strong>
+                      <small>Reframe without generating new pixels</small>
+                    </span>
+                    <Icon name="chevron" size={16} />
+                  </button>
+                  <button
+                    onClick={() =>
+                      location.assign(
+                        `/apps/trim-video${source?.kind === 'video' ? `?source=${source.id}` : ''}`,
+                      )
+                    }
+                  >
+                    <Icon name="video" />
+                    <span>
+                      <strong>Trim Video</strong>
+                      <small>Keep an exact interval with original audio</small>
+                    </span>
+                    <Icon name="chevron" size={16} />
+                  </button>
                   {catalog.effects
                     .filter((e) => e.requires_video)
                     .map((e) => (
@@ -835,6 +1050,35 @@ export default function App() {
                         <Icon name="chevron" size={16} />
                       </button>
                     ))}
+                  {[
+                    ...nativeVideoCards,
+                    {
+                      id: 'fps-boost',
+                      name: 'FPS Boost',
+                      description: 'Interpolate intermediate frames',
+                    },
+                    {
+                      id: 'video-depth',
+                      name: 'Depth Map',
+                      description: 'Estimate temporal depth for VFX',
+                    },
+                  ].map((tool) => (
+                    <button
+                      key={tool.id}
+                      onClick={() =>
+                        location.assign(
+                          `/apps/${tool.id}${source?.kind === 'video' ? `?source=${source.id}` : ''}`,
+                        )
+                      }
+                    >
+                      <Icon name="video" />
+                      <span>
+                        <strong>{tool.name}</strong>
+                        <small>{tool.description}</small>
+                      </span>
+                      <Icon name="chevron" size={16} />
+                    </button>
+                  ))}
                 </div>
               ) : (
                 <>
@@ -858,11 +1102,23 @@ export default function App() {
                           setDrawMode(true);
                           if (!effect.requires_mask) {
                             const masked = catalog.effects.find((e) => e.id === 'replace-object');
-                            if (masked)
+                            if (masked) {
+                              const maskedModel = masked.model_ids.includes(draft.model_id) ? model
+                                : catalog.models.find((candidate) => candidate.id === masked.default_model_id)
+                                  || catalog.models.find((candidate) => candidate.id === 'ltx-2.5' && masked.model_ids.includes(candidate.id));
                               update({
                                 effect_id: masked.id,
+                                model_id: maskedModel?.id || draft.model_id,
+                                ...(maskedModel?.id !== draft.model_id ? { steps: Number(maskedModel?.default_steps || 8), guidance: Number(maskedModel?.default_guidance || 1), fps: Number(maskedModel?.default_fps || 24), video_refinement: 'two-stage' } : {}),
                                 prompt: draft.prompt || masked.prompt,
+                                enhance_prompt: false,
+                                restyle_method: 'latent',
+                                relight_rotation: undefined, relight_elevation: undefined, relight_intensity: undefined,
+                                ...(sphereRelight ? { reference_asset_id: undefined } : {}),
+                                inpaint_composite_mode: plateFitSupported(maskedModel, masked.id) && draft.preserve_outside_mask ? 'plate-fit' : undefined,
+                                ...(maskedModel?.audio_modes_by_task?.inpaint?.includes('source') ? { audio_mode: 'source', preserve_audio: true, generate_audio: false } : { audio_mode: undefined }),
                               });
+                            }
                           }
                           setModal(source ? 'mask' : 'draw-source');
                         } else setModal('asset-source');
@@ -898,7 +1154,7 @@ export default function App() {
                           className="remove-asset"
                           aria-label="Remove source"
                           onClick={() =>
-                            update({ source_asset_id: undefined, mask_asset_id: undefined })
+                            update({ source_asset_id: undefined, mask_asset_id: undefined, ...(draft.inpaint_reference_mode === 'edited-first-frame' ? { reference_asset_id: undefined, inpaint_reference_mode: undefined } : {}) })
                           }
                         >
                           <Icon name="close" size={14} />
@@ -946,33 +1202,37 @@ export default function App() {
                         onClick={() => setModal('mask')}
                       >
                         <Icon name="mask" />
-                        {mask ? 'Edit selection mask' : 'Paint an edit mask'}
+                        {mask ? 'Edit selection mask' : model?.mask_optional ? 'Override automatic performer selection' : 'Paint an edit mask'}
                         {mask && <Icon name="check" size={14} />}
                       </button>
                       {!source && <small>Add your video to select an area.</small>}
                     </div>
                   )}
                   {supportsReference && (
+                    <>
                     <div className="reference-row">
                       <button
                         className="reference-button"
-                        onClick={() => setModal('asset-reference')}
+                        disabled={editedFirstFrame && source?.kind !== 'video'}
+                        onClick={() => setModal(sphereRelight ? 'advanced' : 'asset-reference')}
                       >
-                        <Icon name="image" size={15} />
-                        <span>{reference ? reference.name : 'Add elements or references'}</span>
-                        {!reference && <small>Reference image · optional</small>}
+                        {reference && (editedFirstFrame || sphereRelight) ? <img src={mediaUrl(reference)} alt={sphereRelight ? 'Saved lighting sphere' : 'Selected edited full starting frame'} style={{ width: 48, height: 48, objectFit: 'contain' }} /> : <Icon name="image" size={15} />}
+                        <span>{sphereRelight ? 'Lighting sphere' : editedFirstFrame ? 'Edited full starting frame' : reference ? reference.name : 'Add elements or references'}</span>
+                        <small>{sphereRelight ? reference ? 'Prepared · click to edit lighting' : 'Required · set direction and apply' : reference ? reference.name : editedFirstFrame ? draft.inpaint_reference_mode ? 'Add the full frame required by this recipe' : 'Optional · full scene, not an object cutout' : 'Reference image · optional'}</small>
                         {!reference && <Icon name="plus" size={15} />}
                       </button>
-                      {reference ? (
+                      {reference || draft.inpaint_reference_mode ? (
                         <button
                           className="icon-button"
                           aria-label="Remove reference"
-                          onClick={() => update({ reference_asset_id: undefined })}
+                          onClick={() => update({ reference_asset_id: undefined, inpaint_reference_mode: undefined })}
                         >
                           <Icon name="close" size={14} />
                         </button>
                       ) : null}
                     </div>
+                    {editedFirstFrame && <p className="muted small">{source ? `Use an edited image of the complete source frame at ${draft.trim_start.toFixed(2)}s, at its native ${source.width} × ${source.height} size. Keep the scene aligned; changing the source or start time clears this image.` : 'Choose the source video and start time first. Then add an edit of that full starting frame.'}</p>}
+                    </>
                   )}
                   <label className="prompt-box">
                     <span>Prompt</span>
@@ -998,7 +1258,12 @@ export default function App() {
                         <Icon name="image" size={13} />
                         Elements
                       </button>
-                      <button
+                      {audioModes.length > 0 ? (
+                        <select className="prompt-audio-mode" aria-label="Video audio" title={legacyAudioFallback ? 'Source; generated fallback if absent' : 'Video audio'} value={audioMode} onChange={(event) => chooseAudioMode(event.target.value as NonNullable<JobRequest['audio_mode']>)}>
+                          {legacyAudioFallback && <option value="legacy-source-fallback" disabled>Source; generated fallback if absent</option>}
+                          {audioModes.map((mode) => <option key={mode} value={mode}>{mode === 'source' ? 'Source audio' : mode === 'generated' ? 'Generate audio' : 'Silent'}</option>)}
+                        </select>
+                      ) : <button
                         type="button"
                         disabled={!model?.supports_audio && !effect?.requires_video}
                         onClick={() =>
@@ -1020,7 +1285,7 @@ export default function App() {
                         )
                           ? 'On'
                           : 'Off'}
-                      </button>
+                      </button>}
                       <button
                         className="reset-prompt"
                         type="button"
@@ -1063,14 +1328,14 @@ export default function App() {
                         const n = Number(model?.frame_multiple || 8);
                         update({
                           frames: Math.min(
-                            Number(model?.max_frames || 241),
+                            waterRestyle ? 185 : Number(model?.max_frames || 241),
                             Math.round((+v * draft.fps) / n) * n + 1,
                           ),
                         });
                       }}
                     >
                       {[2, 4, 6, 8]
-                        .filter((n) => n * draft.fps < Number(model?.max_frames || 241))
+                        .filter((n) => n * draft.fps < (waterRestyle ? 185 : Number(model?.max_frames || 241)))
                         .map((n) => (
                           <option key={n} value={n}>
                             {n}s
@@ -1082,7 +1347,8 @@ export default function App() {
                         </option>
                       )}
                     </FieldSelect>
-                    <FieldSelect label="Aspect Ratio" value={ratioLabel} onChange={setRatio}>
+                    <FieldSelect label="Aspect Ratio" value={model?.fixed_width ? 'fixed' : ratioLabel} disabled={!!model?.fixed_width} hint={sphereRelight ? 'The released sphere guide uses the fixed 1280 × 704 canvas.' : undefined} onChange={setRatio}>
+                      {!!model?.fixed_width && <option value="fixed">{Number(model.fixed_width)} × {Number(model.fixed_height)} · fixed</option>}
                       {(model?.aspect_ratios || ['16:9', '9:16', '1:1', '4:3']).map((r) => (
                         <option key={r}>{r}</option>
                       ))}
@@ -1090,6 +1356,7 @@ export default function App() {
                     </FieldSelect>
                     <FieldSelect
                       label="Quality"
+                      disabled={!!model?.fixed_width}
                       value={Math.max(draft.width, draft.height)}
                       onChange={(v) => setQuality(+v)}
                     >
@@ -1108,6 +1375,7 @@ export default function App() {
                     </FieldSelect>
                     <FieldSelect
                       label="Frame rate"
+                      disabled={!!model?.fixed_fps || waterRestyle}
                       value={draft.fps}
                       onChange={(v) =>
                         update({
@@ -1144,9 +1412,14 @@ export default function App() {
             </div>
             {!editingTools && (
               <div className="generate-footer">
+                {computeIssue && (
+                  <p className="field-error" role="alert">
+                    {computeIssue}
+                  </p>
+                )}
                 <button
                   className="generate-button"
-                  disabled={!!busy || loading || offline}
+                  disabled={!!busy || loading || offline || !!computeIssue}
                   onClick={generate}
                 >
                   <Icon name={busy ? 'clock' : 'spark'} size={19} />
@@ -1302,7 +1575,7 @@ export default function App() {
                     currentJob.error?.includes('Job execution time exceeded maximum limit') && (
                       <p className="muted small">
                         The hosted service stopped this job. Choose fewer frames or a lower
-                        resolution, or use Modal or local ComfyUI. The requested duration was not
+                        resolution, or use local ComfyUI. The requested duration was not
                         changed and no automatic retry was made.
                       </p>
                     )}
@@ -1343,7 +1616,9 @@ export default function App() {
             />
           ) : panel === 'help' ? (
             <HelpPanel
+              sourceAssetId={source?.kind === 'video' ? source.id : undefined}
               editing={editingTools || !!effect?.requires_video}
+              effectId={draft.effect_id}
               onSettings={() => setModal('settings')}
               onUpload={() => setModal('asset-source')}
               onPresets={() => setPanel('effects')}
@@ -1415,7 +1690,11 @@ export default function App() {
           onClose={() => setModal(null)}
           onSelect={chooseModel}
           options={catalog.models
-            .filter((m) => effect?.model_ids.includes(m.id) ?? true)
+            .filter(
+              (m) =>
+                (effect?.model_ids.includes(m.id) ?? true) &&
+                !modelProviderIssue(m, draft.provider, effect?.task),
+            )
             .map((m) => ({
               id: m.id,
               name: m.name,
@@ -1446,6 +1725,7 @@ export default function App() {
                     min="1"
                     max="100"
                     value={draft.steps}
+                    disabled={cannyRestyle || waterRestyle || sphereRelight}
                     onChange={(e) => update({ steps: +e.target.value })}
                   />
                 </label>
@@ -1457,6 +1737,7 @@ export default function App() {
                     max="20"
                     step=".1"
                     value={draft.guidance}
+                    disabled={cannyRestyle || waterRestyle || sphereRelight}
                     onChange={(e) => update({ guidance: +e.target.value })}
                   />
                 </label>
@@ -1465,7 +1746,7 @@ export default function App() {
                   <input
                     type="number"
                     min="9"
-                    max={Number(model?.max_frames || 241)}
+                    max={waterRestyle ? 185 : Number(model?.max_frames || 241)}
                     step={Number(model?.frame_multiple || 8)}
                     value={draft.frames}
                     onChange={(e) => update({ frames: +e.target.value })}
@@ -1481,12 +1762,14 @@ export default function App() {
                 <textarea
                   rows={2}
                   value={draft.negative_prompt}
+                  disabled={waterRestyle}
                   onChange={(e) => update({ negative_prompt: e.target.value })}
                   placeholder="What should stay out of the shot?"
                 />
               </label>
               {effect?.requires_video && (
                 <>
+                  {sphereRelight && <RelightSphere value={sphereSettings(draft)} applied={!!reference} disabled={!!busy} onChange={(value) => update({ relight_rotation: value.rotation, relight_elevation: value.elevation, relight_intensity: value.intensity, reference_asset_id: undefined })} onApply={applyRelightSphere} />}
                   <label className="input-label">
                     Start time (seconds)
                     <input
@@ -1499,6 +1782,7 @@ export default function App() {
                         update({
                           trim_start: +e.target.value,
                           mask_asset_id: undefined,
+                          ...(draft.inpaint_reference_mode === 'edited-first-frame' ? { reference_asset_id: undefined, inpaint_reference_mode: undefined } : {}),
                           frames: source
                             ? fitFrames(
                                 draft.frames,
@@ -1511,7 +1795,29 @@ export default function App() {
                       }
                     />
                   </label>
-                  <label className="range-label">
+                  {restyleMethods.length > 0 && (
+                    <>
+                      <FieldSelect
+                        label="Edit method"
+                        value={restyleMethod}
+                        onChange={(value) => update({
+                          restyle_method: value as 'latent' | 'canny' | 'water',
+                          ...(value === 'canny' ? { strength: 1, steps: 8, guidance: 1 } : {}),
+                          ...(value === 'water' ? { strength: 1, steps: 8, guidance: 1, fps: 24, video_refinement: 'single', enhance_prompt: false, negative_prompt: '', audio_mode: 'source', preserve_audio: true, generate_audio: false, reference_asset_id: undefined, inpaint_reference_mode: undefined, mask_asset_id: undefined } : {}),
+                        })}
+                      >
+                        {restyleMethods.map((method) => <option key={method.id} value={method.id}>{method.label}</option>)}
+                      </FieldSelect>
+                      <p className="muted small">{restyleMethods.find((method) => method.id === restyleMethod)?.hint}</p>
+                    </>
+                  )}
+                  {sphereRelight ? (
+                    <p className="muted small">Exterior Relight uses the released single-stage lighting recipe at 1280 × 704, 24 FPS, 8 steps and CFG 1. The source is fitted to that canvas; this does not promise exact original-pixel preservation. Sphere direction is visible above and must agree with the prompt.</p>
+                  ) : waterRestyle ? (
+                    <p className="muted small">Water Simulation uses the released single-stage recipe: 8 steps, CFG/source guidance 1, 24 FPS, at most 185 frames; no mask/reference, enhancer or generated audio. Requires authorized access and installed adapter weights. A 49-frame private comparison retained the overall McLaren silhouette and arm motion with visible rain and wet surfaces; small-detail and parking-line drift remained. Exact preservation is not guaranteed. Include ADD WATER, Reference shows… and Edited shows… in the prompt; your text is not rewritten.</p>
+                  ) : cannyRestyle ? (
+                    <p className="muted small">Canny uses the released 8-step generation + 3-step refinement recipe, with source guidance and CFG fixed at 1.</p>
+                  ) : <label className="range-label">
                     {strengthControl?.label || 'Edit strength'}
                     <span>{draft.strength.toFixed(2)}</span>
                     <input
@@ -1522,30 +1828,96 @@ export default function App() {
                       value={draft.strength}
                       onChange={(e) => update({ strength: +e.target.value })}
                     />
-                  </label>
-                  {strengthControl?.hint && <p className="muted small">{strengthControl.hint}</p>}
-                  <Toggle
+                  </label>}
+                  {!cannyRestyle && !waterRestyle && !sphereRelight && strengthControl?.hint && <p className="muted small">{strengthControl.hint}</p>}
+                  {audioModes.length === 0 && <Toggle
                     label="Keep source audio"
                     checked={draft.preserve_audio}
                     onChange={(v) => update({ preserve_audio: v })}
-                  />
+                  />}
                 </>
               )}
-              {!!model?.supports_audio && (
+              {!waterRestyle && Array.isArray(model?.prompt_enhancement_tasks) &&
+                model.prompt_enhancement_tasks.includes(effect?.task) && (
+                  <Toggle
+                    label="Enhance scene prompt"
+                    checked={draft.enhance_prompt ?? effect?.task !== 'inpaint'}
+                    onChange={(value) => update({ enhance_prompt: value })}
+                  />
+                )}
+              {!waterRestyle && Array.isArray(model?.refinement_tasks) &&
+                model.refinement_tasks.includes(effect?.task) && (
+                  <FieldSelect
+                    label="Video refinement"
+                    value={draft.video_refinement || 'two-stage'}
+                    onChange={(value) =>
+                      update({ video_refinement: value as 'single' | 'two-stage' })
+                    }
+                  >
+                    <option value="two-stage">Two stage</option>
+                    <option value="single">Single stage</option>
+                  </FieldSelect>
+                )}
+              {model?.supports_encoding_quality &&
+              Array.isArray(model.encoding_quality_tasks) &&
+              model.encoding_quality_tasks.includes(effect?.task) ? (
+                <FieldSelect
+                  label="Bitrate"
+                  value={
+                    { legacy: '', standard: 'standard', high: 'high' }[
+                      draft.encoding_quality || 'legacy'
+                    ]
+                  }
+                  onChange={(value) =>
+                    update({ encoding_quality: value ? (value as 'standard' | 'high') : undefined })
+                  }
+                >
+                  <option value="">Default encoder</option>
+                  <option value="high">High</option>
+                  <option value="standard">Standard</option>
+                </FieldSelect>
+              ) : null}
+              {audioModes.length > 0 && (
+                <>
+                  <FieldSelect label="Video audio" value={audioMode} onChange={(value) => chooseAudioMode(value as NonNullable<JobRequest['audio_mode']>)}>
+                    {legacyAudioFallback && <option value="legacy-source-fallback" disabled>Source; generated fallback if absent</option>}
+                    {audioModes.map((mode) => <option key={mode} value={mode}>{mode === 'source' ? 'Source audio' : mode === 'generated' ? 'Generate audio' : 'Silent'}</option>)}
+                  </FieldSelect>
+                  <p className="muted small">Source keeps the selected clip’s recording, or silence if it has none. {audioModes.includes('generated') ? 'Generate creates a new soundtrack. ' : ''}Silent omits audio.</p>
+                </>
+              )}
+              {!!model?.supports_audio && audioModes.length === 0 && (
                 <Toggle
                   label="Generate audio"
                   checked={draft.generate_audio}
                   onChange={(v) => update({ generate_audio: v })}
                 />
               )}{' '}
+              {effect?.task === 'inpaint' && !!model?.supports_uncomposited && (
+                <>
+                  <Toggle
+                    label="Include raw diagnostic video"
+                    checked={!!draft.export_uncomposited}
+                    onChange={(v) => update({ export_uncomposited: v })}
+                  />
+                  <p className="muted small">Also saves the generated video before final compositing, for comparing model output with the finished edit. The finished video is still included.</p>
+                </>
+              )}
               {effect?.requires_mask && (
                 <>
                   <Toggle
                     label="Preserve outside mask"
                     checked={draft.preserve_outside_mask}
-                    onChange={(v) => update({ preserve_outside_mask: v })}
+                    onChange={(v) => update({ preserve_outside_mask: v, ...(v ? {} : { inpaint_composite_mode: undefined }) })}
                   />
-                  <FieldSelect
+                  {plateFitSupported(model, effect.id) && draft.preserve_outside_mask && <>
+                    <FieldSelect label="Replacement finishing" value={draft.inpaint_composite_mode || 'legacy'} onChange={(value) => update({ inpaint_composite_mode: value as 'legacy' | 'plate-fit' })}>
+                      <option value="legacy">Original composite</option>
+                      <option value="plate-fit">Match surrounding plate lighting</option>
+                    </FieldSelect>
+                    <p className="muted small">Matches the generated replacement’s lighting to the surrounding original scene while keeping the same editable support. Scene lighting may change the replacement’s apparent hue. Previously saved recipes keep their original composite.</p>
+                  </>}
+                  {!model?.native_mask_tracking && <FieldSelect
                     label="Selection tracking"
                     value={draft.mask_tracking_method}
                     onChange={(v) =>
@@ -1555,7 +1927,8 @@ export default function App() {
                     <option value="sam2">SAM2 · object tracking</option>
                     <option value="flow">Optical flow · motion</option>
                     <option value="static">Static mask</option>
-                  </FieldSelect>
+                  </FieldSelect>}
+                  {!!model?.native_mask_tracking && <p className="muted small">Native SAM3.1 tracks one performer; a painted first-frame mask overrides automatic selection.</p>}
                   <label className="range-label">
                     Edit margin
                     <span>{draft.mask_edit_margin ?? (draft.mask_tracking ? 12 : 0)}px</span>
@@ -1571,7 +1944,7 @@ export default function App() {
                     Includes this many output pixels around the tracked or painted mask, so blending
                     does not restore object edges. Nearby pixels may change.
                   </p>
-                  <label className="range-label">
+                  {!model?.native_mask_tracking && <label className="range-label">
                     Generation margin<span>{draft.mask_dilation}px</span>
                     <input
                       type="range"
@@ -1580,7 +1953,7 @@ export default function App() {
                       value={draft.mask_dilation}
                       onChange={(e) => update({ mask_dilation: +e.target.value })}
                     />
-                  </label>
+                  </label>}
                   <label className="range-label">
                     Blend softness<span>{draft.mask_feather}px</span>
                     <input
@@ -1620,7 +1993,7 @@ export default function App() {
         <Modal title="Where should this render run?" onClose={() => setModal(null)}>
           <div className="modal-content">
             <div className="choice-list">
-              {catalog.providers.map((p) => (
+              {catalog.providers.filter((p) => ['local', 'comfy-cloud'].includes(p.id)).map((p) => (
                 <button
                   className={`choice ${draft.provider === p.id ? 'selected' : ''}`}
                   key={p.id}
@@ -1666,7 +2039,7 @@ export default function App() {
             setSettings(s);
             if (s.default_provider) update({ provider: s.default_provider });
             void api<Catalog>('/catalog')
-              .then(setCatalog)
+              .then((value) => setCatalog(vfxCatalog(value)))
               .catch(() => {});
           }}
           onClose={() => setModal(null)}
@@ -1677,8 +2050,8 @@ export default function App() {
           <div className="draw-empty">
             <div className="draw-preview">
               <img
-                src="/previews/ltx-fast-vase.jpg"
-                alt="Original generated source example for drawing an edit mask"
+                src="https://cdn.higgsfield.ai/card/5fbc1e60-009c-4a23-b804-7a7c5a2376d3.webp"
+                alt="Higgsfield input-image example for drawing an edit mask"
               />
               <span className="draw-example-mask" />
             </div>
@@ -1804,9 +2177,10 @@ export default function App() {
           onClose={() => setModal(null)}
           width={600}
           top={90}
-          label="Media library"
+          label={modal === 'asset-reference' && editedFirstFrame ? 'Choose an edited full starting frame' : 'Media library'}
           className="asset-popover"
         >
+          {modal === 'asset-reference' && editedFirstFrame && <p className="muted small">Choose the complete edited source frame at {draft.trim_start.toFixed(2)}s, at native {source?.width} × {source?.height}. An isolated object or unrelated image is not a starting-frame edit.</p>}
           <div className="asset-popover-tabs">
             <button
               className={assetFilter === 'All' ? 'active' : ''}

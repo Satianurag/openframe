@@ -21,8 +21,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-modal = ["modal==1.5.5"]
-cloud = ["comfy-sdk>=0.5,<1", "opencv-python-headless>=4.11,<5"]
+cloud = ["comfy-sdk>=0.5,<1", "opencv-python-headless>=4.11,<5", "scipy>=1.14,<2"]
 
 [tool.setuptools.packages.find]
 include = ["backend*", "engine*", "custom_nodes.openframe*"]

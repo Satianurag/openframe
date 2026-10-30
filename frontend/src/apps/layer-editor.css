@@ -1,0 +1,26 @@
+.layer-editor { width: min(1280px, 96vw); max-width: none; max-height: 94vh; color: #eee; background: #111214; border: 1px solid #303136; border-radius: 18px; padding: 0; }
+.layer-editor::backdrop { background: #000b; }
+.layer-editor header { display: flex; align-items: center; gap: 10px; padding: 18px 22px; border-bottom: 1px solid #2b2c30; }
+.layer-editor header > div { flex: 1; }
+.layer-editor h2, .layer-editor h3 { margin: 0; }
+.layer-editor button, .layer-editor input { font: inherit; }
+.layer-editor button { border: 1px solid #37383d; border-radius: 8px; color: inherit; background: #202125; padding: 8px 12px; cursor: pointer; }
+.layer-editor button:disabled { opacity: .35; cursor: default; }
+.layer-editor small, .layer-editor footer { color: #999ca3; font-size: 12px; }
+.layer-editor-body { display: grid; grid-template-columns: minmax(360px, 1fr) 320px; min-height: 520px; }
+.layer-editor-preview { padding: 24px; display: flex; flex-direction: column; gap: 15px; align-items: center; justify-content: center; overflow: hidden; }
+.layer-editor canvas { max-width: 100%; max-height: 62vh; width: auto; height: auto; cursor: move; background: repeating-conic-gradient(#27282c 0% 25%, #1c1d20 0% 50%) 50% / 20px 20px; }
+.layer-editor aside { border-left: 1px solid #2b2c30; padding: 20px 14px; overflow-y: auto; max-height: 72vh; }
+.layer-editor aside h3 { font-size: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; }
+.layer-editor-row { display: flex; gap: 4px; align-items: center; border-radius: 9px; padding: 5px; margin-bottom: 5px; border: 1px solid transparent; }
+.layer-editor-row.selected { border-color: #d2ff5a; background: #d2ff5a0a; }
+.layer-editor-row button { padding: 5px; border: 0; background: transparent; font-size: 12px; }
+.layer-editor-row button:first-of-type { flex: 1; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+.layer-editor-row a { color: #bfc1c5; font-size: 10px; text-decoration: none; }
+.layer-editor input[type=checkbox], .layer-editor input[type=range] { accent-color: #d2ff5a; }
+.layer-editor-controls { margin-top: 20px; display: grid; gap: 13px; }
+.layer-editor-controls label { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 6px; font-size: 12px; }
+.layer-editor-controls input:not([type=range]) { max-width: 150px; color: inherit; background: #1e1f22; border: 1px solid #393a3f; border-radius: 6px; padding: 7px; }
+.layer-editor-controls input[type=range] { width: 100%; }
+.layer-editor footer { padding: 14px 22px; border-top: 1px solid #2b2c30; }
+.layer-editor > [role=alert] { margin: 12px 22px; color: #ffb0a7; }

@@ -6,6 +6,34 @@ import uuid
 from .workflows import build_workflow
 
 
+def _canvas_inputs(info, values):
+    """Flatten the selected native DynamicCombo branch in frontend widget order."""
+    def expand(name, schema):
+        kind = schema[0]
+        options = schema[1] if len(schema) > 1 and isinstance(schema[1], dict) else {}
+        if kind == "COMFY_DYNAMICCOMBO_V3" and not options.get("forceInput"):
+            choices = options.get("options", [])
+            keys = [choice["key"] for choice in choices]
+            selected = values.get(name, keys[0] if keys else None)
+            if not isinstance(selected, str) or selected not in keys:
+                raise ValueError(f"Canvas export needs a concrete supported selection for dynamic input {name}.")
+            # Comfy creates a COMBO selector, then inserts the selected branch's
+            # required/optional widgets immediately after it, using dotted names.
+            yield name, [keys, {"default": keys[0]}]
+            branch = choices[keys.index(selected)].get("inputs", {})
+            for group in ("required", "optional"):
+                for child, child_schema in branch.get(group, {}).items():
+                    yield from expand(f"{name}.{child}", child_schema)
+        else:
+            yield name, schema
+
+    order = info.get("input_order", {})
+    for group in ("required", "optional"):
+        schemas = info.get("input", {}).get(group, {})
+        for name in order.get(group, schemas.keys()):
+            yield from expand(name, schemas[name])
+
+
 def to_ui_workflow(graph, catalog):
     """Use the installed node schemas rather than guessing widget ordering."""
     ids = {key: i + 1 for i, key in enumerate(graph)}
@@ -24,19 +52,20 @@ def to_ui_workflow(graph, catalog):
         if cls not in catalog:
             raise ValueError(f"Install node class {cls} before exporting its editable canvas.")
         info = catalog[cls]
-        schemas = {**info.get("input", {}).get("required", {}), **info.get("input", {}).get("optional", {})}
-        order = info.get("input_order", {})
-        names = list(order.get("required", info.get("input", {}).get("required", {}).keys())) + list(order.get("optional", info.get("input", {}).get("optional", {}).keys()))
         inputs, widgets = [], []
-        for name in names:
-            schema = schemas[name]
+        for name, schema in _canvas_inputs(info, spec["inputs"]):
             kind = schema[0]
             options = schema[1] if len(schema) > 1 and isinstance(schema[1], dict) else {}
-            is_widget = isinstance(kind, list) or kind in {"INT", "FLOAT", "STRING", "BOOLEAN", "COMBO"}
+            widget_kind = options.get("widgetType", kind)
+            # Modern ComfyUI creates a socket, not a hidden widget, for forceInput.
+            # A placeholder here shifts every later serialized widget value.
+            is_widget = not options.get("forceInput", False) and (isinstance(kind, list) or widget_kind in {"INT", "FLOAT", "STRING", "BOOLEAN", "COMBO"})
             value = spec["inputs"].get(name)
             is_link = isinstance(value, list) and len(value) == 2 and value[0] in graph
+            if options.get("forceInput") and value is not None and not is_link:
+                raise ValueError(f"Canvas export requires a linked value for forced socket {cls}.{name}; use the API graph for this literal input.")
             if is_widget:
-                fallback = (kind[0] if kind else "") if isinstance(kind, list) else {"INT": 0, "FLOAT": 0, "STRING": "", "BOOLEAN": False}.get(kind, "")
+                fallback = (kind[0] if kind else "") if isinstance(kind, list) else {"INT": 0, "FLOAT": 0, "STRING": "", "BOOLEAN": False}.get(widget_kind, "")
                 fallback = options.get("default", fallback)
                 widgets.append(fallback if is_link or value is None else value)
                 # Seed controls are frontend-only widgets not present in the API schema.
@@ -83,9 +112,21 @@ def main():
         ("ltx-23-inpaint", "ltx-2.3", "remove-object", 49, 24),
         ("wan-vace-inpaint", "wan-vace", "replace-object", 49, 16),
         ("wan-vace-restyle", "wan-vace", "restyle", 49, 16),
+        ("wan-s2v-speak", "wan-s2v", "speak", 77, 16),
+        ("flux-klein-image", "flux-klein-4b", "create-image", 1, 1),
+        ("flux-klein-edit", "flux-klein-4b", "edit-image", 1, 1),
+        ("flux3-klein-image", "flux3-klein", "create-image", 1, 1),
+        ("flux3-klein-edit", "flux3-klein", "edit-image", 1, 1),
+        ("flux3-klein-int8-image", "flux3-klein-int8", "create-image", 1, 1),
+        ("wan-animate-motion", "wan-animate", "motion-transfer", 49, 16),
+        ("wan-animate-character", "wan-animate", "character-replacement", 49, 16),
+        ("birefnet-background", "birefnet", "remove-background", 1, 1),
+        ("kokoro-speech", "kokoro-82m", "generate-speech", 1, 1),
     ]
     for name, model, effect, frames, fps in recipes:
         request = {"model_id": model, "effect_id": effect, "prompt": "Cinematic natural footage of a sunlit courtyard, detailed stone textures, a gentle breeze moves the leaves, smooth camera movement.", "width": 512, "height": 288, "frames": frames, "fps": fps, "seed": 42}
+        if model.startswith("flux3-"):
+            request.update(width=1024, height=1024)
         graph = build_workflow(request)
         (args.output / f"{name}.api.json").write_text(json.dumps(graph, indent=2) + "\n")
         if catalog:

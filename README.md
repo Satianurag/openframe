@@ -1,132 +1,105 @@
 # OpenFrame
 
-A ComfyUI video and VFX studio matching the public Higgsfield video editor's layout and controls. Paint a mask, choose an effect and model, render locally or on a GPU worker, compare the result, and export the workflow that produced it. OpenFrame uses its own branding, supported open-model choices and original demonstration media, without an account screen.
+**An open-source image, video and VFX studio built on ComfyUI.** OpenFrame brings source selection, mask painting, model controls, saved projects and portable workflows into a browser interface inspired by Higgsfield. It connects to your **Local ComfyUI** or supported **Comfy Cloud** operations.
 
-OpenFrame is an independent open-source project. The reference interface is Higgsfield; inference is performed by your selected ComfyUI worker.
+The VFX workflow uses **LTX as its core video model**. This is an independent project, not an official Higgsfield product or a claim of complete feature parity.
 
-## Features
+## What you can do
 
-- Text-to-video and image animation, with selectable LTX and Wan model profiles.
-- Masked video removal/replacement, full-scene restyling and editable effect recipes.
-- Browser mask painting, optional temporal tracking, generation strength and preservation controls.
-- Source audio preservation where applicable; explicit model-specific frame/dimension constraints.
-- Local ComfyUI, Modal GPU workers and configured Comfy API deployment connections.
-- Persistent job queue, progress, cancellation, retry, history and favorites.
-- Media library, saved recipes, before/after comparison and full-quality downloads.
-- ComfyUI workflow export and per-job reproducibility bundle.
+- **Edit video:** remove or replace masked objects, use an edited starting frame, recolor/restyle, and choose supported structural conditioning and source-preserving finishing.
+- **Change lighting and weather:** dedicated exterior LTX Relight with a rendered lighting sphere; Water-Simulation for rain and wet surfaces; generic restyle remains separately selectable.
+- **Use video tools:** Extend, generative Reframe, Upscale, background removal, SDR-to-HDR, FPS interpolation and depth. Each tool exposes its actual model limits and output formats.
+- **Create images:** FLUX3 generation/editing, ordered references, layouts, batches, region editing, outpainting, layers and portrait relighting.
+- **Build sequences:** editable shot lists, image storyboards, durable multi-stage jobs, narration, music, captions and video assembly. Motion transfer, character replacement and talking portraits have separate interfaces.
+- **Keep your work:** saved projects, history, cancellation/retry, comparisons, full-quality downloads, editable ComfyUI canvases, API graphs and reproducibility bundles.
 
-Effect cards are workflow/prompt presets. They are not a claim that every named transformation has a dedicated trained model or guaranteed visual outcome. See [validation evidence](docs/VALIDATION.md) for what has actually been exercised.
+Named presets are editable workflow directions, not guarantees of a particular result. Optional model profiles retain their own licenses and hardware requirements.
 
-## Run the studio
+## Start the application
 
-Requirements: Python 3.12, [uv](https://docs.astral.sh/uv/), Node.js 22.12+, npm and FFmpeg/ffprobe. The web application itself does not need a GPU. Generation requires one of the execution providers below.
+Install **Python 3.12**, [uv](https://docs.astral.sh/uv/), **Node.js 22.12+ with npm**, and **FFmpeg/ffprobe**. The interface and API do not require a GPU; generation needs a compatible ComfyUI host or supported Cloud operation.
+
+From this repository:
 
 ```bash
-# From this repository:
 python3 scripts/dev.py
 ```
 
-Open the Vite URL printed in the terminal, normally `http://127.0.0.1:5173`. The launcher selects free frontend and API ports in 5173–5193 and 8000–8020 and configures their connection automatically; interactive API documentation is at the API's `/docs`. The launcher installs missing frontend dependencies and uses the project's Python environment with Modal/cloud client extras. Ctrl+C stops both processes. If running the CLI against a non-default API port, pass `--url http://127.0.0.1:PORT`.
+On Windows, `py scripts/dev.py` can be used instead. The launcher reuses existing dependencies, installs missing frontend dependencies, and starts the API and Vite together. Open the URL printed by Vite, normally `http://127.0.0.1:5173`. It selects free ports in 5173–5193 and 8000–8020; Ctrl+C stops both processes. The API exposes interactive documentation at `/docs`.
 
-To run a built interface from the API server:
+For a built interface served by the API:
 
 ```bash
 cd frontend
 npm ci
 npm run build
 cd ..
-uv run --python 3.12 --extra modal --extra cloud uvicorn backend.app:app --host 127.0.0.1 --port 8000
+uv run --python 3.12 --extra cloud uvicorn backend.app:app --host 127.0.0.1 --port 8000
 ```
 
-Create `.env` from `.env.example` if you want environment defaults. Settings can also be configured in the application. Credentials are stored on the server and excluded from exported workflows/bundles. The default data directory is `.openframe/` and includes uploaded/generated media, saved recipes and the SQLite database. Keep it across upgrades.
+Open `http://127.0.0.1:8000`. Configure connections in **Settings**, or copy `.env.example` to `.env` for environment defaults. Keep `.openframe/` across upgrades: it contains the database, projects and uploaded/generated media. Credentials stay on the application server and are excluded from workflow exports.
 
-## Choose compute
+## Connect Local ComfyUI
 
-### Modal GPU
+1. Install and start a compatible [ComfyUI](https://github.com/Comfy-Org/ComfyUI) on your inference machine.
+2. Install the OpenFrame nodes and the selected profile's weights. For LTX2.5:
 
-Use your existing Modal authentication, or authenticate with the Modal CLI before deployment. The app uses your Modal account's private function invocation; it does not require a public inference endpoint.
+   ```bash
+   uv run --python 3.12 python -m engine.setup --comfy-dir /path/to/ComfyUI --model ltx-2.5
+   ```
 
-For masked LTX VFX, first obtain access to the [official inpainting adapter](https://huggingface.co/Lightricks/LTX-2.3-22b-IC-LoRA-In-Outpainting). For automated downloads, create a Modal secret named `openframe-huggingface` containing `HF_TOKEN`, with permission to read that gated model. The token stays in Modal's secret store, outside application code and workflow exports.
+3. Run the dependency-install commands printed by setup **inside ComfyUI's Python environment**, then restart ComfyUI. Setup preserves existing checkouts and reports required pinned revisions. Downloads can be large; reuse an existing model cache. Gated weights require repository access and Hugging Face authentication first:
+
+   ```bash
+   uv run --python 3.12 hf auth login
+   ```
+
+4. In OpenFrame **Settings**, select **Local ComfyUI**, enter its URL (default `http://127.0.0.1:8188`) and check the connection.
+
+For optional SAM2 mask tracking, provision `--model sam2` and install the pinned tracker package printed by setup. See [workflow installation](workflows/README.md) for model/node requirements. Installing the web application alone does not install inference models.
+
+Some optional features need additional Linux/WSL2 CUDA runtimes on the ComfyUI host: [visual planning](custom_nodes/openframe/PLANNER-RUNTIME.md), [narration](custom_nodes/openframe/NARRATION-RUNTIME.md), [performer tracking/matting](custom_nodes/openframe/RECAST-RUNTIME.md), and [character training](custom_nodes/openframe/CHARACTER-TRAINING-RUNTIME.md). These are separate from the basic LTX setup.
+
+## Connect Comfy Cloud
+
+The launcher and built-server command above include the `cloud` dependencies. In **Settings**, select **Comfy Cloud**, use `https://cloud.comfy.org`, and configure your API key. Alternatively, sign in on the application server with an installed Comfy CLI:
 
 ```bash
-uv run --python 3.12 --extra modal modal deploy deploy/modal_app.py
-OPENFRAME_HF_SECRET=openframe-huggingface uv run --python 3.12 --extra modal modal run deploy/modal_app.py --prepare --model ltx-2.3
+comfy cloud login
 ```
 
-The second command prepares LTX 2.3 and its SAM2 tracker on CPU. Prepare each other profile you want with `--model ltx-0.9.8` or `--model wan-vace`, without the secret prefix; reuse the existing cache on subsequent runs. LTX 2.3 generation without its gated editing adapter can be prepared with `--base-only`, also without a secret. Then select **Modal GPU** in the studio settings. The deployment keeps model weights on a persistent Modal volume; your laptop receives inputs/outputs rather than the model cache. An unprepared profile fails with setup instructions instead of downloading weights on a GPU. GPU execution and storage use your Modal account. The worker configuration and exact models live in `deploy/` and `engine/`.
+Settings can detect that session; an executable-path setting supports nonstandard CLI installations. Check the connection before choosing a model. OpenFrame rejects unsupported combinations rather than silently switching providers.
 
-### Local ComfyUI
+**Cloud support is task-specific.** LTX2.5 currently supports **inpainting only** on hosted Cloud, including supported removal/replacement paths. Its other operations do not inherit Cloud support. Dedicated Water and exterior Relight require Local ComfyUI. Earlier LTX2.3/Fast/Wan routes have their own capability checks against available weights and nodes.
 
-Start a compatible ComfyUI instance and configure its URL in Settings (default `http://127.0.0.1:8188`). Install the OpenFrame custom nodes and the checkpoint/text-encoder/VAE files required by the chosen model profile. Use the local setup command to install the profile files and node packs:
+The application still prepares media on the app host. LTX2.5's hosted graph produces a native video; selected lighting correction, plate-fit finishing or bitrate encoding additionally runs on the app host. Earlier hybrid routes use app-side compositing/encoding. SAM2 tracking requires a configured Local tracker; static/optical-flow alternatives have different requirements. The LTX2.5 Cloud adapter has schema, media-processing and export checks, **not a completed live Cloud render claim**.
 
-For the gated LTX editing adapter, obtain repository access and authenticate locally with `uv run --python 3.12 hf auth login` before setup.
+## Make and export an edit
+
+1. Open **Video / VFX**, choose a preset and a compatible LTX profile.
+2. Select the source interval and output dimensions. Paint the affected object, shadows and nearby interactions when using a mask.
+3. Choose tracking and preservation settings, then describe the desired result. Supported editing profiles expose **Source / Generate / Silent** audio; source audio applies to the selected interval.
+4. Generate, then inspect the whole result for motion, edges, lighting and sound.
+5. Download the result and export its workflow or full project bundle.
+
+Exports record the actual selected model, settings and dependencies. A full project includes its media; a lightweight recipe omits media. Cloud projects also record the hosted graph and app processing. Sequence exports contain individual shot projects and an assembly manifest, not one universal ComfyUI graph. Weights and credentials are never bundled.
+
+For headless use, supply your own source and mask:
 
 ```bash
-uv run --python 3.12 python -m engine.setup --comfy-dir /path/to/ComfyUI --model ltx-2.3
+uv run --python 3.12 python scripts/render.py recipes/ltx-masked-vfx.json --provider local --source source.mp4 --mask mask.png --output renders
 ```
 
-Run the pip commands printed by setup in ComfyUI's Python environment. For the default SAM2 tracker, also install the pinned SAM2 package and run setup with `--model sam2`; see [the workflow installation guide](workflows/README.md). The model manifest identifies the required files. The app uploads source media to ComfyUI and collects the actual outputs.
+Use `--url http://127.0.0.1:PORT` if the API uses another port. The client uploads inputs, follows the queued job and downloads real outputs; Ctrl+C requests cancellation.
 
-The frontend/API can run on macOS, Windows or Linux. Inference compatibility depends on the selected model, ComfyUI installation and GPU; do not infer local model support from the fact that the web interface starts.
+## Scope and limitations
 
-### Comfy Cloud / Comfy API deployment
+Video examples validate selected intervals, not automatically an entire uploaded clip. Model frame limits, frame-rate lattices and output dimensions are explicit. Generated edits can change fine details, identities, hands, shadows or backgrounds; mask preservation applies to the declared compositing region, not a blanket pixel-perfect promise. Exterior Relight uses a fixed released recipe and sphere guidance, not calibrated physical lighting. Water can add rain/wet surfaces while small-detail drift remains.
 
-For hosted Comfy Cloud, install the `cloud` extra and either configure an API key or sign in with an installed Comfy CLI (`comfy cloud login`) on the app server. Settings can detect that CLI session without exposing its credentials; an optional executable-path field handles nonstandard installations. Real hosted execution was verified through CLI OAuth. API-key and custom-deployment transports remain separate supported configurations, without an end-to-end account-specific verification claim.
+Character training and reference-assisted generation are distinct: the tested standalone adapters did not reliably preserve likeness. A reference-assisted result improved likeness but also copied the reference composition. Depth, transitions and other model-specific effects likewise need visual review. Native GUI workflow roundtrips demonstrate import/export compatibility, not inference on every machine.
 
-Hosted Cloud runs the native model/sampling graph. OpenFrame prepares aligned source/mask inputs and performs final compositing, audio handling and encoding locally using the same utilities as its Comfy nodes. Static and optical-flow masks need no local model runtime. SAM2 uses the configured local ComfyUI's exact mask-initialized tracker and small SAM2.1 checkpoint; Settings reports whether that optional runtime is detected. This is explicitly mixed execution. A missing tracker or model fails clearly instead of silently selecting another method.
+## Submission and license
 
-Exports include the complete local-replay graph, actual Cloud-executed graph, prepared inputs and a processing manifest. The Cloud graph alone returns intermediate frames. Custom Comfy API Builds can still execute the complete graph when they include the required models and OpenFrame node pack. See [Comfy's Developer Platform](https://comfy.org/platform/) and [SDK documentation](https://docs.comfy.org/development/api-development/sdks).
+The submission demonstration is **57.02 seconds**, 1920×1080 at 24 fps. It shows actual LTX removal/replacement, exterior Relight and sphere controls, a native ComfyUI canvas, generated audio/video, and the Local/Cloud connection boundary. It passed full decoding and visual review. Demo and example archives are separate submission assets; they are not assumed to exist in a fresh source checkout.
 
-OpenFrame does not silently redirect a failed cloud job to another provider. The job records the selected provider and reports execution failures.
-
-## A VFX session
-
-1. Open Video / VFX and select **Vanish** or **Replace**.
-2. Choose an editing-capable model such as **LTX 2.3**. LTX Fast is a separate lightweight generation profile, not the masked-editing backend.
-3. Upload the source video and paint the full target area, including affected shadows and a small surrounding margin. Fresh LTX VFX selections recommend a 1024-pixel longest side; the smaller preview option remains available.
-4. Select tracking/preservation settings and describe the desired visible result.
-5. Choose compute and generate. Follow progress in the studio/history.
-6. Review the full result against the original, including motion, edges and affected shadows.
-7. Download the video and export the workflow/reproducibility bundle.
-
-A generation mask and the final allowed-change region serve different purposes. **Edit margin** expands the allowed region before feathering (default 12 pixels for tracked edits, 0 for static masks); **Generation margin** adds model-conditioning context. Edit margin can include adjacent pixels, so inspect occluders and nearby objects. If an edit must change shadows, reflections or interactions, include those affected areas. Continuous inward contour smoothing avoids a stepped mask boundary without blurring generated footage.
-
-## Headless use
-
-The API accepts the same request used by the frontend. Save a request as JSON (or use a saved job JSON with its `request` field), then run:
-
-```bash
-uv run --python 3.12 python scripts/render.py recipes/ltx-masked-vfx.json --provider modal --source source.mp4 --mask mask.png --output renders
-```
-
-The script uploads supplied media, queues one job, follows its status and downloads the actual output files. Ctrl+C requests cancellation. Existing asset IDs work when the files are already in this studio's library.
-
-## Packaging
-
-```bash
-docker compose up --build
-```
-
-This builds the frontend and API image and binds it to localhost port 8000; set `OPENFRAME_PORT=8010` when that port is occupied. It uses a named volume for studio data. This is the application container; inference still runs through the selected provider. Pass Modal credentials through environment configuration when invoking Modal from inside a container. Never include them in images, source control or workflow exports.
-
-## Project structure
-
-- `frontend/`: React/TypeScript interface.
-- `backend/`: FastAPI, media storage, durable job queue and settings.
-- `engine/`: model/effect catalogue, ComfyUI graph builders and provider execution.
-- `custom_nodes/`: reusable OpenFrame media/mask/compositing nodes.
-- `deploy/`: Modal GPU runtime and persistent cache configuration.
-- `workflows/`: inspectable workflow and model/setup artifacts.
-- `scripts/`: local launcher and headless recipe client.
-- `recipes/`: editable example requests; source/mask files are supplied when rendering.
-- `docs/`: interface direction, architecture, validation, attribution and competition package.
-
-## Competition and reuse
-
-The demonstrated VFX workflow uses LTX as its core video model. Other model profiles remain optional. [The competition package](docs/COMPETITION.md) covers the demonstration and submission assets; publishing/submission is a separate user action.
-
-Application code: [MIT](LICENSE). Runtime dependencies and model weights retain their own licenses; see [third-party attribution](docs/THIRD_PARTY.md). No model weights or Higgsfield commercial demo footage are bundled here.
-
-## Review package
-
-Prepared alongside the source archive: `openframe-demo.mp4` (70.40 seconds), `openframe-examples.zip` (portable workflows, inputs, expected outputs and provenance), and standalone removal/replacement comparison videos. The source archive excludes model weights, credentials, local studio history and validation recordings. See [validation](docs/VALIDATION.md) for measured results and limitations, and [competition preparation](docs/COMPETITION.md) for the remaining publication/submission steps.
+Application code: [MIT](LICENSE). Model weights, upstream nodes and optional runtimes retain their own terms; see [third-party attribution](docs/THIRD_PARTY.md). No model weights, credentials or Higgsfield commercial demo footage are included in the source release.

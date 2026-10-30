@@ -1,0 +1,113 @@
+{
+  "source": "Observed Higgsfield Apps DOM captured 29 October 2026; curated public reference examples. Starter replacements are recorded in reference-vfx-starters.json.",
+  "apps": {
+    "mini-apps": {
+      "presets": [
+        {
+          "id": "portrait",
+          "title": "Headshot Generator",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/f4d5bd00-a028-4ca0-9a99-7536ff404619.webp",
+          "source_url": "https://higgsfield.ai/apps/ai-headshot-generator",
+          "video": "https://cdn.higgsfield.ai/application_main/32eb6e01-7cdc-4e0e-b181-9a81672235b8.mp4"
+        },
+        {
+          "id": "relight",
+          "title": "Relight",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/a838d9d6-5840-4d8c-a66b-b6deb090be56.webp",
+          "source_url": "https://higgsfield.ai/apps/relight",
+          "video": "https://cdn.higgsfield.ai/application_main/ff6c6ba0-3c47-416a-a473-e2b2bd425160.mp4"
+        },
+        {
+          "id": "outfit",
+          "title": "Outfit Swap",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/dcafc3f9-a87a-41ec-8ef8-f5443a0a7315.webp",
+          "source_url": "https://higgsfield.ai/apps/outfit-swap",
+          "video": "https://cdn.higgsfield.ai/application_main/da91da29-9fc7-41fd-a99d-b07e4bb010b6.mp4"
+        },
+        {
+          "id": "paint",
+          "title": "Paint App",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/b7db644e-9e07-4a05-9887-501ddc9e8291.webp",
+          "source_url": "https://higgsfield.ai/apps/paint-app",
+          "video": "https://cdn.higgsfield.ai/application_main/8d075a6e-8ff9-4286-8aad-40560a11c033.mp4"
+        },
+        {
+          "id": "background",
+          "title": "Background Remover",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/425fd0f6-52e4-4bdb-ba55-8b8912ad98fc.webp",
+          "source_url": "https://higgsfield.ai/apps/image-background-remover",
+          "video": "https://cdn.higgsfield.ai/application_main/25344676-c693-48e7-8b7e-3db81ae62379.mp4"
+        },
+        {
+          "id": "billboard",
+          "title": "Billboard Ad",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/552a98ef-7b13-4cbb-8263-6de84addff79.webp",
+          "source_url": "https://higgsfield.ai/apps/billboard",
+          "video": "https://cdn.higgsfield.ai/application_main/a5928bf1-8cca-4f11-80c1-d48602facf5a.mp4"
+        },
+        {
+          "id": "product",
+          "title": "Bullet Time Scene",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/0adbc3f9-335c-4c64-8d9e-14b5fa8de146.webp",
+          "source_url": "https://higgsfield.ai/apps/bullet-time-scene",
+          "video": "https://cdn.higgsfield.ai/application_main/5182d536-02e5-44bb-9444-d947fa4df234.mp4"
+        },
+        {
+          "id": "character-image",
+          "title": "Character Swap 2.0",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/7a71628b-3cb3-443b-bd96-5f0a75425575.webp",
+          "source_url": "https://higgsfield.ai/apps/character-swap",
+          "video": "https://cdn.higgsfield.ai/application_main/5a17fdb6-88b3-4588-809c-0b7af087ca1c.mp4"
+        },
+        {
+          "id": "motion",
+          "title": "Recast",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/e184f451-2a79-443f-8e17-d7b24e0d2e21.webp",
+          "source_url": "https://higgsfield.ai/apps/recast",
+          "video": "https://cdn.higgsfield.ai/application_main/16af5e9e-270f-4b0f-b1c2-0c448c5d31ef.mp4"
+        },
+        {
+          "id": "recast",
+          "title": "Recast",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/e184f451-2a79-443f-8e17-d7b24e0d2e21.webp",
+          "source_url": "https://higgsfield.ai/apps/recast",
+          "video": "https://cdn.higgsfield.ai/application_main/16af5e9e-270f-4b0f-b1c2-0c448c5d31ef.mp4"
+        },
+        {
+          "id": "vanish",
+          "title": "Vanish",
+          "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/smart-clean-up.webp",
+          "source_url": "https://higgsfield.ai/ai/video/edit"
+        },
+        {
+          "id": "replace",
+          "title": "Replace",
+          "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/precise-object-swap.webp",
+          "source_url": "https://higgsfield.ai/ai/video/edit"
+        },
+        {
+          "id": "restyle",
+          "title": "Restyle",
+          "poster": "https://static.higgsfield.ai/video-edit-tutorial/recolor-restyle.webp",
+          "source_url": "https://higgsfield.ai/ai/video/edit"
+        },
+        {
+          "id": "weather",
+          "title": "Change Weather",
+          "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.webp",
+          "video": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.mp4",
+          "source_url": "https://higgsfield.ai/ai/video/edit"
+        }
+      ],
+      "hero": [
+        {
+          "id": "background",
+          "title": "Background Remover reference demonstration",
+          "poster": "https://cdn.higgsfield.ai/application_detail/f6a30266-5ec9-4b03-b682-093e53dc0dbd.webp",
+          "video": "https://cdn.higgsfield.ai/application_detail/4ab0ba35-bccd-4053-a97c-778cd694449b.mp4",
+          "source_url": "https://higgsfield.ai/apps/image-background-remover"
+        }
+      ]
+    }
+  }
+}

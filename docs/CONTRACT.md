@@ -1,13 +1,13 @@
 # OpenFrame implementation contract
 
-Scope: a video-generation and VFX studio matching Higgsfield's public UI structure and visual treatment. ComfyUI executes every generative backend. No user login/payments in this release. Durable jobs, media library, uploads, VFX masks, comparison, presets, workflow export, local/Modal/Comfy cloud connections. Do not fake successful generation or advertise unimplemented actions.
+Scope: a video-generation and VFX studio matching Higgsfield's public UI structure and visual treatment. ComfyUI executes every generative backend. No user login/payments in this release. Durable jobs, media library, uploads, VFX masks, comparison, presets, workflow export, Local ComfyUI and supported Comfy Cloud connections. Do not fake successful generation or advertise unimplemented actions.
 
 Stack: React + TypeScript + Vite frontend; FastAPI backend with SQLite persistence; Python engine calling real ComfyUI. Local single-user app, configurable remote compute. Python modules under backend/ and engine/; run from project root. Frontend dev proxy /api -> localhost:8000, built frontend served by FastAPI.
 
 ## API
 GET /api/health -> {status,version}
 GET /api/catalog -> {models:[{id,name,family,description,tasks:string[],aspect_ratios:string[],...}],effects:[{id,name,description,category,prompt,model_ids:string[],requires_video:boolean,requires_image:boolean,requires_mask:boolean,...}],providers:[{id,name,configured,available,detail}]}
-GET /api/settings -> {default_provider,comfy_url,comfy_cloud_url,modal_app,...}; PATCH same. Never return API tokens. Optional secret provided on update should be saved server-side and redacted.
+GET /api/settings -> {default_provider,comfy_url,comfy_cloud_url,...}; PATCH same. Never return API tokens. Optional secret provided on update should be saved server-side and redacted.
 POST /api/providers/{id}/check -> {available,detail,models?:string[]}
 POST /api/assets multipart file -> {id,name,kind,url,thumbnail_url,width,height,duration,fps,...}
 GET /api/assets -> {items:[asset]}; GET /api/assets/{id}/file streams media; DELETE /api/assets/{id} removes only unreferenced user asset.
@@ -26,7 +26,7 @@ engine.runner.check_provider(provider:str,settings:dict) -> dict {available:bool
 Frontend should get catalogue from API. It may keep visual effect descriptions client-side but use server IDs. Coordinate model/effect IDs with engine agent promptly. Baseline tasks: text-to-video, image-to-video, video inpaint/removal, video restyle; extend working capabilities only. Model profiles initially LTX and Wan VACE, final actual checkpoint choices engine-owned.
 
 ## Ownership and timing
-frontend agent: frontend/**, docs/DIRECTION.md, artifacts/reference/**.
+frontend agent: frontend/**, docs/DIRECTION.md, the retained review record
 backend agent: backend/**, pyproject.toml, .env.example; coordinate dependencies with engine.
 engine agent: engine/**, deploy/**, workflows/**, custom_nodes/**.
 root: README, scripts, docs plan, integration and final validation.

@@ -16,6 +16,15 @@ artifacts/reference/*.webp
 artifacts/reference/*.json
 .DS_Store
 .openframe/
+/renders/
 *.egg-info/
 artifacts/
 *.tsbuildinfo
+frontend/public/reference-media/
+
+# Private rented-GPU test infrastructure; retained locally, excluded from releases.
+/deploy/
+/docs/PRIVATE-DEVELOPMENT.md
+/engine/tests/test_runner_modal.py
+/tests/test_modal_transfer.py
+/engine/tests/validate_sam2.py

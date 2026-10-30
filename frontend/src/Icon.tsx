@@ -6,6 +6,7 @@ const paths: Record<string, string> = {
   close: 'm6 6 12 12M6 18 18 6',
   plus: 'M12 5v14M5 12h14',
   image: 'M4 4h16v16H4zM4 16l5-5 4 4 3-3 4 4M8 8h.01',
+  layers: 'm12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5',
   video: 'M3 5h13v14H3zM16 9l5-3v12l-5-3',
   upload: 'M12 16V3m-4 4 4-4 4 4M4 16v5h16v-5',
   download: 'M12 3v13m-4-4 4 4 4-4M4 17v4h16v-4',

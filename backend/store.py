@@ -37,6 +37,53 @@ class Store:
                     id TEXT PRIMARY KEY, created_at TEXT NOT NULL, record TEXT NOT NULL
                 );
                 CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS app_documents (
+                    id TEXT PRIMARY KEY, app_id TEXT NOT NULL, revision INTEGER NOT NULL,
+                    updated_at TEXT NOT NULL, record TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS app_document_list ON app_documents(app_id,updated_at);
+                CREATE TABLE IF NOT EXISTS app_document_assets (
+                    document_id TEXT NOT NULL, asset_id TEXT NOT NULL,
+                    PRIMARY KEY(document_id,asset_id)
+                );
+                CREATE INDEX IF NOT EXISTS app_asset_references ON app_document_assets(asset_id);
+                CREATE TABLE IF NOT EXISTS app_job_links (
+                    job_id TEXT PRIMARY KEY, app_id TEXT NOT NULL,
+                    document_id TEXT NOT NULL, record TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS app_job_history ON app_job_links(app_id,document_id);
+                CREATE TABLE IF NOT EXISTS app_document_links (
+                    document_id TEXT PRIMARY KEY, target_id TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS app_project_references ON app_document_links(target_id);
+                CREATE TABLE IF NOT EXISTS sequences (
+                    id TEXT PRIMARY KEY, app_id TEXT NOT NULL, document_id TEXT NOT NULL,
+                    status TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, record TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS sequence_plans (
+                    id TEXT PRIMARY KEY, app_id TEXT NOT NULL, document_id TEXT NOT NULL,
+                    status TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL, record TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS sequence_queue ON sequences(status,created_at);
+                CREATE INDEX IF NOT EXISTS planner_queue ON sequence_plans(status,created_at);
+                CREATE TABLE IF NOT EXISTS sequence_shots (
+                    sequence_id TEXT NOT NULL, episode_index INTEGER NOT NULL, position INTEGER NOT NULL,
+                    record TEXT NOT NULL, PRIMARY KEY(sequence_id,episode_index,position)
+                );
+                CREATE TABLE IF NOT EXISTS sequence_assets (
+                    sequence_id TEXT NOT NULL, asset_id TEXT NOT NULL, PRIMARY KEY(sequence_id,asset_id)
+                );
+                CREATE INDEX IF NOT EXISTS sequence_asset_references ON sequence_assets(asset_id);
+                CREATE TABLE IF NOT EXISTS sequence_job_links (
+                    sequence_id TEXT NOT NULL, job_id TEXT NOT NULL, PRIMARY KEY(sequence_id,job_id)
+                );
+                CREATE INDEX IF NOT EXISTS sequence_job_references ON sequence_job_links(job_id);
+                CREATE TABLE IF NOT EXISTS characters (
+                    id TEXT PRIMARY KEY, job_id TEXT NOT NULL UNIQUE,
+                    created_at TEXT NOT NULL, record TEXT NOT NULL
+                );
+
+
             """)
         self.path.chmod(0o600)
 
@@ -113,6 +160,8 @@ class Store:
             raise ValueError("Unknown table")
         with self.connection() as db:
             db.execute(f"DELETE FROM {table} WHERE id=?", (ident,))
+            if table == "jobs":
+                db.execute("DELETE FROM app_job_links WHERE job_id=?", (ident,))
 
     def by_hash(self, digest: str) -> dict | None:
         with self.connection() as db:
@@ -122,11 +171,17 @@ class Store:
     def asset_references(self, ident: str) -> list[str]:
         with self.connection() as db:
             rows = db.execute("SELECT id,record FROM jobs").fetchall()
-        references = []
+            documents = db.execute("SELECT document_id FROM app_document_assets WHERE asset_id=?", (ident,)).fetchall()
+            snapshots = db.execute("SELECT job_id,record FROM app_job_links").fetchall()
+            sequences = db.execute("SELECT sequence_id FROM sequence_assets WHERE asset_id=?", (ident,)).fetchall()
+            plans = db.execute("SELECT id FROM sequence_plans WHERE EXISTS (SELECT 1 FROM json_each(sequence_plans.record, '$.request.reference_asset_ids') WHERE value=?)", (ident,)).fetchall()
+        references = ["document:" + row[0] for row in documents] + ["sequence:" + row[0] for row in sequences]
+        references.extend("plan:" + row[0] for row in plans)
+        references.extend(row[0] for row in snapshots if ident in json.loads(row[1])["document_snapshot"]["asset_ids"])
         for row in rows:
             job = json.loads(row["record"])
             request = job["request"]
-            if any(request.get(key) == ident for key in ("source_asset_id", "mask_asset_id", "reference_asset_id")) or any(
+            if any(request.get(key) == ident for key in ("source_asset_id", "mask_asset_id", "reference_asset_id", "audio_asset_id", "end_asset_id")) or ident in request.get("reference_asset_ids", []) or ident in request.get("dataset_asset_ids", []) or ident in request.get("loss_mask_asset_ids", []) or any(
                 output.get("id") == ident for output in job.get("outputs", [])
             ):
                 references.append(row["id"])
@@ -152,6 +207,14 @@ class Store:
                     "status": "failed", "stage": "Interrupted by server restart",
                     "error": "The studio restarted during this render. Check the compute provider before retrying; a remote job may still be running.",
                 })
+
+        with self.connection() as db:
+            for table in ("sequences", "sequence_plans"):
+                rows = db.execute(f"SELECT record FROM {table} WHERE status='running'").fetchall()
+                for row in rows:
+                    record = json.loads(row[0])
+                    record.update(status="failed", stage="Interrupted by server restart", updated_at=now(), error="The server restarted during this operation. Check any recorded provider call before explicitly resuming/retrying; no remote work was automatically resubmitted.")
+                    db.execute(f"UPDATE {table} SET status=?,updated_at=?,record=? WHERE id=?", (record["status"], record["updated_at"], json.dumps(record), record["id"]))
 
     def claim_next(self) -> dict | None:
         with self.connection() as db:

@@ -18,7 +18,7 @@ def main() -> int:
     parser.add_argument("--source", type=Path)
     parser.add_argument("--mask", type=Path)
     parser.add_argument("--reference", type=Path)
-    parser.add_argument("--provider", choices=["local", "modal", "comfy-cloud"])
+    parser.add_argument("--provider", choices=["local", "comfy-cloud"])
     parser.add_argument("--output", type=Path, default=Path("renders"))
     args = parser.parse_args()
     recipe = json.loads(args.recipe.read_text())

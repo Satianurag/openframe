@@ -1,0 +1,41 @@
+{
+  "reviewed_on": "2026-10-30",
+  "app": "video-transitions",
+  "problem": "The existing Smoke bridge produced a fade-like result even with a midpoint image. Execution success did not establish the requested volumetric effect.",
+  "candidate": {
+    "repository": "https://huggingface.co/AInVFX/ainvfx-fluid",
+    "revision": "fd4855a18d879c551bf4c5f49b1a877874437cb6",
+    "file": "ltx-2.5/ainvfx-fluid.safetensors",
+    "size_bytes": 654446312,
+    "expected_sha256": "6310fbda80c9516750bd9fa4db67d500b01c9af2fbd500a7b439d4dbdfb4f971",
+    "version": 2,
+    "released": "2026-10-29",
+    "base": "Lightricks/LTX-2.5",
+    "license": "LTX-2.x Community License",
+    "workflow": "workflow/ainvfx-fluid_painted_smoke_plume.json",
+    "application_source": "https://github.com/AInVFX/ainvfx-paintaplate",
+    "application_code_license": "Apache-2.0"
+  },
+  "verified_upstream_contract": {
+    "purpose": "Generate art-directed fluid footage from flat painted keyframes, either as an element on black or an entire scene.",
+    "guide": "Control video with the same dimensions and length as output; first and last painted frames, black intermediate frames, optional painted keys at 8k+1 indices.",
+    "tested_frames": 121,
+    "trained_fps": [24, 25, 50],
+    "dimension_multiple": 64,
+    "trigger": "ainvfxfluid",
+    "steps": 8,
+    "cfg": 1,
+    "sampler": "euler_ancestral",
+    "lora_strength": 1,
+    "guide_downscale": "Read factor 2 from adapter metadata via LTXICLoRALoaderModelOnly.",
+    "i2v": "Disabled in the shipped plume example.",
+    "shipped_inputs": ["workflow/inputs/ainvfx-fluid_first_frame.png", "workflow/inputs/ainvfx-fluid_last_frame.png"]
+  },
+  "decision": {
+    "status": "Research candidate; not integrated or quality-validated.",
+    "reason": "This is a released fluid-specific model and native Comfy workflow, but its painted-volume contract is not a ready-made two-scene transition. Do not silently substitute it for the existing endpoint-conditioned graph or claim its sample is our result.",
+    "next_requirement": "Resolve the conditioning and compositing contract for clear source and destination scenes before implementing the Smoke transition adaptation.",
+    "downloads": "Only public text and graph metadata read in memory; no weights downloaded.",
+    "version_note": "The author withdrew version 1. The pinned version 2 card describes synthetic training clips with a published provenance manifest. Do not use the older revision surfaced in search results."
+  }
+}

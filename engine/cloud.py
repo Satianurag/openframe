@@ -132,11 +132,15 @@ def check_hosted(settings):
         models.append("ltx-0.9.8")
     if "wan2.1_vace_1.3B_fp16.safetensors" in _options(catalog, "UNETLoader", "unet_name"):
         models.append("wan-vace")
+    from .cloud_ltx25 import capability
+    ltx25 = capability(catalog)
+    if ltx25["available"]:
+        models.append("ltx-2.5")
     tracker = tracker_status(settings)
     result = {"available": bool(models), "auth_mode": status["mode"], "models": models,
               "supported_tracking_methods": ["static", "flow"] + (["sam2"] if tracker["available"] else []),
-              "local_sam2": tracker,
-              "detail": "Hosted Cloud nodes respond. Diffusion runs on Comfy Cloud; source/mask preparation and final compositing run locally. SAM2 additionally requires the configured local ComfyUI tracker. Each graph and exact weights are checked before submission."}
+              "local_sam2": tracker, "model_capabilities": {"ltx-2.5": ltx25},
+              "detail": "Hosted Cloud nodes respond. LTX 2.5 inpaint renders native composited video; removal lighting correction additionally runs locally and retains that native preview. Older profiles use local final compositing. Source/mask preparation is local; SAM2 requires the configured local tracker. Exact graph/weights are checked before submission; this connection check does not verify rendered quality."}
     if status["mode"] == "cli-oauth":
         balance = _cli(settings, ["cloud", "status"], timeout=30)
         free = (balance.get("free_tier_balance") or {}).get("remaining")
@@ -280,19 +284,24 @@ def _validate(graph, catalog):
                     raise ProviderError(f"Hosted Cloud does not provide exact required weight {value}. No model substitution or GPU submission was made.")
 
 
+def input_slots(graph):
+    from .cloud_ltx25 import INPUT_SLOTS
+    slots = [*INPUT_SLOTS, ("image", "image", "source")]
+    return [(node, field, role) for node, field, role in slots if node in graph]
+
+
 def _run_cli(graph, prepared, output_dir, settings, progress, cancel):
     from .runner import ProviderError
     filenames = {}
-    used_roles = {role for node, role in (("cloud_source_file", "source"), ("cloud_mask_file", "generation_mask"), ("image", "source"), ("reference", "reference")) if node in graph}
+    used_roles = {role for node, field, role in input_slots(graph)}
     for role, path in prepared.items():
         if role not in used_roles:
             continue
         cancel(); progress(.06, "Uploading " + role + " to Comfy Cloud")
         item = _cli(settings, ["upload", str(path), "--where", "cloud", "--no-overwrite"], timeout=300, cancel=cancel)["uploads"][0]
         filenames[role] = "/".join(x for x in (item.get("subfolder", ""), item["cloud_name"]) if x)
-    for node, field, role in (("cloud_source_file", "file", "source"), ("cloud_mask_file", "file", "generation_mask"), ("image", "image", "source"), ("reference", "image", "reference")):
-        if node in graph:
-            graph[node]["inputs"][field] = filenames[role]
+    for node, field, role in input_slots(graph):
+        graph[node]["inputs"][field] = filenames[role]
     path = output_dir / "workflow.cloud.json"
     path.write_text(json.dumps(graph, indent=2))
     cancel()
@@ -309,14 +318,14 @@ def _run_cli(graph, prepared, output_dir, settings, progress, cancel):
             if terminal:
                 if state != "completed":
                     detail = str(status.get("error_message") or status.get("execution_error") or "No output generated")[:1200]
-                    hint = " The hosted service stopped this job. Try fewer frames/lower resolution or Modal/local; the requested duration was not changed and the job was not retried." if "exceeded maximum limit" in detail.lower() else ""
+                    hint = " The hosted service stopped this job. Try fewer frames/lower resolution or Local ComfyUI; the requested duration was not changed and the job was not retried." if "exceeded maximum limit" in detail.lower() else ""
                     raise ProviderError(f"Hosted Cloud {state} (job {ident}): {detail}" + hint)
                 break
             progress(.15, "Comfy Cloud: " + state)
             if time.monotonic() - start > 7200:
                 raise ProviderError("Hosted Cloud exceeded two hours; cancellation requested.")
             time.sleep(3)
-        progress(.86, "Downloading Cloud-generated lossless frames")
+        progress(.86, "Downloading Cloud-generated media")
         downloads = _cli(settings, ["download", ident, "--where", "cloud", "--out-dir", str(output_dir / "cloud-output")], timeout=600, cancel=cancel)
         by_url = {item["url"]: Path(item["path"]) for item in downloads["files"]}
         outputs = {node: [by_url[url] for url in urls if url in by_url] for node, urls in status["outputs_by_node"].items()}
@@ -350,9 +359,8 @@ def _run_sdk(graph, prepared, request, output_dir, settings, progress, cancel):
             else:
                 os.environ["COMFY_BASE_URL"] = old
     workflow = client.workflows.from_json(graph)
-    for node, field, role in (("cloud_source_file", "file", "source"), ("cloud_mask_file", "file", "generation_mask"), ("image", "image", "source"), ("reference", "image", "reference")):
-        if node in graph:
-            workflow.set_input(node, field, client.assets.from_file(str(prepared[role])))
+    for node, field, role in input_slots(graph):
+        workflow.set_input(node, field, client.assets.from_file(str(prepared[role])))
     cancel(); progress(.08, "Submitting native graph to Comfy Cloud")
     job = client.submit(workflow, idempotency_key=request["job_id"])
     (output_dir / "provider-job.json").write_text(json.dumps({"provider": "comfy-cloud", "job_id": job.id, "auth_mode": "api-key", "url": HOSTED_URL}))
@@ -368,7 +376,8 @@ def _run_sdk(graph, prepared, request, output_dir, settings, progress, cancel):
         job.result()
         outputs = {}
         raw = output_dir / "cloud-output"; raw.mkdir(exist_ok=True)
-        for node in ("save", "save_audio"):
+        from .cloud_ltx25 import OUTPUT_NODES
+        for node in OUTPUT_NODES:
             if node not in graph:
                 continue
             outputs[node] = []
@@ -387,6 +396,9 @@ def _run_sdk(graph, prepared, request, output_dir, settings, progress, cancel):
 
 
 def run_hosted(request, assets, output_dir, settings, on_progress, is_cancelled):
+    if request["model_id"] == "ltx-2.5":
+        from .cloud_ltx25 import run
+        return run(request, assets, output_dir, settings, on_progress, is_cancelled)
     from PIL import Image
     import numpy as np
     from custom_nodes.openframe import media
@@ -424,7 +436,7 @@ def run_hosted(request, assets, output_dir, settings, on_progress, is_cancelled)
     trim = request.get("trim_start", 0)
     # Native SaveAudio keeps generated audio losslessly; the shared encoder reads
     # it as an audio source without a second waveform serialization.
-    if source_audio and outputs.get("save_audio"):
+    if source_audio:
         probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries", "stream=index", "-of", "csv=p=0", str(source_audio)], capture_output=True, timeout=30, check=True)
         if not probe.stdout.strip():
             source_audio = None
@@ -452,6 +464,14 @@ def run_hosted(request, assets, output_dir, settings, on_progress, is_cancelled)
             "mask_feather_method": logical.get("source", {}).get("inputs", {}).get("feather_method"),
             "match_lighting": save.get("match_lighting", False), "composite": "shared-custom-node-media-helper",
             "note": "The local replay graph includes the complete pipeline. The separately recorded Cloud graph executes diffusion only; local CPU preprocessing/compositing/audio encoding are explicit. Cloud PNG output quantizes generated RGB to 8 bits before local compositing."}}
+    if request["model_id"] == "ltx-2.3" and request["task"] in {"inpaint", "restyle"}:
+        metadata["audio_policy"] = {
+            "selected_mode": request.get("audio_mode"),
+            "legacy_flags_preserved": request.get("audio_mode") is None,
+            "mux_source": "generated" if source_audio in outputs.get("save_audio", []) else "source" if source_audio else "none",
+            "trim_start": trim,
+            "note": "Hosted diffusion/local mux routing. Output audio alignment and generated sound quality are not inferred from successful execution.",
+        }
     if tracking:
         metadata["tracking"] = tracking
     (output_dir / "workflow.cloud.json").write_text(json.dumps(executed, indent=2))

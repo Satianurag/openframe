@@ -57,6 +57,26 @@ def _sam2_masks(images, first):
     return masks
 
 
+class OpenFrameRecordVideoPrompt:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {"required": {"original": ("STRING", {"multiline": True}),
+                             "model_prompt": ("STRING", {"multiline": True}),
+                             "enhanced": ("BOOLEAN", {"default": False})}}
+
+    RETURN_TYPES = ("STRING",)
+    FUNCTION = "record"
+    CATEGORY = "OpenFrame/Video"
+    OUTPUT_NODE = True
+
+    def record(self, original, model_prompt, enhanced):
+        record = {"original": original, "model_prompt": model_prompt,
+                  "expanded": model_prompt if enhanced else "",
+                  "mode": "expand" if enhanced else "caption",
+                  "expander": "TextGenerateLTX2Prompt" if enhanced else None}
+        return {"ui": {"text": [model_prompt], "openframe_prompt": [record]}, "result": (model_prompt,)}
+
+
 class OpenFrameVideoInput:
     @classmethod
     def INPUT_TYPES(cls):
@@ -106,15 +126,17 @@ class OpenFramePadForRefinement:
     """Preserve aspect and pixels while making half-size latent dimensions valid."""
     @classmethod
     def INPUT_TYPES(cls):
-        return {"required": {"images": ("IMAGE",), "mask": ("MASK",)}}
+        return {"required": {"images": ("IMAGE",), "mask": ("MASK",)}, "optional": {"multiple": ("INT", {"default": 64, "min": 64, "max": 128, "step": 64})}}
     RETURN_TYPES = ("IMAGE", "MASK")
     FUNCTION = "pad"
     CATEGORY = "OpenFrame/VFX"
 
-    def pad(self, images, mask):
+    def pad(self, images, mask, multiple=64):
         import torch.nn.functional as F
+        if multiple not in {64, 128}:
+            raise ValueError("Refinement padding must use a 64 or 128 pixel multiple.")
         height, width = images.shape[1:3]
-        right, bottom = (-width) % 64, (-height) % 64
+        right, bottom = (-width) % multiple, (-height) % multiple
         if not right and not bottom:
             return images, mask
         padded = F.pad(images.movedim(-1, 1), (0, right, 0, bottom), mode="replicate").movedim(1, -1)
@@ -124,14 +146,14 @@ class OpenFramePadForRefinement:
 class OpenFrameSaveVideo:
     @classmethod
     def INPUT_TYPES(cls):
-        return {"required": {"images": ("IMAGE",), "fps": ("FLOAT", {"default": 24, "min": 1, "max": 120}), "frames": ("INT", {"default": 49, "min": 1, "max": 241}), "filename_prefix": ("STRING", {"default": "OpenFrame"}), "preserve_outside_mask": ("BOOLEAN", {"default": True}), "preserve_audio": ("BOOLEAN", {"default": True}), "source_filename": ("STRING", {"default": ""}), "trim_start": ("FLOAT", {"default": 0, "min": 0, "max": 36000}), "export_mask": ("BOOLEAN", {"default": True})}, "optional": {"source": ("IMAGE",), "mask": ("MASK",), "audio": ("AUDIO",), "match_lighting": ("BOOLEAN", {"default": False})}}
+        return {"required": {"images": ("IMAGE",), "fps": ("FLOAT", {"default": 24, "min": 1, "max": 120}), "frames": ("INT", {"default": 49, "min": 1, "max": 2401}), "filename_prefix": ("STRING", {"default": "OpenFrame"}), "preserve_outside_mask": ("BOOLEAN", {"default": True}), "preserve_audio": ("BOOLEAN", {"default": True}), "source_filename": ("STRING", {"default": ""}), "trim_start": ("FLOAT", {"default": 0, "min": 0, "max": 36000}), "export_mask": ("BOOLEAN", {"default": True})}, "optional": {"source": ("IMAGE",), "mask": ("MASK",), "audio": ("AUDIO",), "match_lighting": ("BOOLEAN", {"default": False}), "encoding_quality": (["legacy", "standard", "high"], {"default": "legacy"})}}
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("video_path",)
     OUTPUT_NODE = True
     FUNCTION = "save"
     CATEGORY = "OpenFrame/Video"
 
-    def save(self, images, fps, frames, filename_prefix, preserve_outside_mask, preserve_audio, source_filename="", trim_start=0, source=None, mask=None, audio=None, export_mask=True, match_lighting=False):
+    def save(self, images, fps, frames, filename_prefix, preserve_outside_mask, preserve_audio, source_filename="", trim_start=0, source=None, mask=None, audio=None, export_mask=True, match_lighting=False, encoding_quality="legacy"):
         if len(images) < frames:
             raise ValueError(f"Model returned {len(images)} frames, fewer than the requested {frames}.")
         images = images[:frames, ..., :3].detach().cpu()
@@ -157,7 +179,7 @@ class OpenFrameSaveVideo:
         encode_video(target, pixels(), width, height, fps, frames,
                      source_audio=_input_path(source_filename) if preserve_audio and source_filename else None,
                      trim_start=trim_start, audio=audio_data,
-                     check_cancelled=comfy.model_management.throw_exception_if_processing_interrupted)
+                     check_cancelled=comfy.model_management.throw_exception_if_processing_interrupted, encoding_quality=encoding_quality)
         outputs = [{"filename": name, "subfolder": "openframe", "type": "output", "format": "video/mp4", "fps": fps, "role": "result"}]
         if export_mask and mask is not None:
             mask_name = "mask_" + name
@@ -168,3 +190,106 @@ class OpenFrameSaveVideo:
 
 NODE_CLASS_MAPPINGS = {"OpenFrameVideoInput": OpenFrameVideoInput, "OpenFrameGreenFill": OpenFrameGreenFill, "OpenFramePadForRefinement": OpenFramePadForRefinement, "OpenFrameSaveVideo": OpenFrameSaveVideo}
 NODE_DISPLAY_NAME_MAPPINGS = {"OpenFrameVideoInput": "OpenFrame · Video + Tracked Mask", "OpenFrameGreenFill": "OpenFrame · LTX Inpaint Guide", "OpenFramePadForRefinement": "OpenFrame · Pad for Two-Stage Refinement", "OpenFrameSaveVideo": "OpenFrame · Preserve Plate + Save Video"}
+NODE_CLASS_MAPPINGS["OpenFrameRecordVideoPrompt"] = OpenFrameRecordVideoPrompt
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameRecordVideoPrompt"] = "OpenFrame · Record Model Prompt"
+from .speech import OpenFrameKokoroSpeech, OpenFrameSaveAudio
+NODE_CLASS_MAPPINGS.update(OpenFrameKokoroSpeech=OpenFrameKokoroSpeech, OpenFrameSaveAudio=OpenFrameSaveAudio)
+NODE_DISPLAY_NAME_MAPPINGS.update(OpenFrameKokoroSpeech="OpenFrame · Kokoro CPU Speech", OpenFrameSaveAudio="OpenFrame · Save WAV")
+
+from .image import OpenFrameFlux3Prompt, OpenFrameSaveImage
+from .video_tools import OpenFrameVideoEdit
+NODE_CLASS_MAPPINGS.update(OpenFrameFlux3Prompt=OpenFrameFlux3Prompt, OpenFrameSaveImage=OpenFrameSaveImage, OpenFrameVideoEdit=OpenFrameVideoEdit)
+NODE_DISPLAY_NAME_MAPPINGS.update(OpenFrameFlux3Prompt="OpenFrame · FLUX3 Caption + Layout", OpenFrameSaveImage="OpenFrame · Preserve Pixels + Save PNG", OpenFrameVideoEdit="OpenFrame · Trim + Reframe")
+
+from .advanced_video import NODE_CLASS_MAPPINGS as ADVANCED_VIDEO_NODES, NODE_DISPLAY_NAME_MAPPINGS as ADVANCED_VIDEO_NAMES
+NODE_CLASS_MAPPINGS.update(ADVANCED_VIDEO_NODES)
+NODE_DISPLAY_NAME_MAPPINGS.update(ADVANCED_VIDEO_NAMES)
+
+from .image_canvas import OpenFrameExpandImageCanvas, OpenFrameImageEditCanvas, OpenFrameLoadImageMask, OpenFrameImageRegionInfo
+NODE_CLASS_MAPPINGS["OpenFrameImageRegionInfo"] = OpenFrameImageRegionInfo
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameImageRegionInfo"] = "OpenFrame · Image Region Provenance"
+NODE_CLASS_MAPPINGS["OpenFrameExpandImageCanvas"] = OpenFrameExpandImageCanvas
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameExpandImageCanvas"] = "OpenFrame · Expand Image Canvas"
+NODE_CLASS_MAPPINGS["OpenFrameImageEditCanvas"] = OpenFrameImageEditCanvas
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameImageEditCanvas"] = "OpenFrame · Image Preservation Canvas"
+NODE_CLASS_MAPPINGS["OpenFrameLoadImageMask"] = OpenFrameLoadImageMask
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameLoadImageMask"] = "OpenFrame · Exact Image Mask"
+
+from .training import NODE_CLASS_MAPPINGS as TRAINING_NODES, NODE_DISPLAY_NAME_MAPPINGS as TRAINING_NAMES
+NODE_CLASS_MAPPINGS.update(TRAINING_NODES)
+NODE_DISPLAY_NAME_MAPPINGS.update(TRAINING_NAMES)
+
+from .hdr_output import OpenFrameSaveHDRVideo
+NODE_CLASS_MAPPINGS["OpenFrameSaveHDRVideo"] = OpenFrameSaveHDRVideo
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameSaveHDRVideo"] = "OpenFrame · HDR export"
+
+from .interpolation import OpenFrameLoadLDF
+NODE_CLASS_MAPPINGS.update(OpenFrameLoadLDF=OpenFrameLoadLDF)
+NODE_DISPLAY_NAME_MAPPINGS.update(OpenFrameLoadLDF="OpenFrame · Load LDF-VFI")
+
+from .transitions import OpenFrameTransitionInputs, OpenFrameTransitionGuide, OpenFrameSaveTransition
+NODE_CLASS_MAPPINGS.update(OpenFrameTransitionInputs=OpenFrameTransitionInputs, OpenFrameTransitionGuide=OpenFrameTransitionGuide, OpenFrameSaveTransition=OpenFrameSaveTransition)
+NODE_DISPLAY_NAME_MAPPINGS.update(OpenFrameTransitionInputs="OpenFrame · Transition Endpoints", OpenFrameTransitionGuide="OpenFrame · Transition Midpoint Guide", OpenFrameSaveTransition="OpenFrame · Save Transition")
+
+from .depth import OpenFrameVideoDepth
+NODE_CLASS_MAPPINGS.update(OpenFrameVideoDepth=OpenFrameVideoDepth)
+NODE_DISPLAY_NAME_MAPPINGS.update(OpenFrameVideoDepth="OpenFrame · Temporal Video Depth")
+
+from .layers import OpenFrameSaveLayers
+NODE_CLASS_MAPPINGS.update(OpenFrameSaveLayers=OpenFrameSaveLayers)
+NODE_DISPLAY_NAME_MAPPINGS.update(OpenFrameSaveLayers="OpenFrame · Save RGBA Layers")
+
+from .narration import NODE_CLASS_MAPPINGS as NARRATION_CLASSES, NODE_DISPLAY_NAME_MAPPINGS as NARRATION_NAMES
+NODE_CLASS_MAPPINGS.update(NARRATION_CLASSES)
+NODE_DISPLAY_NAME_MAPPINGS.update(NARRATION_NAMES)
+
+from .semantic_matte import OpenFrameSemanticMatte
+NODE_CLASS_MAPPINGS["OpenFrameSemanticMatte"] = OpenFrameSemanticMatte
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameSemanticMatte"] = "OpenFrame · Prompted soft video matte"
+
+from .restyle import OpenFrameCannyGuide, OpenFrameRestyleFirstFrame
+NODE_CLASS_MAPPINGS["OpenFrameCannyGuide"] = OpenFrameCannyGuide
+NODE_CLASS_MAPPINGS["OpenFrameRestyleFirstFrame"] = OpenFrameRestyleFirstFrame
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameRestyleFirstFrame"] = "OpenFrame · Weather First Frame"
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameCannyGuide"] = "OpenFrame · Canny Video Guide"
+
+from .inpaint_reference import OpenFrameInpaintFirstFrame
+NODE_CLASS_MAPPINGS["OpenFrameInpaintFirstFrame"] = OpenFrameInpaintFirstFrame
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameInpaintFirstFrame"] = "OpenFrame · Edited Inpaint Starting Frame"
+
+from .recast import OpenFrameRecastMasks, OpenFrameRecastOfficialSupport
+from .reference_foreground import OpenFrameReferenceForeground
+NODE_CLASS_MAPPINGS["OpenFrameReferenceForeground"] = OpenFrameReferenceForeground
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameReferenceForeground"] = "OpenFrame · Clean Reference Edges"
+NODE_CLASS_MAPPINGS["OpenFrameRecastMasks"] = OpenFrameRecastMasks
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameRecastMasks"] = "OpenFrame · Recast Mask Guard and Plate Support"
+
+NODE_CLASS_MAPPINGS["OpenFrameRecastOfficialSupport"] = OpenFrameRecastOfficialSupport
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameRecastOfficialSupport"] = "OpenFrame · Official SAM3.1 Composite Support"
+
+from .relight_sphere import OpenFrameRelightSphere
+NODE_CLASS_MAPPINGS["OpenFrameRelightSphere"] = OpenFrameRelightSphere
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameRelightSphere"] = "OpenFrame · Prepared Lighting Sphere"
+
+from .plate_fit import OpenFrameFitPlate
+NODE_CLASS_MAPPINGS["OpenFrameFitPlate"] = OpenFrameFitPlate
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameFitPlate"] = "OpenFrame · Fit Generated Lighting to Plate"
+
+from .planner import OpenFrameVisualPlanner
+NODE_CLASS_MAPPINGS["OpenFrameVisualPlanner"] = OpenFrameVisualPlanner
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameVisualPlanner"] = "OpenFrame · Visual Shot Planner"
+
+from .image_brightness import OpenFrameImageBrightness
+NODE_CLASS_MAPPINGS["OpenFrameImageBrightness"] = OpenFrameImageBrightness
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameImageBrightness"] = "OpenFrame · Post-render Brightness"
+
+from .editvid import OpenFrameEditVidInput
+NODE_CLASS_MAPPINGS["OpenFrameEditVidInput"] = OpenFrameEditVidInput
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameEditVidInput"] = "OpenFrame · Selected EditVid Interval"
+
+from .portrait_alpha import OpenFramePortraitAlphas
+NODE_CLASS_MAPPINGS['OpenFramePortraitAlphas'] = OpenFramePortraitAlphas
+NODE_DISPLAY_NAME_MAPPINGS['OpenFramePortraitAlphas'] = 'Portrait alpha refinement (source + generated)'
+from .portrait_alpha import OpenFrameImageAlpha
+NODE_CLASS_MAPPINGS['OpenFrameImageAlpha'] = OpenFrameImageAlpha
+NODE_DISPLAY_NAME_MAPPINGS['OpenFrameImageAlpha'] = 'Image alpha refinement (ViTMatte)'

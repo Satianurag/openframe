@@ -66,8 +66,9 @@ def main() -> int:
     signal.signal(signal.SIGINT, stop)
     signal.signal(signal.SIGTERM, stop)
     try:
+        extras = ["--extra", "cloud"]
         children.append(subprocess.Popen(
-            ["uv", "run", "--python", "3.12", "--extra", "modal", "--extra", "cloud", "uvicorn", "backend.app:app", "--host", "127.0.0.1", "--port", str(api_port)],
+            ["uv", "run", "--python", "3.12", *extras, "uvicorn", "backend.app:app", "--host", "127.0.0.1", "--port", str(api_port)],
             cwd=ROOT, env=child_env, start_new_session=os.name == "posix",
         ))
         children.append(subprocess.Popen(

@@ -25,11 +25,6 @@ export function SettingsPanel({
     'comfy_url',
     'comfy_cloud_url',
     'comfy_cli_path',
-    'modal_app',
-    'modal_environment',
-    'modal_function',
-    'modal_volume',
-    'modal_progress_dict',
   ]);
   const [draft, setDraft] = useState({ ...settings });
   const [secrets, setSecrets] = useState<Record<string, string>>({});
@@ -109,13 +104,17 @@ export function SettingsPanel({
     <Modal title="Your compute, your choice" onClose={onClose} wide>
       <div className="modal-content settings-content">
         <p className="muted">Choose local or cloud generation. Credentials stay on your server.</p>
+        {settings.default_provider_notice && <p className="muted" role="status">{settings.default_provider_notice}</p>}
         <label className="input-label">
           Default execution
           <select
-            value={draft.default_provider || 'modal'}
+            value={draft.default_provider || 'local'}
             onChange={(e) => setDraft((s) => ({ ...s, default_provider: e.target.value }))}
           >
-            {providers.map((p) => (
+            {draft.default_provider && !providers.some((provider) => provider.id === draft.default_provider) && (
+              <option value={draft.default_provider} disabled>Saved connection is disabled</option>
+            )}
+            {providers.filter((p) => ['local', 'comfy-cloud'].includes(p.id)).map((p) => (
               <option key={p.id} value={p.id}>
                 {p.name}
               </option>
@@ -123,7 +122,7 @@ export function SettingsPanel({
           </select>
         </label>
         <div className="settings-grid">
-          {providers.map((p) => (
+          {providers.filter((p) => ['local', 'comfy-cloud'].includes(p.id)).map((p) => (
             <section className="connection-card" key={p.id}>
               <h3>
                 <Icon name={p.id === 'local' ? 'monitor' : 'cloud'} />
@@ -134,16 +133,6 @@ export function SettingsPanel({
                   {field('comfy_url', 'ComfyUI address', 'http://127.0.0.1:8188')}
                   {field('comfy_api_key', 'Bearer token (optional)', 'Token', true)}
                   <p>Run ComfyUI with the required models and OpenFrame nodes installed.</p>
-                </>
-              ) : p.id === 'modal' ? (
-                <>
-                  {field('modal_app', 'Modal app', 'openframe-comfy')}
-                  {field('modal_environment', 'Environment', 'main')}
-                  {field('modal_function', 'Render function', 'render')}
-                  <p>
-                    Uses the Modal account configured on your server. Model files stay cached on a
-                    Modal Volume.
-                  </p>
                 </>
               ) : (
                 <>
@@ -165,11 +154,13 @@ export function SettingsPanel({
                     cloud.comfy.org.
                   </p>
                   <p>
-                    Hosted Cloud runs generation with its available models and native nodes. Source
-                    preparation, mask tracking, and final compositing run locally. SAM2 requires a
-                    compatible local ComfyUI connection configured here; static and optical-flow
-                    masks need no local model runtime. Check the available methods below. Custom
-                    deployments must include the workflow’s nodes and checkpoints.
+                    Hosted support is specific to the model and operation. LTX2.5 currently exposes
+                    masked Remove/Replace; Water and Sphere Relight require local ComfyUI in the
+                    public app. LTX2.3 uses local CPU finishing. LTX2.5 returns native video, with
+                    selected additional finishing on the app server. Both routes prepare source and
+                    masks through the app. SAM2 requires a compatible local ComfyUI connection;
+                    static and optical-flow masks need no local model runtime. Check available
+                    methods below. Custom deployments must include the workflow’s nodes and checkpoints.
                   </p>
                   <p role="status">
                     {settings.comfy_cloud_auth?.mode === 'api-key' ? (

@@ -1,0 +1,77 @@
+{
+  "scope": "Public starter/reference media only; historical OpenFrame outputs and frozen releases remain untouched. These are Higgsfield examples, not evidence of OpenFrame execution.",
+  "evidence": [
+    "docs/reference-assets.json",
+    "artifacts/reference/separate-apps/codex-video-depth-resolution-dom.txt",
+    "artifacts/reference/fresh-2026-10-30/images/manifest.json",
+    "artifacts/reference/fresh-2026-10-30/starter-mappings/sources.json"
+  ],
+  "items": {
+    "text-to-video": {
+      "poster": "https://static-public-media.higgsfield.ai/what-if-styles/published/e0cfd82b68d60927791d6061d7e7627690a1e9519ee247f5950bb2eb237b21ce",
+      "video": "https://static-public-media.higgsfield.ai/what-if-styles/published/040e4aa0061dfb0f14e7de34a54fe75ccf2de3c7e796e5a616af6cf88bc78eac",
+      "page": "https://higgsfield.ai/content-factory",
+      "label": "Higgsfield public style example"
+    },
+    "image-to-video": {
+      "poster": "https://cdn.higgsfield.ai/card/5fbc1e60-009c-4a23-b804-7a7c5a2376d3.webp",
+      "page": "https://higgsfield.ai/apps/paint-app",
+      "label": "Higgsfield input-image example"
+    },
+    "remove-object": {
+      "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/smart-clean-up.webp",
+      "page": "https://higgsfield.ai/ai/video/edit",
+      "label": "Higgsfield Smart Clean Up reference"
+    },
+    "replace-object": {
+      "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/precise-object-swap.webp",
+      "page": "https://higgsfield.ai/ai/video/edit",
+      "label": "Higgsfield Precise Object Swap reference"
+    },
+    "restyle": {
+      "poster": "https://static.higgsfield.ai/video-edit-tutorial/recolor-restyle.webp",
+      "page": "https://higgsfield.ai/ai/video/edit",
+      "label": "Higgsfield Recolor & Restyle reference"
+    },
+    "cinematic": {
+      "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.webp",
+      "video": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.mp4",
+      "page": "https://higgsfield.ai/ai/video/edit",
+      "label": "Higgsfield Relight & Atmosphere reference"
+    },
+    "relight": {
+      "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.webp",
+      "video": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.mp4",
+      "page": "https://higgsfield.ai/ai/video/edit",
+      "label": "Higgsfield Relight & Atmosphere reference"
+    },
+    "weather": {
+      "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.webp",
+      "video": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.mp4",
+      "page": "https://higgsfield.ai/ai/video/edit",
+      "label": "Higgsfield atmosphere reference; not an OpenFrame weather result"
+    },
+    "video-outpaint": {
+      "poster": "https://static.higgsfield.ai/video-edit-tutorial/v4/re-frame-composition.webp",
+      "page": "https://higgsfield.ai/ai/video/edit",
+      "label": "Higgsfield Re-frame & Composition reference"
+    },
+    "product-reveal": {
+      "poster": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Product.webp",
+      "video": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Product.mp4",
+      "page": "https://higgsfield.ai/marketing-studio",
+      "label": "Higgsfield Product shot reference"
+    },
+    "slow-motion": {
+      "poster": "https://static.higgsfield.ai/c894871c-6906-40be-8bba-b50652dd7646.webp",
+      "video": "https://static.higgsfield.ai/c894871c-6906-40be-8bba-b50652dd7646.mp4",
+      "page": "https://higgsfield.ai/motion/ae4a319d-a06f-4b30-8b67-55a35a22f24a",
+      "label": "Higgsfield Glam slow-motion reference"
+    },
+    "dissolve": {
+      "video": "https://cdn.higgsfield.ai/minimax_hailuo_sample/c8090662-b51f-44d2-b675-364c10437e9d.mp4",
+      "page": "https://higgsfield.ai/motion/1422c31c-7648-4b23-94ca-de200ad1bbc6",
+      "label": "Higgsfield Gas Transformation dissolve reference"
+    }
+  }
+}

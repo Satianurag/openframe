@@ -18,11 +18,13 @@ ROOT_FILES = {
     "frontend/package.json", "frontend/package-lock.json", "frontend/index.html", "frontend/README.md",
     "frontend/tsconfig.json", "frontend/tsconfig.node.json", "frontend/vite.config.ts",
     "frontend/eslint.config.js", "frontend/.prettierrc.json",
+    "frontend/src/vendor/sphere-light/LICENSE", "frontend/src/vendor/sphere-light/THREE-LICENSE",
 }
-SOURCE_DIRS = ("backend", "engine", "custom_nodes", "deploy", "workflows", "scripts", "docs", "recipes", "tests", "frontend/src")
+SOURCE_DIRS = ("backend", "engine", "custom_nodes", "workflows", "scripts", "docs", "recipes", "tests", "frontend/src")
 SOURCE_SUFFIXES = {".py", ".md", ".json", ".toml", ".txt", ".yaml", ".yml", ".sh", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".css", ".html", ".svg"}
 PUBLIC_SUFFIXES = {".svg", ".png", ".jpg", ".jpeg", ".webp", ".avif", ".ico", ".woff", ".woff2", ".ttf", ".otf", ".mp4", ".webm", ".json", ".txt"}
-EXCLUDED_DIRS = {".git", ".venv", "venv", "node_modules", "__pycache__", ".pytest_cache", ".mypy_cache", ".openframe", "artifacts", "data", "uploads", "renders", "dist", "build"}
+EXCLUDED_DIRS = {".git", ".venv", "venv", "node_modules", "__pycache__", ".pytest_cache", ".mypy_cache", ".openframe", "artifacts", "data", "uploads", "renders", "dist", "build", "reference-media"}
+EXCLUDED_FILES = {"docs/PRIVATE-DEVELOPMENT.md", "engine/tests/test_runner_modal.py", "tests/test_modal_transfer.py", "engine/tests/validate_sam2.py"}
 MAX_FILE_BYTES = 50 * 1024 * 1024
 MAX_TOTAL_BYTES = 250 * 1024 * 1024
 
@@ -46,7 +48,7 @@ def source_files(root: Path) -> list[Path]:
             directories[:] = sorted(name for name in directories if name not in EXCLUDED_DIRS and not (Path(current) / name).is_symlink())
             for filename in filenames:
                 path = Path(current) / filename
-                if path.suffix.lower() in suffixes and allowed_name(path):
+                if path.suffix.lower() in suffixes and allowed_name(path) and path.relative_to(root).as_posix() not in EXCLUDED_FILES:
                     chosen.add(path)
     return sorted(chosen, key=lambda path: path.relative_to(root).as_posix())
 
@@ -74,7 +76,7 @@ def main() -> int:
     if shutil.disk_usage(output.parent).free < total + 10 * 1024 * 1024:
         raise ValueError("Not enough free space to package the selected source")
     release = {"project": "OpenFrame", "format": "source-package-v1", "uncompressed_bytes": total, "files": manifest,
-               "excludes": ["credentials", "local studio data", "model weights", "dependencies", "reference screenshots", "validation media"]}
+               "excludes": ["credentials", "local studio data", "model weights", "dependencies", "reference screenshots", "validation media", "private GPU worker/setup/tests"]}
     # An unchanged source tree should not rewrite an identical release archive.
     if output.is_file():
         try:

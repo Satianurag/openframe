@@ -26,10 +26,10 @@ export function SceneArt({ id, children }: { id: string; children?: ReactNode })
     <div
       className={`scene-art scene-${art.className}`}
       title={
-        previewSources[id] && !missing
+        (previewSources[id] || previewVideos[id]) && !missing
           ? previewDescriptions[id] ||
-            'Original generated preview; see preview provenance for model and settings'
-          : 'Authored workflow illustration, not a generated result'
+            'Public Higgsfield reference example, not an OpenFrame output'
+          : 'Reference preview unavailable'
       }
     >
       {!missing && previewVideos[id] ? (
@@ -50,9 +50,7 @@ export function SceneArt({ id, children }: { id: string; children?: ReactNode })
             className="effect-poster"
             src={previewSources[id]}
             alt={
-              id === 'text-to-video'
-                ? 'Original LTX Fast text-to-video example'
-                : 'Original generated workflow preview'
+              previewDescriptions[id] || 'Public Higgsfield reference example'
             }
             onError={() => setMissing(true)}
           />
@@ -69,14 +67,8 @@ export function SceneArt({ id, children }: { id: string; children?: ReactNode })
           <span className="preview-comparison-label">Before / After</span>
         </>
       )}
-      {(!previewSources[id] || missing) && (
-        <div className="scene-geometry" aria-hidden="true">
-          <div className="scene-orb" />
-          <div className="scene-ring" />
-          <div className="scene-floor" />
-          <div className="scene-object" />
-          <div className="scene-particles" />
-        </div>
+      {((!previewSources[id] && !previewVideos[id]) || missing) && (
+        <span className="muted small">Reference preview unavailable</span>
       )}
       {children}
     </div>

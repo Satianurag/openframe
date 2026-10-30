@@ -1,0 +1,52 @@
+.mini-billboard-stages {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #ffffff18;
+  border-radius: 14px;
+}
+.mini-billboard-stages label:has(input[type='checkbox']) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.mini-billboard-stages input[type='checkbox'] {
+  width: auto;
+}
+.mini-billboard-stages h3,
+.mini-billboard-stages p {
+  margin: 0;
+}
+.mini-billboard-stages small {
+  color: #a0a4ac;
+  line-height: 1.5;
+}
+.mini-billboard-run {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #ffffff20;
+  border-radius: 10px;
+}
+.mini-billboard-run > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.mini-billboard-run > div small {
+  flex-basis: 100%;
+  color: #ffb8ab;
+}
+.mini-billboard-run button,
+.mini-billboard-run a {
+  padding: 7px 10px;
+  border: 1px solid #ffffff24;
+  border-radius: 7px;
+  font-size: 12px;
+}
+.mini-billboard-run video {
+  width: 100%;
+  max-height: 400px;
+}

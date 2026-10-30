@@ -1,3 +1,5 @@
 opencv-python-headless>=4.10,<5
+scipy>=1.14,<2
+numba==0.61.2
 # Optional semantic temporal tracking; SAM2_BUILD_CUDA=0 avoids an unnecessary extension build.
 # Install with: SAM2_BUILD_CUDA=0 pip install git+https://github.com/facebookresearch/sam2.git@2b90b9f5ceec907a1c18123530e92e794ad901a4

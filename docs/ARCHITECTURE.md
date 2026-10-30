@@ -1,5 +1,14 @@
 # Architecture
 
+The new FLUX3 image pipeline keeps native ComfyUI encoders, reference latents,
+sampling and decoding. A node records explicit native prompt expansion and exact
+layout JSON; a second node optionally copies protected original pixels into the
+final PNG. These are separate guarantees: references and boxes guide synthesis,
+while the mask controls deterministic postprocessing. Recorded job metadata and
+bundles preserve both stages. Component aliases prevent a new VAE from replacing
+older Klein dependencies. See [the full source implementation contract](FLUX3.md);
+its scoped quality limits are recorded separately from exact pixel-preservation checks.
+
 OpenFrame has three runtime boundaries: a browser studio, a local durable API and a selected ComfyUI execution provider. The application does not implement diffusion inference in its web server. Every generative model profile produces an explicit ComfyUI API graph.
 
 ## Request path
@@ -14,10 +23,9 @@ React studio / scripts/render.py
       one background render worker
               |
         selected provider
-        /       |        \
-   local     Modal      Comfy API
- ComfyUI    ComfyUI     deployment
-        \       |        /
+          /             \
+   Local ComfyUI     Comfy Cloud
+          \             /
         full output media
               |
    asset library + job provenance
@@ -63,11 +71,13 @@ Wan image-to-video supplies the uploaded image to VACE's control-video branch wi
 
 New graphs explicitly select `smooth-inward` feathering: a smoothed signed mask-distance contour feeds an interior smoothstep, capped by the original inward ramp. This reduces rasterized diagonal boundaries without blurring footage or changing exterior pixels. Dilation expands generation context, not the final preservation region. The source node's optional `feather_method` defaults to the earlier Gaussian behavior when absent; explicit earlier `inward` graphs retain their distance-ramp behavior. The save node's optional `match_lighting` likewise defaults to false; current removal graphs explicitly enable it. Stored execution graphs are exported unchanged except for portable input filenames, so an older job is not silently converted to the latest replacement or feathering pipeline. Retrying its request creates a new job using the current template.
 
-`engine/runner.py` owns provider transport and job execution. Local execution uploads assets to the chosen ComfyUI instance and collects its real outputs. Modal executes a ComfyUI worker with persistent remote caches. A custom Comfy API endpoint requires the complete models and utility-node deployment.
+`engine/runner.py` owns provider transport and job execution. Local execution uploads assets to the chosen ComfyUI instance and collects its real outputs. The configured Local endpoint requires the selected models and utility-node runtime. Hosted Comfy Cloud has a separate adapter and a restricted model/task catalogue.
 
 `engine/cloud.py` handles hosted Comfy Cloud separately. An API key uses the SDK; otherwise an authenticated installed CLI can submit to the actual hosted GPU service through OAuth. This is not the partner-model Router API. Credentials remain in the SDK/CLI process and never enter exported graphs. Live node/model availability is checked before GPU submission; missing exact weights and unsupported tracking fail explicitly.
 
-Hosted Cloud does not install arbitrary utility-node packs. `custom_nodes/openframe/media.py` therefore supplies the identical CPU mask, compositing and encoding operations to both the native nodes and the host adapter, without requiring Torch in the web-server environment. The app prepares aligned, lossless RGB source and generation-mask video. Native Cloud nodes load those frames, construct the green guide and execute the selected model graph; two-stage removal remains one Cloud job. Native SaveImage returns lossless 8-bit PNG frames. Local CPU processing composites the original plate, preserves/encodes audio and writes the final video. Generated pixels are quantized to 8 bits before this local composite; bitwise equality with a native float-buffer pipeline is not promised. The host bounds estimated media buffers to 2 GiB and streams final encoding; downloaded raw frames are transient while prepared inputs remain for provenance.
+Hosted Cloud does not install arbitrary utility-node packs. The following PNG-returning route describes the LTX2.3 adapter. LTX2.5 inpaint uses the native video/composite adapter described below. `custom_nodes/openframe/media.py` therefore supplies the identical CPU mask, compositing and encoding operations to both the native nodes and the host adapter, without requiring Torch in the web-server environment. The app prepares aligned, lossless RGB source and generation-mask video. Native Cloud nodes load those frames, construct the green guide and execute the selected model graph; two-stage removal remains one Cloud job. Native SaveImage returns lossless 8-bit PNG frames. Local CPU processing composites the original plate, preserves/encodes audio and writes the final video. Generated pixels are quantized to 8 bits before this local composite; bitwise equality with a native float-buffer pipeline is not promised. The host bounds estimated media buffers to 2 GiB and streams final encoding; downloaded raw frames are transient while prepared inputs remain for provenance.
+
+LTX2.5 inpaint uses native hosted source/mask loaders, IC-LoRA sampling, final plate compositing and video/audio output. The app still prepares aligned inputs and tracks masks when requested. Optional removal lighting correction, replacement plate fitting and selected output encoding are explicit host finishing; these consume the uncomposited lossless generation and original source/mask to avoid applying the feather twice. Source/generated/silent audio modes retain their declared semantics. Other LTX2.5 tasks are not enabled on Cloud. Catalogue/schema/CPU/export checks passed; a new live LTX2.5 Cloud run has not been performed.
 
 The hosted service can stop a submitted workload at its own execution limit. OpenFrame preserves that failure and the requested frame count; it does not automatically lower resolution, shorten duration or submit a paid retry. The observed 97-frame portrait removal failed, while an explicitly requested 49-frame version completed. These observations do not establish a universal service limit. Cloud metadata `seconds` measures transport through final encoding after initial local preparation; it is not pure GPU time and excludes the initial SAM2/preparation phase.
 
@@ -77,10 +87,21 @@ Provider credentials stay server-side. Saved settings override environment defau
 
 ## Reproducibility and handoff
 
-Each job records its resolved model, effect, provider, seed, parameters and source IDs. Successful execution stores the graph and engine metadata. `/api/jobs/{id}/workflow` exports its stored complete local replay recipe. `/api/jobs/{id}/bundle` streams a recipe ZIP containing graph, manifest, source hashes, pinned runtime/model and selected tracker requirements, custom-node code and setup instructions. With `include_media=true`, it also streams original source/mask/reference files under names already bound into the portable graph. No duplicate ZIP is written to server disk. Model weights and generated output media remain separate. For local/Modal/custom-deployment jobs, the full recipe is the actual executed graph. Hosted Cloud records its actual diffusion graph separately as `workflow_executed_api.json`, with a portable copy in `workflow_cloud_api.json`, prepared inputs and `CLOUD-PROCESSING.json` describing the local processing boundary. The Cloud graph alone produces intermediate frames, not the final composite. Pinned local runtime requirements describe replay, not Cloud's provider-managed runtime. A canvas graph is included only when supplied; the hosted hybrid route currently exports API graphs.
+Each job records its resolved model, effect, provider, seed, parameters and source IDs. Successful execution stores the graph and engine metadata. `/api/jobs/{id}/workflow` exports its stored complete local replay recipe. `/api/jobs/{id}/bundle` streams a recipe ZIP containing graph, manifest, source hashes, pinned runtime/model and selected tracker requirements, custom-node code and setup instructions. With `include_media=true`, it also streams original source/mask/reference files under names already bound into the portable graph. No duplicate ZIP is written to server disk. Model weights and generated output media remain separate. For Local ComfyUI jobs, the full recipe is the actual executed graph. Hosted Cloud records its actual diffusion graph separately as `workflow_executed_api.json`, with a portable copy in `workflow_cloud_api.json`, prepared inputs and `CLOUD-PROCESSING.json` describing the local processing boundary. The LTX2.3 Cloud graph returns intermediate frames. The LTX2.5 inpaint graph returns a native composite video, with optional app finishing recorded separately. Pinned local runtime requirements describe replay, not Cloud's provider-managed runtime. A canvas graph is included only when supplied; the hosted hybrid route currently exports API graphs.
 
 `scripts/package_release.py` creates a separately reviewable source archive from explicit source/document/public-asset allowlists. It excludes `.env`, local studio data, dependencies, model weights, reference screenshots and validation media. A manifest contains per-file SHA-256 values. An unchanged source tree reuses an identical existing archive rather than rewriting it.
 
 ## Verification boundary
 
-The architecture supports local UI/API use and multiple compute targets. Actual verified executions, visual checks and remaining provider limitations belong in `docs/VALIDATION.md`. Source structure alone is not evidence of successful GPU inference or equivalent quality across models. Validation is performed after the complete requested implementation, following the user's development rule.
+The architecture supports local UI/API use and multiple compute targets. Current verified executions, visual checks and remaining provider limitations belong in `docs/DESKTOP-VALIDATION.md`; `docs/VALIDATION.md` retains earlier evidence. Source structure alone is not evidence of successful GPU inference or equivalent quality across models. Source, transport, inference and visual-quality verification are distinct.
+
+Separate app screens use additive `app_documents`, `app_document_assets` and `app_job_links` tables. Documents have schema and optimistic revision numbers; unchanged saves avoid rewriting state. A scoped submission atomically inserts the existing leaf job and a snapshot of its originating document. App history is a join over real jobs, not a separate inference queue. Retry retains that immutable attribution. Asset deletion protects both active documents and historical job snapshots. Existing jobs without app links remain global, and their stored workflow semantics are untouched. See APPS-API.md for the exact boundary. Saved generic boards and grouping labels do not themselves execute; the explicit reviewed sequence path below is a separate, bounded handler.
+
+
+## Reviewed shot sequences
+
+`backend/sequences.py` adds persisted planning proposals and ordered video sequences for the focused app screens. It reuses the existing serial job worker rather than introducing another GPU queue. Existing queued leaf jobs retain priority. Each explicit shot becomes an ordinary job with immutable document attribution, sequence ID and attempt history; an optional previous-frame dependency resolves only after the preceding real output exists. Independent shot rows bound state writes. Asset and job reference tables protect source media, intermediate frames, outputs and provenance until the sequence is removed.
+
+The configured Local visual planner uses pinned Qwen3.8 27B on a Linux CUDA ComfyUI host through its registered node and isolated runtime and can inspect up to four explicitly attached images/videos. Video analysis uses bounded timestamped visual samples and separately labelled heuristic cut candidates; it does not hear audio or analyze social links. The older local text-only planner remains a distinct path. Durable planning status, cancellation and immediate provider-call recording are separate from render approval. Neither path fabricates fallback proposals or auto-starts a sequence. The editor presents editorial target, aligned frame budget, actual shot outputs, explicit audio choices and render approval separately.
+
+A sequence dispatches one shot at a time. Failed/cancelled shots stop later dependencies; retry retains completed outputs. Once its required video/speech jobs succeed, bounded FFmpeg assembly joins matching geometry/FPS with the explicitly selected edit transition, without stretching, looping or hidden duration repair. Narration, a foreground soundtrack, background gain/ducking and captions are explicit inputs. Speech synthesis and optional recognition/alignment are durable child jobs; overlong narration fails rather than being cut. Final duration/frame count are checked before completion. Inactive narration/audio/caption corrections preserve completed video jobs and invalidate only the necessary speech/transcription/assembly work. Episode manifests retain leaf requests, hashes and derived-frame provenance. A later episode failure never becomes overall success. Restart recovery stops interrupted orchestration without automatic remote resubmission; recorded call IDs and completed jobs remain available for deliberate recovery.

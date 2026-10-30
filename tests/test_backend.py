@@ -115,9 +115,10 @@ class BackendIntegration(unittest.TestCase):
     def test_catalog_health_settings_and_redaction(self):
         self.assertEqual(self.client.get("/api/health").json()["status"], "ok")
         catalogue = self.client.get("/api/catalog").json()
-        self.assertEqual({p["id"] for p in catalogue["providers"]}, {"local", "modal", "comfy-cloud"})
+        expected = {"local", "comfy-cloud"}
+        self.assertEqual({p["id"] for p in catalogue["providers"]}, expected)
         secret = "test-only-provider-secret-value"
-        result = self.client.patch("/api/settings", json={"comfy_cloud_api_key": secret, "default_provider": "modal"})
+        result = self.client.patch("/api/settings", json={"comfy_cloud_api_key": secret, "default_provider": "local"})
         self.assertEqual(result.status_code, 200, result.text)
         self.assertNotIn(secret, result.text)
         self.assertTrue(result.json()["has_comfy_cloud_api_key"])
@@ -254,7 +255,7 @@ class BackendIntegration(unittest.TestCase):
             for node in ("cloud_source_file", "cloud_mask_file"):
                 self.assertIn("input/" + portable_cloud[node]["inputs"]["file"], archive.namelist())
             self.assertIn("custom_nodes/openframe/media.py", archive.namelist())
-            self.assertIn("diffusion graph", json.loads(archive.read("manifest.json"))["graph_note"])
+            self.assertIn("actual hosted Cloud graph", json.loads(archive.read("manifest.json"))["graph_note"])
             self.assertIn("not the final composite", archive.read("README.txt").decode())
 
     def test_full_bundle_media_roundtrip_and_portable_graph(self):
@@ -361,14 +362,15 @@ class BackendIntegration(unittest.TestCase):
         self.assertEqual(exported.json()["noise"]["inputs"]["noise_seed"], 321)
         invalid = self.client.post("/api/workflows/export", json=self.request(frames=10))
         self.assertEqual(invalid.status_code, 422)
-        self.client.patch("/api/settings", json={"default_provider": "modal", "comfy_cloud_api_key": "persisted-test-secret"})
+        saved = self.client.patch("/api/settings", json={"default_provider": "comfy-cloud", "comfy_cloud_api_key": "persisted-test-secret"})
+        self.assertEqual(saved.status_code, 200, saved.text)
         job = self.wait(self.submit()["id"])
         self.client.patch(f"/api/jobs/{job['id']}", json={"favorite": True})
         self.client.__exit__(None, None, None)
         self.client = TestClient(create_app(self.root))
         self.client.__enter__()
         settings = self.client.get("/api/settings")
-        self.assertEqual(settings.json()["default_provider"], "modal")
+        self.assertEqual(settings.json()["default_provider"], "comfy-cloud")
         self.assertTrue(settings.json()["has_comfy_cloud_api_key"])
         self.assertNotIn("persisted-test-secret", settings.text)
         self.assertTrue(self.client.get(f"/api/jobs/{job['id']}").json()["favorite"])

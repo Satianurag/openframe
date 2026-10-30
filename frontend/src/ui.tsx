@@ -1,6 +1,19 @@
 import { useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { Icon } from './Icon';
+// These native profiles do not consume the common request's bookkeeping seed.
+export function resultUsesSeed(modelId: string) {
+  return ![
+    'video-tools',
+    'ldf-vfi',
+    'sam3.1-vitmatte',
+    'video-depth-small',
+    'vigeo-1.1',
+    'birefnet',
+    'kokoro-82m',
+  ].includes(modelId);
+}
+
 export function Modal({
   title,
   onClose,

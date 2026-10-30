@@ -120,8 +120,18 @@ def composite_frame(generated, original=None, alpha=None, match_lighting=False):
     return (matched * opacity + plate * (1 - opacity)).round().clip(0, 255).astype(np.uint8)
 
 
+def video_encoding_args(width, height, fps, quality="legacy"):
+    if quality == "legacy":
+        return ["-crf", "17"]
+    if quality not in {"standard", "high"}:
+        raise ValueError("Choose Standard or High video bitrate")
+    # An explicit average-rate target; actual VBR depends on scene complexity.
+    rate = max(1_000_000, round(width * height * fps * (.16 if quality == "high" else .09)))
+    return ["-b:v", str(rate), "-maxrate", str(rate * 2), "-bufsize", str(rate * 4)]
+
+
 def encode_video(target, frames, width, height, fps, count, source_audio=None,
-                 trim_start=0, audio=None, check_cancelled=lambda: None):
+                 trim_start=0, audio=None, check_cancelled=lambda: None, encoding_quality="legacy"):
     """Stream uint8 RGB frames to H264, preserving source or supplied float audio."""
     target = Path(target)
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -140,7 +150,8 @@ def encode_video(target, frames, width, height, fps, count, source_audio=None,
             wav.setnchannels(waveform.shape[0]); wav.setsampwidth(2); wav.setframerate(int(audio["sample_rate"]))
             wav.writeframes((waveform.T * 32767).astype("<i2").tobytes())
         cmd += ["-i", str(audio_temp), "-map", "0:v:0", "-map", "1:a:0"]
-    cmd += ["-c:v", "libx264", "-preset", "medium", "-crf", "17", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-t", str(count / fps), "-movflags", "+faststart", str(target)]
+    cmd += ["-c:v", "libx264", "-preset", "medium"] + video_encoding_args(width, height, fps, encoding_quality)
+    cmd += ["-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-t", str(count / fps), "-movflags", "+faststart", str(target)]
     process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
     try:
         for frame in frames:

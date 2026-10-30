@@ -1,0 +1,1337 @@
+.cinema-studio {
+  display: flex;
+  min-height: 100dvh;
+  background: #080909;
+  color: #f7f7f8;
+  font:
+    14px/1.5 Inter,
+    Arial,
+    sans-serif;
+}
+.cinema-studio button {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  border: 0;
+  background: none;
+}
+.cinema-studio button:focus-visible,
+.cin-dialog button:focus-visible {
+  outline: 2px solid #d1fe17;
+  outline-offset: 2px;
+}
+.cinema-studio button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.cin-rail {
+  position: sticky;
+  top: 0;
+  flex: none;
+  width: 240px;
+  height: 100dvh;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #1e2022;
+  border-radius: 20px;
+  background: #0d0f10;
+}
+.cin-rail .app-switcher {
+  flex: none;
+  width: 173px;
+}
+.cin-rail .app-switcher > button {
+  font-size: 14px;
+}
+.cin-rail nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 16px;
+}
+.cin-rail nav button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 36px;
+  border-radius: 12px;
+  padding: 6px;
+  text-align: left;
+}
+.cin-rail nav button.active {
+  background: #ffffff0d;
+}
+.cin-rail nav button > span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: linear-gradient(#3f464b, #272b2e);
+  color: #aeb6bb;
+}
+.cin-rail nav button:nth-child(2) > span {
+  background: linear-gradient(#27455c, #193345);
+  color: #a0c3df;
+}
+.cin-rail nav button:nth-child(3) > span {
+  background: linear-gradient(#6c344f, #392432);
+  color: #ce9bb6;
+}
+.cin-project-label {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #73777a;
+  font-size: 12px;
+  height: 28px;
+  padding: 0 5px;
+}
+.cin-project-label span {
+  flex: 1;
+}
+.cin-project-label button {
+  padding: 0;
+  display: flex;
+}
+.cinema-studio .cin-new-project {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 36px;
+  margin-top: 8px;
+  padding: 6px;
+  font-size: 14px;
+  color: #8a8d90;
+}
+.cin-new-project svg {
+  padding: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: linear-gradient(#41464b, #272c30);
+}
+.cin-projects {
+  flex: 1;
+  min-height: 12px;
+  overflow: auto;
+}
+.cin-projects > button {
+  display: block;
+  padding: 7px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  font-size: 12px;
+  color: #9b9fa2;
+}
+.cin-rail-bottom {
+  margin-top: auto;
+}
+.cin-learn {
+  position: relative;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #2e3134;
+  background: linear-gradient(#111315, #222629);
+  margin-bottom: 12px;
+}
+.cin-learn > button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  color: #969b9f;
+  padding: 0;
+}
+.cin-learn small {
+  font-size: 12px;
+  color: #7d8285;
+}
+.cin-learn p {
+  margin: 4px 0 124px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.cin-learn a {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  background: #e7e9e9;
+  color: #202326;
+  border-radius: 10px;
+  height: 40px;
+  text-decoration: none;
+  font-size: 14px;
+}
+.cinema-studio .cin-settings {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: #d1fe17;
+  color: #202700;
+  font-size: 12px;
+}
+.cin-settings > svg:last-child {
+  margin-left: auto;
+}
+.cin-main {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 100dvh;
+  padding: 0 5px 30px 0;
+}
+.cin-top-actions {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 3;
+}
+.cin-top-actions button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+  color: #8a8f92;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: #ffffff08;
+}
+.cin-hero-strip {
+  width: 592px;
+  max-width: 80%;
+  height: 172px;
+  position: relative;
+  margin: 97px auto 28px;
+  perspective: 1000px;
+}
+.cin-hero-card {
+  position: absolute;
+  top: 0;
+  width: 280px;
+  height: 158px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 15px;
+  border: 2px solid #ffffff30 !important;
+  background: #171a1c !important;
+  box-shadow: 0 14px 36px #0009;
+}
+.cin-hero-card video,
+.cin-hero-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cin-hero-card > span {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 18px 12px 8px;
+  text-transform: uppercase;
+  text-align: left;
+  font:
+    600 12px/16px 'Space Grotesk',
+    sans-serif;
+  background: linear-gradient(transparent, #0009);
+}
+.cin-hero-0 {
+  left: 0;
+  top: 18px;
+  transform: rotate(-7deg) scale(0.85);
+}
+.cin-hero-1 {
+  left: 156px;
+  z-index: 2;
+}
+.cin-hero-2 {
+  right: 0;
+  top: 18px;
+  transform: rotate(7deg) scale(0.85);
+}
+.cin-main > h1 {
+  width: 592px;
+  max-width: 95%;
+  margin: 0 auto;
+  white-space: nowrap;
+  font:
+    700 40px/36px 'Space Grotesk',
+    Inter,
+    sans-serif;
+  letter-spacing: -1.6px;
+  text-align: center;
+  background: linear-gradient(#fff 14%, #ffffff69);
+  color: transparent;
+  background-clip: text;
+}
+.cin-compose-area {
+  display: flex;
+  gap: 8px;
+  width: 872px;
+  max-width: calc(100% - 40px);
+  margin: 41.5px auto 0;
+  align-items: flex-start;
+}
+.cin-mode-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: none;
+  width: 64px;
+  padding: 4px 0;
+  margin-top: 56px;
+  border-radius: 24px;
+  background: #1d2022;
+}
+.cin-mode-tabs button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 52px;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 700;
+}
+.cin-mode-tabs button.active {
+  color: #171c07;
+  background: #e7edda;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 2px 3px #0008;
+}
+.cin-mode-tabs svg {
+  width: 18px;
+  height: 18px;
+}
+.cin-composer-wrap {
+  flex: 1;
+  min-width: 0;
+}
+.cin-creative-controls {
+  display: flex;
+  gap: 4px;
+  padding: 4px 8px 0;
+}
+.cin-creative-controls > button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 8px;
+  flex: 1;
+  min-width: 0;
+  border-radius: 16px;
+  background: #ffffff0d;
+  font-size: 12px;
+  text-align: left;
+}
+.cin-creative-controls > button > img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.cin-creative-controls > button > span {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cin-creative-controls > button small {
+  font-size: 12px;
+  line-height: 18px;
+  color: #797e82;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.cin-creative-controls .cin-reference-control {
+  flex: none;
+  width: 128px;
+  gap: 8px;
+  padding: 8px 12px 8px 8px;
+}
+.cin-reference-control > svg {
+  color: #d1fe17;
+}
+.cin-prompt-box {
+  margin-top: 4px;
+  display: flex;
+  gap: 8px;
+  padding: 12px 8px;
+  min-height: 116px;
+  border-radius: 24px;
+  border: 1px solid #1c2023;
+  background: linear-gradient(#14191e, #151a20);
+  box-shadow:
+    0 4px 12px #0008,
+    0 0 0 4px #101419;
+}
+.cin-prompt-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.cin-prompt-content > textarea {
+  display: block;
+  padding: 4px 8px;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  background: transparent;
+  resize: none;
+  height: 52px;
+  min-height: 52px;
+  color: #e8e9e9;
+  font:
+    14px/22px Inter,
+    sans-serif;
+}
+.cin-prompt-content > textarea::placeholder {
+  color: #81888f;
+}
+.cin-config-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  padding-left: 4px;
+  flex-wrap: wrap;
+}
+.cin-config-row > button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 7px;
+  border-radius: 8px;
+  border: 1px solid #ffffff04;
+  background: #ffffff0a;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cin-config-row .cin-model-choice {
+  color: #d1fe17;
+  max-width: 180px;
+  overflow: hidden;
+}
+.cin-variants {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  height: 28px;
+  padding: 0 3px;
+  border-radius: 8px;
+  background: #ffffff0a;
+}
+.cin-variants button {
+  width: 20px;
+  height: 24px;
+  padding: 0;
+  color: #6b747d;
+}
+.cin-variants b {
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 25px;
+  text-align: center;
+}
+.cin-switch {
+  display: block;
+  width: 18px;
+  height: 10px;
+  border-radius: 8px;
+  background: #424951;
+  position: relative;
+}
+.cin-switch::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #89929b;
+}
+.enabled .cin-switch {
+  background: #a3cc16;
+}
+.enabled .cin-switch::after {
+  left: 9px;
+  background: #192100;
+}
+.cinema-studio .cin-generate {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  gap: 2px;
+  width: 128px;
+  height: 80px;
+  color: #1a2100;
+  background: linear-gradient(#dcff4e, #c9ed28);
+  border: 1px solid #e4ff7f;
+  box-shadow:
+    0 3px 0 #718216,
+    0 4px 7px #0005;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+.cin-generate strong {
+  font-size: 10px;
+  font-weight: 700;
+}
+.cin-generate > span {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: none;
+}
+.cin-generate > svg {
+  display: none;
+}
+.cin-selected-refs {
+  display: flex;
+  gap: 6px;
+  padding: 0 8px 4px;
+}
+.cin-selected-refs button {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+}
+.cin-selected-refs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.cin-selected-refs svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #0009;
+  border-radius: 50%;
+}
+.cin-save-status {
+  display: block;
+  font-size: 10px;
+  color: #656d73;
+  text-align: right;
+  margin-top: 9px;
+}
+.cin-error {
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #ffb7aa;
+}
+.cin-options h3 {
+  margin: 2px 8px 8px;
+  font-size: 13px;
+}
+.cin-options > button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font:
+    12px/18px Inter,
+    sans-serif;
+}
+.cin-options > button:hover {
+  background: #ffffff0a;
+  border-radius: 6px;
+}
+.cin-options label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  gap: 12px;
+  padding: 8px;
+}
+.cin-options small {
+  display: block;
+  color: #a0a6ac;
+  font-size: 11px;
+  padding: 8px;
+}
+.cin-dialog {
+  width: min(800px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  color: #eee;
+  background: #232528;
+  border: 1px solid #303236;
+  border-radius: 24px;
+  overflow: hidden;
+  font:
+    14px/1.5 Inter,
+    sans-serif;
+}
+.cin-dialog::backdrop {
+  background: #000b;
+}
+.cin-dialog button {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  background: none;
+  border: 0;
+}
+.cin-dialog > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 48px;
+  padding: 8px 12px 8px 16px;
+  background: #1c1e20;
+}
+.cin-dialog h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+.cin-dialog > header > div {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.cin-dialog > header button {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: #ffffff06;
+  padding: 0;
+}
+.cin-dialog > header > div > button:first-child:not(:last-child) {
+  width: auto;
+  border-radius: 20px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+.cin-creative-dialog {
+  height: 504px;
+}
+.cin-dialog-layout {
+  display: flex;
+  height: calc(100% - 48px);
+  padding: 0 4px 4px;
+}
+.cin-dialog-layout > nav {
+  width: 184px;
+  flex: none;
+  padding: 12px 8px;
+  border-right: 1px solid #181a1c;
+}
+.cin-dialog-layout > nav > button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 36px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #90969b;
+  margin-bottom: 2px;
+}
+.cin-dialog-layout > nav > button.active {
+  background: #ffffff0a;
+  color: #fff;
+}
+.cin-dialog-layout > nav > button > span {
+  margin-left: auto;
+  font-size: 10px;
+  max-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cin-film-picker {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding: 32px 0 16px;
+  text-align: center;
+}
+.cin-film-picker h3 {
+  margin: 0 12px 4px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.cin-film-picker p {
+  margin: 0 12px;
+  color: #92989d;
+  font-size: 12px;
+}
+.cin-film-carousel {
+  position: relative;
+  height: 256px;
+  margin-top: 28px;
+  perspective: 1000px;
+}
+.cin-film-option {
+  position: absolute;
+  top: 44px;
+  width: 320px;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0 16px 26px #0004;
+  background: #31363a !important;
+}
+.cin-film-option img,
+.cin-film-option video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.cin-film-option > span {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font:
+    600 30px/36px 'Space Grotesk',
+    sans-serif;
+  color: #d1fe17;
+}
+.cin-film-option.position-2 {
+  left: calc(50% - 160px);
+  z-index: 5;
+}
+.cin-film-option.position-1 {
+  left: calc(50% - 350px);
+  transform: rotateY(36deg) rotate(-7deg) scale(0.8);
+  opacity: 0.6;
+  z-index: 4;
+}
+.cin-film-option.position-3 {
+  left: calc(50% + 30px);
+  transform: rotateY(-36deg) rotate(7deg) scale(0.8);
+  opacity: 0.6;
+  z-index: 4;
+}
+.cin-film-option.position-0 {
+  left: calc(50% - 470px);
+  transform: rotateY(50deg) rotate(-12deg) scale(0.65);
+  opacity: 0.25;
+}
+.cin-film-option.position-4 {
+  left: calc(50% + 150px);
+  transform: rotateY(-50deg) rotate(12deg) scale(0.65);
+  opacity: 0.25;
+}
+.cin-carousel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+.cin-carousel-footer button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #464b50;
+  border-radius: 50%;
+}
+.cin-carousel-footer button:first-child svg {
+  transform: rotate(90deg);
+}
+.cin-carousel-footer button:last-child svg {
+  transform: rotate(-90deg);
+}
+.cin-carousel-footer strong {
+  font-size: 18px;
+  font-weight: 500;
+  min-width: 100px;
+}
+.cin-camera-wheels {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  gap: 12px;
+  padding: 20px 18px 0;
+}
+.cin-camera-wheels > div {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+.cin-camera-wheels h3 {
+  font-size: 12px;
+  font-weight: 500;
+  color: #a2a7ab;
+  margin: 0 0 12px;
+}
+.cin-camera-wheel {
+  height: 382px;
+  overflow: auto;
+  scrollbar-width: none;
+  mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+  padding: 90px 0 120px;
+  scroll-snap-type: y mandatory;
+}
+.cin-camera-wheel button {
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  padding: 6px;
+  margin-bottom: 8px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  opacity: 0.45;
+}
+.cin-camera-wheel button.selected {
+  border-color: #b5b6b8;
+  opacity: 1;
+  background: #ffffff06;
+}
+.cin-camera-wheel img {
+  max-width: 100%;
+  height: 58px;
+  object-fit: contain;
+}
+.cin-camera-wheel span {
+  font-size: 12px;
+}
+.cin-movement-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+}
+.cin-movement-panel > div:first-child {
+  position: relative;
+  margin-bottom: 16px;
+}
+.cin-movement-panel h3 {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.cin-movement-panel p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: #92969a;
+}
+.cin-movement-tools {
+  position: absolute;
+  right: 0;
+  top: 4px;
+  display: flex;
+  gap: 12px;
+  color: #858c91;
+}
+.cin-movement-tools button {
+  padding: 0;
+}
+.cin-movement-tools label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.cin-movement-tools input {
+  width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #ddd;
+  font:
+    12px Inter,
+    sans-serif;
+  transition: width 0.15s;
+}
+.cin-movement-tools label:focus-within input,
+.cin-movement-tools label:hover input {
+  width: 80px;
+}
+.cin-movement-grid {
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px 8px;
+  scrollbar-width: none;
+  mask-image: linear-gradient(#000 0, #000 calc(100% - 24px), transparent);
+}
+.cin-movement-grid > button {
+  min-width: 0;
+  padding: 0;
+}
+.cin-movement-grid > button > div {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ffffff10;
+  background: #1d2124;
+}
+.cin-movement-grid img,
+.cin-movement-grid video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cin-movement-grid strong {
+  font-size: 12px;
+  font-weight: 400;
+  display: block;
+  margin-top: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cin-movement-grid > button > div > span {
+  display: none;
+  position: absolute;
+  inset: auto 8px 8px;
+  padding: 4px;
+  border-radius: 20px;
+  background: #d1fe17;
+  color: #1a2200;
+  font-size: 10px;
+}
+.cin-movement-grid button:hover > div > span {
+  display: block;
+}
+.cin-movement-grid button.selected > div {
+  border-color: #d1fe17;
+}
+.cin-reference-picker,
+.cin-document-picker,
+.cin-pending-control,
+.cin-result,
+.cin-preview {
+  padding: 24px;
+  max-height: 75dvh;
+  overflow: auto;
+}
+.cin-reference-picker .cin-upload {
+  background: #d1fe17;
+  color: #202500;
+  padding: 10px 16px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cin-reference-picker p,
+.cin-preview p {
+  color: #9ca1a5;
+  font-size: 12px;
+}
+.cin-reference-picker > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.cin-reference-picker > div > button {
+  aspect-ratio: 1;
+  position: relative;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.cin-reference-picker > div > button.selected {
+  border-color: #d1fe17;
+}
+.cin-reference-picker img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cin-reference-picker svg:not(.cin-upload svg) {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #d1fe17;
+  background: #121516;
+  border-radius: 50%;
+}
+.cin-document-picker > button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: left;
+  background: #ffffff08;
+  margin: 4px 0;
+}
+.cin-preview video,
+.cin-result video,
+.cin-result img {
+  display: block;
+  max-width: 100%;
+  max-height: 60dvh;
+  margin: 0 auto 16px;
+}
+.cin-result a {
+  color: #d1fe17;
+}
+.cin-result-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  margin-top: 20px;
+}
+.cin-result-actions button {
+  color: #d1fe17;
+  padding: 0;
+}
+.cin-page-heading {
+  padding: 68px 36px 24px;
+}
+.cin-page-heading h1 {
+  font:
+    600 30px/36px 'Space Grotesk',
+    sans-serif;
+  margin: 0;
+}
+.cin-page-heading p {
+  color: #848c92;
+  font-size: 12px;
+}
+.cin-elements,
+.cin-community,
+.cin-job-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 36px 24px;
+}
+.cin-elements > button,
+.cin-community > button,
+.cin-job {
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+}
+.cin-elements img,
+.cin-community img,
+.cin-community video,
+.cin-job img,
+.cin-job video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.cin-elements span,
+.cin-community span {
+  display: block;
+  font-size: 12px;
+  color: #a7adb1;
+  margin-top: 6px;
+}
+.cin-job > div {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 12px;
+  background: #171c20;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.cin-job strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 8px;
+}
+.cin-job > span {
+  font-size: 11px;
+  color: #939ba2;
+}
+.cin-compose-bottom {
+  margin-top: 36px;
+}
+@media (min-height: 900px) {
+  .cin-hero-strip {
+    margin-top: calc(97px + (100dvh - 720px) * 0.15);
+  }
+}
+@media (max-width: 1150px) {
+  .cin-rail {
+    width: 220px;
+  }
+  .cin-compose-area {
+    max-width: calc(100% - 24px);
+  }
+  .cin-creative-controls > button > img {
+    width: 28px;
+    height: 28px;
+  }
+  .cin-creative-controls > button {
+    gap: 5px;
+    padding: 6px;
+  }
+  .cin-creative-controls > button > span {
+    font-size: 10px;
+  }
+  .cin-creative-controls .cin-reference-control {
+    width: 110px;
+  }
+  .cin-config-row > button {
+    font-size: 10px;
+    padding: 0 5px;
+  }
+  .cinema-studio .cin-generate {
+    width: 100px;
+  }
+}
+@media (max-width: 850px) {
+  .cin-rail {
+    width: 60px;
+    padding: 10px 5px;
+  }
+  .cin-rail .app-switcher {
+    width: 48px;
+  }
+  .cin-rail .app-switcher > button {
+    font-size: 0;
+    padding: 3px;
+  }
+  .cin-rail .app-switcher > button > svg {
+    display: none;
+  }
+  .cin-rail nav,
+  .cin-project-label,
+  .cin-new-project,
+  .cin-projects,
+  .cin-rail-bottom {
+    display: none !important;
+  }
+  .cin-hero-strip {
+    max-width: 90%;
+    margin-top: 80px;
+  }
+  .cin-hero-card {
+    width: 50%;
+  }
+  .cin-hero-1 {
+    left: 25%;
+  }
+  .cin-main > h1 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+  .cin-compose-area {
+    margin-top: 32px;
+  }
+  .cin-creative-controls {
+    overflow: auto;
+  }
+  .cin-creative-controls > button {
+    flex: none;
+    width: 124px;
+  }
+  .cin-mode-tabs {
+    width: 48px;
+  }
+  .cin-mode-tabs button {
+    width: 48px;
+    padding: 4px;
+  }
+  .cin-config-row {
+    gap: 4px;
+  }
+  .cin-creative-dialog {
+    height: min(600px, 90dvh);
+  }
+  .cin-dialog-layout > nav {
+    width: 130px;
+    padding: 10px 4px;
+  }
+  .cin-dialog-layout > nav > button {
+    font-size: 12px;
+    padding: 6px;
+  }
+  .cin-dialog-layout > nav > button > span {
+    display: none;
+  }
+  .cin-camera-wheels {
+    gap: 6px;
+    padding: 16px 8px;
+  }
+  .cin-movement-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .cin-movement-tools {
+    position: static;
+    margin-top: 10px;
+  }
+  .cin-movement-tools input {
+    width: 100px;
+  }
+  .cin-film-option {
+    width: 240px;
+    height: 160px;
+  }
+  .cin-film-option.position-2 {
+    left: calc(50% - 120px);
+  }
+  .cin-film-option.position-1 {
+    left: calc(50% - 290px);
+  }
+  .cin-film-option.position-3 {
+    left: calc(50% + 50px);
+  }
+}
+@media (max-width: 550px) {
+  .cin-rail {
+    width: 48px;
+    padding: 8px 2px;
+  }
+  .cin-rail .app-switcher {
+    width: 40px;
+  }
+  .cin-main {
+    padding-right: 0;
+  }
+  .cin-hero-strip {
+    height: 120px;
+    margin-top: 80px;
+    margin-bottom: 16px;
+  }
+  .cin-hero-card {
+    height: 105px;
+  }
+  .cin-main > h1 {
+    font-size: 19px;
+    letter-spacing: -0.5px;
+  }
+  .cin-compose-area {
+    display: block;
+    max-width: calc(100% - 16px);
+    margin-top: 18px;
+  }
+  .cin-mode-tabs {
+    flex-direction: row;
+    width: 120px;
+    margin: 0 auto 12px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .cin-mode-tabs button {
+    width: 56px;
+    height: 36px;
+    flex-direction: row;
+  }
+  .cin-mode-tabs svg {
+    width: 14px;
+    height: 14px;
+  }
+  .cin-creative-controls {
+    padding: 0 0 6px;
+  }
+  .cin-prompt-box {
+    flex-direction: column;
+    padding: 8px;
+  }
+  .cin-prompt-content > textarea {
+    height: 88px;
+    min-height: 88px;
+  }
+  .cinema-studio .cin-generate {
+    width: 100%;
+    height: 40px;
+    flex-direction: row;
+    gap: 8px;
+  }
+  .cin-generate > svg {
+    display: block;
+  }
+  .cin-config-row {
+    padding-left: 0;
+  }
+  .cin-dialog-layout {
+    flex-direction: column;
+  }
+  .cin-dialog-layout > nav {
+    width: 100%;
+    padding: 6px;
+    display: flex;
+    gap: 4px;
+    border-right: 0;
+    border-bottom: 1px solid #1a1e21;
+  }
+  .cin-dialog-layout > nav > button {
+    justify-content: center;
+  }
+  .cin-film-picker {
+    padding: 20px 0 16px;
+  }
+  .cin-film-carousel {
+    height: 230px;
+    margin-top: 16px;
+  }
+  .cin-camera-wheels {
+    min-height: 0;
+  }
+  .cin-camera-wheel {
+    height: 340px;
+    padding: 85px 0;
+  }
+  .cin-camera-wheel button {
+    height: 90px;
+  }
+  .cin-movement-panel {
+    min-height: 0;
+    padding: 10px;
+  }
+  .cin-reference-picker > div {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .cin-page-heading {
+    padding: 72px 16px 20px;
+  }
+  .cin-elements,
+  .cin-community,
+  .cin-job-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 12px 20px;
+    gap: 12px;
+  }
+}

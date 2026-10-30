@@ -8,18 +8,21 @@ import time
 from pathlib import Path
 from typing import Callable
 
-from .media import public_asset, register_asset
+from .media import public_asset, register_asset, register_generated_archive
 from .store import Store
+from .models import request_asset_ids
 
 
 class JobWorker:
-    def __init__(self, store: Store, settings: Callable[[], dict]):
+    def __init__(self, store: Store, settings: Callable[[], dict], prepare_job=None):
         self.store = store
         self.settings = settings
         self.wake = threading.Event()
         self.stopping = threading.Event()
         self.cancels: dict[str, threading.Event] = {}
         self.thread = threading.Thread(target=self.loop, name="openframe-render", daemon=True)
+        from .sequences import SequenceDriver
+        self.sequences = SequenceDriver(store, prepare_job, settings, self.cancel, self.stopping.is_set) if prepare_job else None
 
     def start(self):
         self.store.recover()
@@ -51,8 +54,11 @@ class JobWorker:
 
     def loop(self):
         while not self.stopping.is_set():
+            progressed = self.sequences.advance() if self.sequences else False
             job = self.store.claim_next()
             if job is None:
+                if progressed:
+                    continue
                 self.wake.wait(timeout=2)
                 self.wake.clear()
                 continue
@@ -87,8 +93,7 @@ class JobWorker:
         try:
             from engine.runner import run_job
             asset_paths = {}
-            for role in ("source", "mask", "reference"):
-                asset_id = job["request"].get(f"{role}_asset_id")
+            for role, asset_id in request_asset_ids(job["request"]).items():
                 if asset_id:
                     asset = self.store.get("assets", asset_id)
                     if not asset or not Path(asset["path"]).is_file():
@@ -96,6 +101,10 @@ class JobWorker:
                     asset_paths[role] = asset["path"]
             if is_cancelled():
                 self.store.update_job(ident, {"status": "cancelled", "stage": "Cancelled"})
+                return
+            if job.get("kind") == "character-training":
+                from .characters import execute_training
+                execute_training(self.store, job, asset_paths, output_dir, settings, progress, is_cancelled)
                 return
             result = run_job(job["request"], asset_paths, output_dir, settings, progress, is_cancelled)
             if is_cancelled():
@@ -108,12 +117,25 @@ class JobWorker:
                     raise ValueError("The inference engine returned an invalid output file")
                 if path.stat().st_size == 0:
                     raise ValueError("The inference engine returned an empty output file")
-                asset = register_asset(self.store, path, output.get("name", path.name), source_job_id=ident)
+                if output.get("kind") == "archive":
+                    if job["request"].get("task") != "sdr-to-hdr" or job["request"].get("hdr_output_format") != "exr16":
+                        raise ValueError("Only an explicitly requested HDR EXR export may return an archive")
+                    asset = register_generated_archive(self.store, path, output.get("name", path.name), source_job_id=ident, role=output.get("role", "result"))
+                else:
+                    asset = register_asset(self.store, path, output.get("name", path.name), source_job_id=ident, role=output.get("role", "result"))
                 output_record = public_asset(asset)
                 output_record["role"] = output.get("role", "result")
                 outputs.append(output_record)
             if not outputs:
-                raise ValueError("The render completed without any video or image output")
+                raise ValueError("The render completed without any video, image or audio output")
+            from engine.catalog import effect_by_id
+            expected_kind = effect_by_id(job["request"]["effect_id"])["output_kind"]
+            if job["request"].get("task") == "sdr-to-hdr" and job["request"].get("hdr_output_format") == "exr16":
+                expected_kind = "archive"
+            expected_count = job["request"].get("batch_size", 1) if expected_kind == "image" else 1
+            final_outputs = [item for item in outputs if item.get("role") == "result" and item["kind"] == expected_kind]
+            if len(final_outputs) != expected_count:
+                raise ValueError(f"The engine did not return the requested {expected_count} final {expected_kind} result(s)")
             if is_cancelled():
                 self.store.update_job(ident, {"status": "cancelled", "stage": "Cancelled"})
                 return

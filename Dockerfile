@@ -12,13 +12,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg && rm -r
 COPY pyproject.toml README.md LICENSE ./
 COPY backend/ backend/
 COPY engine/ engine/
-COPY deploy/ deploy/
 COPY workflows/ workflows/
 COPY custom_nodes/ custom_nodes/
 COPY docs/ docs/
 COPY recipes/ recipes/
 COPY scripts/ scripts/
-RUN pip install --no-cache-dir '.[modal,cloud]'
+RUN pip install --no-cache-dir '.[cloud]'
 COPY --from=frontend /build/frontend/dist frontend/dist/
 RUN useradd --uid 10001 --create-home openframe && mkdir -p /data && chown openframe:openframe /data
 USER openframe

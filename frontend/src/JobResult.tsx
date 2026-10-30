@@ -1,6 +1,8 @@
 import { useRef, useState, type CSSProperties } from 'react';
 import type { Asset, Job } from './types';
 import { Icon } from './Icon';
+import { resultUsesSeed } from './ui';
+import { ImagePromptDetails } from './apps/ImagePromptDetails';
 import { mediaUrl, markDownloaded } from './api';
 export function JobResult({
   job,
@@ -32,7 +34,11 @@ export function JobResult({
     job.outputs.find((x) => x.kind === 'video') ||
     job.outputs[0];
   if (!output) return null;
-  const video = output.kind === 'video';
+  const displayed =
+    job.request.effect_id === 'sdr-to-hdr'
+      ? job.outputs.find((asset) => asset.role === 'preview') || output
+      : output;
+  const video = displayed.kind === 'video';
   const outputRatio = (output.width || job.request.width) / (output.height || job.request.height);
   const sync = () => {
     if (!after.current || !before.current) return;
@@ -75,8 +81,14 @@ export function JobResult({
           {video ? (
             <video
               ref={after}
-              src={mediaUrl(output)}
-              poster={output.thumbnail_url || undefined}
+              className={
+                displayed.role === 'result' &&
+                ['alpha-matte', 'semantic-matte'].includes(job.request.effect_id)
+                  ? 'transparent-cutout-preview'
+                  : undefined
+              }
+              src={mediaUrl(displayed)}
+              poster={displayed.thumbnail_url || undefined}
               preload="auto"
               controls={!compare}
               playsInline
@@ -108,8 +120,21 @@ export function JobResult({
                 onError('The video could not be loaded. Download it to check the exported file.')
               }
             />
+          ) : output.kind === 'audio' ? (
+            <audio
+              controls
+              src={mediaUrl(output)}
+              style={{ width: '100%', margin: '80px 0' }}
+              aria-label="Generated speech"
+            />
+          ) : output.kind === 'archive' ? (
+            <div className="empty-state">
+              <Icon name="download" />
+              <p>Image sequence archive</p>
+              <small>Download the original frames and provenance below.</small>
+            </div>
           ) : (
-            <img src={mediaUrl(output)} alt="Generated output" />
+            <img src={mediaUrl(displayed)} alt="Generated output" />
           )}
           {compare && source && (
             <div className="before-media" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
@@ -210,7 +235,7 @@ export function JobResult({
       </div>
       <div className="result-actions">
         <div>
-          {source && (
+          {source && ['image', 'video'].includes(displayed.kind) && (
             <button
               className={`secondary ${compare ? 'selected' : ''}`}
               onClick={() => {
@@ -234,9 +259,14 @@ export function JobResult({
           onClick={() => markDownloaded(job.id)}
         >
           <Icon name="download" />
-          Download video
+          Download {job.request.effect_id === 'sdr-to-hdr' ? 'HDR master' : output.kind}
         </a>
       </div>
+      {displayed.id !== output.id && (
+        <p className="muted">
+          SDR viewing preview. The main download contains the high-bit-depth HDR master.
+        </p>
+      )}
       {job.outputs.length > 1 && (
         <div className="additional-outputs">
           {job.outputs
@@ -259,9 +289,7 @@ export function JobResult({
             ? 'Comfy Cloud + local processing'
             : job.request.provider === 'comfy-cloud'
               ? 'Comfy Cloud'
-              : job.request.provider === 'modal'
-                ? 'Modal GPU'
-                : 'Local ComfyUI'}
+              : job.request.provider === 'local' ? 'Local ComfyUI' : 'Historical connection · unavailable'}
         </span>
         <span>
           {job.request.width} × {job.request.height}
@@ -269,7 +297,7 @@ export function JobResult({
         <span>
           {job.request.frames} frames · {job.request.fps} fps
         </span>
-        <span>Seed {job.request.seed}</span>
+        {resultUsesSeed(job.request.model_id) && <span>Seed {job.request.seed}</span>}
         {job.metadata?.execution !== 'hosted-cloud-diffusion-local-media' && (
           <button onClick={() => onExport('canvas')}>
             <Icon name="grid" size={14} />
@@ -278,13 +306,15 @@ export function JobResult({
         )}
         <button onClick={() => onExport('workflow')}>
           <Icon name="code" size={14} />
-          Workflow
+          {job.metadata?.execution === 'hosted-cloud-diffusion-local-media' ? 'Local replay workflow' : 'Workflow'}
         </button>
         <button onClick={() => onExport('bundle')}>
           <Icon name="folder" size={14} />
           Full project
         </button>
       </div>
+      {job.metadata?.execution === 'hosted-cloud-diffusion-local-media' && <p className="muted small">Full project includes the local replay workflow, actual Cloud graph, prepared inputs and processing record. A Cloud graph alone does not include the app’s preparation and finishing. Local replay requires the declared model weights and nodes.</p>}
+      <ImagePromptDetails job={job} />
     </div>
   );
 }

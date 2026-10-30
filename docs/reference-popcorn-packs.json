@@ -1,0 +1,115 @@
+{
+  "source": "Observed public pack cards from codex-popcorn-instadump-settled-dom.txt; recipes are not exposed by the page.",
+  "apps": {
+    "popcorn": {
+      "packs": [
+        {
+          "id": "winter-special",
+          "title": "Winter special",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/400c0ff5-a3c9-444d-98af-d9a9acd05ecb.webp",
+          "images": [
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/400c0ff5-a3c9-444d-98af-d9a9acd05ecb.webp",
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/d53d42bc-3bdd-46cd-8582-8200700fd8f8.webp",
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/bfec247a-b69d-439f-a548-313dbe320d69.webp"
+          ],
+          "source_url": "https://higgsfield.ai/popcorn"
+        },
+        {
+          "id": "aura-farming",
+          "title": "Aura farming",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/1d4a2edd-4516-4e33-ad4c-ca1698f1530d.webp",
+          "images": [
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/1d4a2edd-4516-4e33-ad4c-ca1698f1530d.webp",
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/f6e2b183-1b28-49ad-b776-fc9e3ba0c121.webp",
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/3ba89513-5002-4732-9535-219fe75e065b.webp"
+          ],
+          "source_url": "https://higgsfield.ai/popcorn"
+        },
+        {
+          "id": "looksmaxing",
+          "title": "Looksmaxing",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/319e6565-9c15-4c7d-8ffe-c165ae65b421.webp",
+          "images": [
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/319e6565-9c15-4c7d-8ffe-c165ae65b421.webp",
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/4fc146b6-7407-4931-8dfa-55461f049932.webp",
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/111619ce-0bed-456e-a2b2-8a4be269a195.webp"
+          ],
+          "source_url": "https://higgsfield.ai/popcorn"
+        },
+        {
+          "id": "2000s-nostalgia",
+          "title": "2000s nostalgia",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/050e875b-eebd-4e42-8c12-77fc09270ebe.webp",
+          "images": [
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/050e875b-eebd-4e42-8c12-77fc09270ebe.webp",
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/a53c1ec1-ad00-4a09-b9be-577871766400.webp",
+            "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/3d5b2c79-b315-4877-83dd-da5d65047f8c.webp"
+          ],
+          "source_url": "https://higgsfield.ai/popcorn"
+        }
+      ]
+    }
+  },
+  "assets": [
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/400c0ff5-a3c9-444d-98af-d9a9acd05ecb.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Winter special"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/d53d42bc-3bdd-46cd-8582-8200700fd8f8.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Winter special"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/bfec247a-b69d-439f-a548-313dbe320d69.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Winter special"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/1d4a2edd-4516-4e33-ad4c-ca1698f1530d.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Aura farming"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/f6e2b183-1b28-49ad-b776-fc9e3ba0c121.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Aura farming"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/3ba89513-5002-4732-9535-219fe75e065b.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Aura farming"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/319e6565-9c15-4c7d-8ffe-c165ae65b421.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Looksmaxing"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/4fc146b6-7407-4931-8dfa-55461f049932.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Looksmaxing"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/111619ce-0bed-456e-a2b2-8a4be269a195.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference Looksmaxing"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/050e875b-eebd-4e42-8c12-77fc09270ebe.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference 2000s nostalgia"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/a53c1ec1-ad00-4a09-b9be-577871766400.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference 2000s nostalgia"
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/card/3d5b2c79-b315-4877-83dd-da5d65047f8c.webp",
+      "app": "popcorn",
+      "usage": "Instadump pack reference 2000s nostalgia"
+    }
+  ]
+}

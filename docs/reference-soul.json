@@ -1,0 +1,1202 @@
+{
+  "source": "Rendered signed-in public Higgsfield pages captured on 29 October 2026",
+  "apps": {
+    "soul-image": {
+      "hero": [
+        {
+          "id": "46308156aab2",
+          "title": "Public Soul example 1",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-1.jpg",
+          "source_url": "https://higgsfield.ai/ai/image"
+        },
+        {
+          "id": "aec374b04bc0",
+          "title": "Public Soul example 2",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-2.jpg",
+          "source_url": "https://higgsfield.ai/ai/image"
+        },
+        {
+          "id": "bcb8ef200745",
+          "title": "Public Soul example 3",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-3.jpg",
+          "source_url": "https://higgsfield.ai/ai/image"
+        },
+        {
+          "id": "5a3141816c3e",
+          "title": "Public Soul example 4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-4.jpg",
+          "source_url": "https://higgsfield.ai/ai/image"
+        },
+        {
+          "id": "d548fbe47dc7",
+          "title": "Public Soul example 5",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-5.jpg",
+          "source_url": "https://higgsfield.ai/ai/image"
+        },
+        {
+          "id": "09c8d964318f",
+          "title": "Public Soul example 6",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-6.jpg",
+          "source_url": "https://higgsfield.ai/ai/image"
+        }
+      ],
+      "cinematic_hero": [
+        {
+          "id": "fb7876149407",
+          "title": "Public cinematic example 1",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/public/image/empty-state/soul-cinematic-1.webp",
+          "source_url": "https://higgsfield.ai/ai/image"
+        },
+        {
+          "id": "c7d8cb2962e5",
+          "title": "Public cinematic example 2",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/public/image/empty-state/soul-cinematic-2.webp",
+          "source_url": "https://higgsfield.ai/ai/image"
+        },
+        {
+          "id": "0d5b3eefdc1a",
+          "title": "Public cinematic example 3",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/public/image/empty-state/soul-cinematic-3.webp",
+          "source_url": "https://higgsfield.ai/ai/image"
+        },
+        {
+          "id": "a4c3c5c6b030",
+          "title": "Public cinematic example 4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/public/image/empty-state/soul-cinematic-4.webp",
+          "source_url": "https://higgsfield.ai/ai/image"
+        }
+      ],
+      "wordmark_svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"773\" height=\"130\" viewBox=\"0 0 773 130\" fill=\"none\"><path d=\"M148.029 36.268C148.029 44.0701 141.704 50.395 133.902 50.395H93.2585C92.2 50.395 91.3418 51.2531 91.3418 52.3117C91.3418 53.3703 92.2 54.2284 93.2585 54.2284H135.249C142.308 54.2284 148.029 59.9503 148.029 67.0087V79.7871L148.033 79.7907V115.005C148.033 122.807 141.708 129.132 133.906 129.132H14.1313C6.32915 129.132 0.004257 122.807 0.004257 115.005V93.916C0.004257 86.1138 6.32915 79.7889 14.1313 79.7889H54.4531C55.69 79.7889 56.6926 78.7862 56.6926 77.5494C56.6926 76.3125 55.69 75.3098 54.4531 75.3098H12.4624C5.58234 75.3098 0.0049665 69.7325 0.0049665 62.8524V50.3975L0 50.3925V14.1298C0 6.32762 6.3249 0.00272714 14.1271 0.00272714H133.902C141.704 0.00272714 148.029 6.32762 148.029 14.1298V36.268Z\" fill=\"#52D3FE\"></path><path d=\"M624.059 36.268C624.059 44.0701 630.384 50.395 638.186 50.395H696.323C697.431 50.395 698.33 51.2935 698.33 52.4018C698.33 53.5102 697.431 54.4086 696.323 54.4086H636.751C629.743 54.4086 624.061 60.0902 624.061 67.0988V79.785C624.061 79.7872 624.06 79.7889 624.057 79.7889C624.055 79.7889 624.053 79.7907 624.053 79.7928V115.005C624.053 122.807 630.378 129.132 638.18 129.132H757.955C765.757 129.132 772.082 122.807 772.082 115.005V93.916C772.082 86.1138 765.757 79.7889 757.955 79.7889H700.568C699.36 79.7889 698.381 78.8094 698.381 77.6012C698.381 76.3929 699.36 75.4134 700.568 75.4134H759.572C766.481 75.4134 772.082 69.8129 772.082 62.9042V50.3982C772.082 50.3964 772.083 50.395 772.085 50.395C772.086 50.395 772.088 50.3936 772.088 50.3918V14.1298C772.088 6.32762 765.763 0.00272714 757.961 0.00272714H638.186C630.384 0.00272714 624.059 6.32762 624.059 14.1298V36.268Z\" fill=\"#52D3FE\"></path><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M304.476 62.9893C304.476 62.9917 304.474 62.9936 304.472 62.9936C304.469 62.9936 304.467 62.9955 304.467 62.9979V115.226C304.467 123.028 298.142 129.353 290.34 129.353H167.571C161.423 129.353 156.439 124.369 156.439 118.221V107.093C156.439 107.091 156.438 107.089 156.436 107.089C156.434 107.089 156.432 107.087 156.432 107.086V24.1591C156.432 24.1548 156.436 24.1513 156.44 24.1513C156.444 24.1513 156.448 24.1478 156.448 24.1435V12.077C156.448 5.40857 161.854 0.00272714 168.522 0.00272714H290.349C298.151 0.00272714 304.476 6.32762 304.476 14.1298V62.9893ZM217.433 62.9936C216.213 62.9936 215.223 63.9828 215.223 65.203C215.223 66.4232 216.213 67.4124 217.433 67.4124H242.417C243.637 67.4124 244.627 66.4232 244.627 65.203C244.627 63.9828 243.637 62.9936 242.417 62.9936H217.433Z\" fill=\"#52D3FE\"></path><path d=\"M460.903 93.3616C460.903 93.4044 460.869 93.439 460.826 93.439C460.783 93.439 460.749 93.4736 460.749 93.5163V115.005C460.749 122.807 454.424 129.132 446.622 129.132H325.798C317.995 129.132 311.671 122.807 311.671 115.005V93.5184C311.671 93.4753 311.636 93.4404 311.593 93.4404C311.549 93.4404 311.514 93.4055 311.514 93.3624V14.1312C311.514 6.32904 317.839 0.00414614 325.642 0.00414614H374.026C381.828 0.00414614 388.153 6.32904 388.153 14.1312V31.3414C388.153 32.5867 389.163 33.5962 390.408 33.5962C391.653 33.5962 392.663 32.5867 392.663 31.3414V14.1298C392.663 6.32763 398.988 0.00272714 406.79 0.00272714H446.776C454.578 0.00272714 460.903 6.32762 460.903 14.1298V93.3616Z\" fill=\"#52D3FE\"></path><path d=\"M527.99 0.002838H591.185C598.987 0.002838 605.312 6.32774 605.312 14.1299V73.9803C605.312 77.2546 607.967 79.9089 611.241 79.9089C614.515 79.9089 617.17 82.5632 617.17 85.8375V115.226C617.17 123.028 610.845 129.353 603.042 129.353H482.963C475.161 129.353 468.836 123.028 468.836 115.226V93.1525L468.831 93.1482V14.1271C468.831 6.3249 475.156 0 482.958 0H527.987L527.99 0.002838Z\" fill=\"#52D3FE\"></path></svg>",
+      "presets": [
+        {
+          "id": "43a6339394c9",
+          "title": "Grillz Selfie",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F165e0767-3f59-46f9-ba4e-fac1c3fa86de.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/165e0767-3f59-46f9-ba4e-fac1c3fa86de?styleId=255f4045-d68b-42b1-9e4c-f49d3263a9d7",
+          "prompt": "A close-up upper-body shot of a young woman caught mid-movement, on her teeth shining minimalistic, reflective metallic grills only on the upper right canine and lateral incisor, or alternatively on the lower left two premolars, with an open-frame design such as letters, stars, or abstract shapes. The rest of her teeth remain natural and white. The grills are lightweight, cleanly fitted, and realistic, either silver or gold. She wears a flowing ivory slip dress with fine lace along the neckline, the fabric softly textured and gently rippling with her spinning motion. Tiny flowers interwoven in her loosely tousled hair add a delicate touch, some strands escaping to frame her face naturally. Warm daylight streams through the overgrown tropical plants in the humid greenhouse, dust particles visible in the air, casting soft, diffused light that accentuates natural skin textures and fabric grain. The image is framed with a slight tilt and a casual, spontaneous feel, echoing the intimate authenticity and natural imperfection of a candid iPhone snapshot. The lighting, skin texture, and gloss of the lips remain exactly the same as before.",
+          "style_id": "255f4045-d68b-42b1-9e4c-f49d3263a9d7",
+          "category": "Grillz Selfie"
+        },
+        {
+          "id": "b5e42d39c084",
+          "title": "Y2K",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/26b1630c-3606-437c-a167-83730e42c570.webp",
+          "source_url": "https://higgsfield.ai/soul/job/a898694a-204e-4a41-81fe-bea0a156b327?styleId=6b9e6b4d-325a-4a78-a0fb-a00ddf612380",
+          "prompt": "Caught in the cracked reflection of an old bedroom mirror, the freckled redhead girl leans in close, carefully applying a glossy lip gloss that gleams under the soft direct flash. Her velour pink tracksuit top is sprinkled with subtle rhinestone details, and layered tank tops peek out from underneath, adding to the playful Y2K vibe. Chunky gold hoop earrings catch the light perfectly, with a few rhinestone barrettes clipping strands of her bright hair back casually. She rocks a rhinestone-studded belt visible at the edge of the frame, paired with loose low-rise jeans. The photo quality suggests a slightly grainy or low-resolution digital look, capturing a candid moment, with the flash bounce adding a warm tungsten glow and that signature soft CCD camera grain. The cropped frame and slightly tilted angle make it feel like an authentic early-2000s snapshot.\u2014casual candid early-2000s Y2K snapshot, grainy low-res softness",
+          "style_id": "6b9e6b4d-325a-4a78-a0fb-a00ddf612380",
+          "category": "Y2K"
+        },
+        {
+          "id": "68632f7ed246",
+          "title": "General",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2Fb258ad5f-e382-462a-9857-ac6dd18e5f7b.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/b258ad5f-e382-462a-9857-ac6dd18e5f7b?styleId=464ea177-8d40-4940-8d9d-b438bab269c7",
+          "prompt": "A bright iPhone photo taken in golden hour glow. A woman with loose waves and a cotton robe sits diagonally on the bed, a book open beside her. On the duvet lies a wooden tray with a petite bowl of yogurt, granola, and sliced mango arranged like a flower. Next to it, a small linen towel, a mint-colored matcha cup, and a silver spoon. Her feet are bare, one leg gently bent. The composition is balanced, lighting airy, with no harsh shadows. Feels like a moment stolen from a wellness magazine spread.\n\n\n",
+          "style_id": "464ea177-8d40-4940-8d9d-b438bab269c7",
+          "category": "General"
+        },
+        {
+          "id": "d862865d81fd",
+          "title": "Mixed Media",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/60232189-54a0-4ca8-ba19-79936912a2d0.webp",
+          "source_url": "https://higgsfield.ai/soul/job/cb69b55d-c9c1-4b42-8154-e15bff555eff?styleId=2fcf02e2-919a-4642-8b31-d58bde5e6bd9",
+          "prompt": "Her face is dissected into overlapping layers\u2014icy blue eyes are repeated thrice, one set inverted and shifted toward the temple, another floating near the jawline. Her mouth is split diagonally, the upper lip displaced upward and doubled in translucent print. The nose bridge fractures into two separate strips, one pasted askew beneath her cheek, creating an unsettling, disjointed symmetry. Jagged torn paper edges and masking tape fragments hold each facial element in place, building a tactile construction reminiscent of punk-era photocopy collage.\n\nHer skin bears matte whiteness with visible pores and faint freckles, echoing the soft texture of a worn newsprint. The matte white fabric of her dress blends into a grainy xerox background peppered with halftone spirals, mirroring the coiled leather belt motif. Scratched ink marks and ripped paper seams frame the composition, emphasizing the handmade analog aesthetic.",
+          "style_id": "2fcf02e2-919a-4642-8b31-d58bde5e6bd9",
+          "category": "Mixed Media"
+        },
+        {
+          "id": "e6df415de42c",
+          "title": "Amalfi Summer",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/70994afe-9800-4669-b9b3-b02875f42a21.webp",
+          "source_url": "https://higgsfield.ai/soul/job/b8463085-fc64-4cb0-845f-a7d592c37937?styleId=dab472a6-23f4-4cf8-98fe-f3e256f1b549",
+          "prompt": "A candid photo of a woman sitting at a tiny outdoor table of a rustic Italian bar, sipping a small espresso cup with relaxed elegance. She wears a wide-brimmed straw hat, casual loose blouse in soft cream tones, and minimal gold hoop earrings, her hair styled in loose waves falling naturally around her face. The background features warm terracotta walls with textured, weathered surfaces and vibrant green wooden shutters, slightly open to reveal soft interior shadows. Natural late morning sunlight gently bathes the scene, casting warm, nuanced highlights and subtle shadows that accentuate the textures of the stone pavement, fabric folds, and ceramic cup. The composition is casually framed with a slight tilt, capturing the spontaneous intimacy and effortless elegance typical of authentic iPhone photography in a charming Italian village.",
+          "style_id": "dab472a6-23f4-4cf8-98fe-f3e256f1b549",
+          "category": "Amalfi Summer"
+        },
+        {
+          "id": "eb0b0ef74338",
+          "title": "Sunbathing",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F69ffd880-3c1a-4330-8277-f2d3bed98e10.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/69ffd880-3c1a-4330-8277-f2d3bed98e10?styleId=bc00b419-f8ca-4887-a990-e2760c3cb761",
+          "prompt": "Wide shot taken from about 10 meters away showing a stylish Latina man sitting on sun-warmed, smooth whitewashed stones at the edge of the crystalline Mediterranean sea. He wears tailored swim shorts in a striking dusty lavender with a subtle abstract wavy stripe motif in muted coral and pale peach, crafted from lightweight swim fabric. A loosely draped, unbuttoned blush pink linen shirt adds softness and texture, sleeves rolled casually above the elbow. His sun-kissed skin glows naturally under the soft, clear daylight, complemented by a wide-brimmed boater hat made of woven straw and vintage minimalist gold-rim sunglasses perched slightly down on his nose. He reclines with legs partly submerged in the gently lapping turquoise water, one hand resting on a textured, handwoven canvas tote bag featuring delicate terracotta and sky-blue geometric embroidery. Nearby, a striped pastel towel lies draped over the rocks, while the shimmering sea dominates the foreground and background, reflecting scattered olive tree shadows above. The candid, three-quarter iPhone angle captures tactile textures\u2014wet stone, linen, bronzed skin\u2014and the serene, quietly stylish atmosphere of Mediterranean luxury summer leisure. \u2014hyper-real texture fidelity, natural skin",
+          "style_id": "bc00b419-f8ca-4887-a990-e2760c3cb761",
+          "category": "Sunbathing"
+        },
+        {
+          "id": "2617c1981c98",
+          "title": "General",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F83034e1a-1d32-4053-a1bc-bbcb7a9491c8.jpeg&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/83034e1a-1d32-4053-a1bc-bbcb7a9491c8?styleId=464ea177-8d40-4940-8d9d-b438bab269c7",
+          "prompt": "A pair of mannequin legs dressed in sparkling glitter socks protrudes boldly from a voluminous mountain of cotton candy, its delicate, spun sugar texture softly aglow under a focused studio spotlight. Wisps of ethereal fog swirl gently around the scene, diffusing the bright, cool light and lending a dreamlike haze that contrasts with the sharp shine on the socks' glistening threads. The smooth, featureless plastic of the legs reflects the light with subtle sheen, emphasizing their artificial stillness amid the sweet, fluffy chaos surrounding them. The composition centers tightly on this surreal juxtaposition, capturing the fine details of the glitter's shimmer and the airy cotton candy's spun texture in crisp, tactile clarity, bathed in cool white and pale pink hues that meld into a softly blurred background.",
+          "style_id": "464ea177-8d40-4940-8d9d-b438bab269c7",
+          "category": "General"
+        },
+        {
+          "id": "308a5b0b9aad",
+          "title": "iPhone",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F5ba29aaf-a69e-49d2-8b7e-f940db3d2f2c.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/5ba29aaf-a69e-49d2-8b7e-f940db3d2f2c?styleId=1b798b54-03da-446a-93bf-12fcba1050d7",
+          "prompt": "3. A glamorous shot of a woman in an outdoor caf\u00e9, wearing a camel coat and oversized sunglasses. Her red lipstick pops against her fair skin. She\u2019s holding a cappuccino, natural golden hour lighting.\n",
+          "style_id": "1b798b54-03da-446a-93bf-12fcba1050d7",
+          "category": "iPhone"
+        },
+        {
+          "id": "3e0f8e7b159e",
+          "title": "Gallery",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F63838d69-5424-4b2f-b260-86af537cc501.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/63838d69-5424-4b2f-b260-86af537cc501?styleId=36061eb7-4907-4cba-afb1-47afcf699873",
+          "prompt": "High-resolution iPhone photograph tightly composed to capture two fashionable women standing mid-distance from a pristine white gallery wall adorned with a large whimsical modern artwork. The scene shows a candid moment mid-discussion, their relaxed postures conveying natural engagement with the art and each other. One woman, seen from a slight side angle at three-quarter rear view, wears a dark gray corset-style top paired with relaxed black jeans that gently crease at the ankle, her arms loosely at her sides. Her hair, softly catching the ambient light, frames her face as she directs her gaze thoughtfully toward the painting. The other woman, captured from behind and slightly to the side, dons a sleek black dress with subtle texture, complemented by a delicate gingham ribbon tied neatly in her hair, which cascades softly over her shoulders. Her hands rest casually by her sides as she leans slightly forward, visibly engaged in the conversation. Soft, diffuse ambient gallery lighting gently sculpts fabric textures\u2014the corset's structured sheen and the dress's smooth flow\u2014while creating a natural compression between figure and whimsical artwork. The expansive white wall behind them provides a clean, graphic background, establishing a calm horizontal rhythm that anchors this intimate, fashion-forward moment of contemporary art appreciation within a serene minimalist museum setting.",
+          "style_id": "36061eb7-4907-4cba-afb1-47afcf699873",
+          "category": "Gallery"
+        },
+        {
+          "id": "4dbf3a280ea2",
+          "title": "General",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F0632359a-1a64-477e-bd57-c5e6acd19c29.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/0632359a-1a64-477e-bd57-c5e6acd19c29?styleId=464ea177-8d40-4940-8d9d-b438bab269c7",
+          "prompt": "A bird\u2019s-eye view of a wooden slatted tea tray. Centered: a shallow white porcelain teacup with golden Darjeeling tea, and a gaiwan beside it filled with spent twisted leaves. In the corner, several ruby red pomegranate seeds in a tiny ceramic bowl. Calm morning setting, subtle reflections in the tea, quiet contemplative energy.\n\n\n\n\n\n\n\n\n\n\n\n",
+          "style_id": "464ea177-8d40-4940-8d9d-b438bab269c7",
+          "category": "General"
+        },
+        {
+          "id": "4a4675523f7e",
+          "title": "Sitting on the Street",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/4b5787f6-5f20-4ea8-a027-20fc503c8fb9.webp",
+          "source_url": "https://higgsfield.ai/soul/job/e4fa398f-d33d-4c0e-972e-8cd051ecacb1?styleId=7696fd45-6e67-47d7-b800-096ce21cd449",
+          "prompt": "A spontaneously captured iPhone-styled candid photo of a young woman with platinum hair casually lounging against a textured, slightly weathered Parisian stone wall on a city sidewalk. She wears understated effortless cool conveyed through an ivory silk blouse from COS with soft draping and subtle fabric wrinkles paired with sleek black leather pants by Our Legacy, complemented by classic white Converse sneakers gently scuffed from wear. Over her hair sit minimal black headphones, resting lightly and adding a contemporary casual touch. In one hand, she holds a translucent iced coffee glass showing realistic condensation and subtle reflections. Her hair is styled in a naturally tousled manner, some strands catching soft natural daylight that gently illuminates her neutral makeup and natural skin texture, including faint freckles and fine pores. Surrounding her are authentic urban textures of worn concrete pavement and the rough stone wall with patches of subtle moss. The composition features a slightly tilted overhead angle, off-center framing, and an informal crop that evoke the intuitive spontaneity and genuine intimacy emblematic of everyday Parisian iPhone street photography. Soft shadows and delicate highlights reveal the delicate fabric fibers, realistic leather grain, and glass transparency, completing the true-to-life candid aesthetic.",
+          "style_id": "7696fd45-6e67-47d7-b800-096ce21cd449",
+          "category": "Sitting on the Street"
+        },
+        {
+          "id": "135025cc4332",
+          "title": "iPhone",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2Fc63686a7-cad2-4a60-9b17-3201313f2a89.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/c63686a7-cad2-4a60-9b17-3201313f2a89?styleId=1b798b54-03da-446a-93bf-12fcba1050d7",
+          "prompt": "\t18.\tA girl in a business suit stands at a caf\u00e9 counter, one hand inside her large black tote bag, searching for her card. Minimalist setting, neutral tones, and overhead lighting. iPhone perspective.\n",
+          "style_id": "1b798b54-03da-446a-93bf-12fcba1050d7",
+          "category": "iPhone"
+        },
+        {
+          "id": "b1496bd8d762",
+          "title": "Gorpcore",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/14be9bd0-1777-4e46-abc1-4c3805905a12.webp",
+          "source_url": "https://higgsfield.ai/soul/job/e40e36fe-3890-47bf-a4d8-a298c9d991e4?styleId=96758335-d1d1-42b7-9c21-5ac38c433485",
+          "prompt": "A naturally posed side profile of an individual standing relaxed in front of a textured rugged rock wall within a mountainous terrain. The person wears a matte black technical waterproof hardshell jacket with an oversized hood fully raised, featuring angular shaping and cinch cords creating a sculptural, structured form that closely envelops the head. The jacket shows taped seams and waterproof zippers, highlighting its high-performance, utilitarian design. The individual sports high-contrast, orange-tinted wraparound goggles that vividly reflect the surrounding natural alpine landscape, partially obscuring the face so only the nose and part of the lips are visible beneath the hood and eyewear. Soft, diffused, indirect daylight gently illuminates the scene, emphasizing the rich textures of the waterproof fabric and the coarse rocky surfaces behind. The casual, spontaneous framing includes a subtle, slightly tilted angle, reinforcing the authentic candid iPhone photography aesthetic. This hyper-realistic, cinematic image conveys a calm, tactical, futuristic outdoor vibe within a rugged mountain setting, seamlessly blending minimalist mountain utility with cyberhiker fashion.",
+          "style_id": "96758335-d1d1-42b7-9c21-5ac38c433485",
+          "category": "Gorpcore"
+        },
+        {
+          "id": "f67a5cec84d2",
+          "title": "Escalator",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F4f7307cd-f754-482f-9399-fdfe651fb5f4.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/4f7307cd-f754-482f-9399-fdfe651fb5f4?styleId=bab6e4bd-9093-4bb5-a371-01ef6cbd58ad",
+          "prompt": "A high-resolution, vertically framed photo captured from directly above a wide escalator, showing a fashion model standing mid-step in a clean, graphic grid of metallic escalator steps. The escalator steps fill nearly the entire frame with their distinct horizontal metallic ridges and bright yellow safety lines, creating a tightly composed and symmetrical frame with minimal visibility of side panels. Shot with a 85mm lens, the natural compression enhances the clarity and focus on the subject\u2019s full body from head to toe in a top-down, vertical perspective.\n\nThe model wears a cropped varsity jacket paired with a crisp white pleated mini skirt and tall white socks, styled with bold red platform sneakers that pop against the neutral tones of the escalator steps. Heart-shaped sunglasses add a spirited retro-pop flair to her look. She stands with a relaxed, playful posture, her gaze casually directed to the side, embodying a youthful, fashion-forward aesthetic. Soft, ambient indoor lighting bathes the scene evenly, gently accentuating the texture of the pleats, knit socks, and smooth leather of the sneakers, resulting in an editorial feel that balances spontaneity with polished style typical of elevated TikTok escalator fit checks.",
+          "style_id": "bab6e4bd-9093-4bb5-a371-01ef6cbd58ad",
+          "category": "Escalator"
+        },
+        {
+          "id": "86b59f7ecaa7",
+          "title": "Angel Wings",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F170d2e75-7f4f-45cb-9e8e-2167a0e663a7.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/170d2e75-7f4f-45cb-9e8e-2167a0e663a7?styleId=4c24b43b-1984-407a-a0ae-c514f29b7e66",
+          "prompt": "Captured from a low angle near the base of a marble staircase, the image centers on a platinum-blonde woman stepping upward. Both of her small to medium angel wings trail behind her, fully visible but softened by intense overexposure that dissolves feather detail. Her glowing figure bleaches the surrounding space, blurring into the faint glow of an underlit Haussmann apartment interior. The walls behind her reveal traces of faded wallpaper, textures diminished beneath a veil of ambient haze. Above, a large chandelier's blurred light contributes to the gentle flood of diffuse illumination. The framing is slightly off-center and tilted, giving the impression of a fleeting handheld capture. Her minimal clothing, rendered in washed pale tones, blends seamlessly into the quiet, suspended atmosphere of soft, diffuse glow. The entire scene holds a quiet, neutral mood\u2014an ephemeral vision caught in a dim, overexposed urban interior.",
+          "style_id": "4c24b43b-1984-407a-a0ae-c514f29b7e66",
+          "category": "Angel Wings"
+        },
+        {
+          "id": "3f3bd9d6ab83",
+          "title": "General",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2Fdb7a10f8-910a-425f-9eb7-227df49270f9.png&w=1920&q=85",
+          "source_url": "https://higgsfield.ai/soul/job/db7a10f8-910a-425f-9eb7-227df49270f9?styleId=464ea177-8d40-4940-8d9d-b438bab269c7",
+          "prompt": "A tattooed man in baggy jeans and no shirt walks barefoot along a rocky riverbank, jeans soaked at the bottom. His torso is fully inked with Hannya masks, waves, and maple leaves. His face is turned downward, arms relaxed. The river reflects pale sky. The colors are muted, skin slightly desaturated in the iPhone camera. Everything feels cool, slow, peaceful \u2014 no staging.\n\n\n\n\n",
+          "style_id": "464ea177-8d40-4940-8d9d-b438bab269c7",
+          "category": "General"
+        },
+        {
+          "id": "18bd2c59a5fd",
+          "title": "Medieval",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/6934665d-0b5d-492b-8786-1c495937b46c.webp",
+          "source_url": "https://higgsfield.ai/soul/job/3ad3e859-cf5b-44b1-b243-663f1cd18e42?styleId=1fc861ed-5923-41a6-9963-b9f04681dddd",
+          "prompt": "A wide, full-body, eye-level shot from an early 2000s-style digital camera explicitly capturing a woman seated gracefully at a simple wooden table inside a dimly lit monastic room. She wears dark chainmail combined elegantly with contemporary clothing, with no gauntlets, her posture composed and solemn, head slightly bowed in contemplation, hands resting gently on the table near a small cup. The only light source is a warm wall sconce casting muted, dim illumination, creating a reverent atmosphere with heavy shadows and rich textures. The harsh direct flash characteristic of early 2000s digital photography subtly enhances the sheen of chainmail and the natural skin and fabric textures, adding visible digital noise and slight over-sharpening. The composition is formally balanced and symmetrical, the full-body wide shot emphasizing the serene knightly mood. The overall image blends medieval-core fashion influences with a dark, moody, and gritty but elegantly restrained visual tone typical of early 2000s digital captures.",
+          "style_id": "1fc861ed-5923-41a6-9963-b9f04681dddd",
+          "category": "Medieval"
+        },
+        {
+          "id": "9df1eb97fbe9",
+          "title": "2000s Fashion",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/8ab53648-e4d3-41ad-900e-b38b6f33dbaf.webp",
+          "source_url": "https://higgsfield.ai/soul/job/d1bd875e-3d96-46b4-866f-0f8604896ae9?styleId=facaafeb-4ab5-4384-92a1-b4086180e9ac",
+          "prompt": "He\u2019s framed in a medium close-up against a matte electric blue studio backdrop, standing with squared shoulders and arms crossed like he\u2019s guarding some unspoken secret. He\u2019s wearing an oversized black varsity jacket with silver leather sleeves and white block lettering stitched across the back, unzipped to flash a bubblegum pink mesh tank clinging tight to his torso. His low-rise wide-leg jeans are distressed denim with bleach splashes and a neon green grommet belt slung low, revealing a thick black waistband stamped with bold white text. His hair is dyed a blazing cherry red, spiked high with visible dark roots and styled to look like flames licking the edges of his head. On his face, plastic white wraparound sunglasses are pushed halfway down his nose, while layered silver chains clink softly at his collarbone. His gaze is apathetic, and his lips press flat\u2014he owns the shot with a cool, confrontational stance. The grainy softness of the digital capture lends a tactile authenticity to the Y2K vibe.\n\u2014casual candid early-2000s Y2K snapshot, grainy softness",
+          "style_id": "facaafeb-4ab5-4384-92a1-b4086180e9ac",
+          "category": "2000s Fashion"
+        }
+      ],
+      "styles": [
+        {
+          "id": "464ea177-8d40-4940-8d9d-b438bab269c7",
+          "title": "General",
+          "source_url": "https://higgsfield.ai/soul/464ea177-8d40-4940-8d9d-b438bab269c7"
+        },
+        {
+          "id": "88126a43-86fb-4047-a2d6-c9146d6ca6ce",
+          "title": "Duplicate",
+          "source_url": "https://higgsfield.ai/soul/88126a43-86fb-4047-a2d6-c9146d6ca6ce"
+        },
+        {
+          "id": "f96913e8-2fcf-4358-8545-75dd6c34c518",
+          "title": "Bimbocore",
+          "source_url": "https://higgsfield.ai/soul/f96913e8-2fcf-4358-8545-75dd6c34c518"
+        },
+        {
+          "id": "8dd89de9-1cff-402e-88a8-580c29d91473",
+          "title": "0.5 Selfie",
+          "source_url": "https://higgsfield.ai/soul/8dd89de9-1cff-402e-88a8-580c29d91473"
+        },
+        {
+          "id": "9de8ed26-c8dd-413c-a5e3-47eec97bc243",
+          "title": "Ring Selfie",
+          "source_url": "https://higgsfield.ai/soul/9de8ed26-c8dd-413c-a5e3-47eec97bc243"
+        },
+        {
+          "id": "5765d07d-1525-4d4d-ae06-9091e2bdac2d",
+          "title": "Afterparty Cam",
+          "source_url": "https://higgsfield.ai/soul/5765d07d-1525-4d4d-ae06-9091e2bdac2d"
+        },
+        {
+          "id": "dab472a6-23f4-4cf8-98fe-f3e256f1b549",
+          "title": "Amalfi Summer",
+          "source_url": "https://higgsfield.ai/soul/dab472a6-23f4-4cf8-98fe-f3e256f1b549"
+        },
+        {
+          "id": "4c24b43b-1984-407a-a0ae-c514f29b7e66",
+          "title": "Angel Wings",
+          "source_url": "https://higgsfield.ai/soul/4c24b43b-1984-407a-a0ae-c514f29b7e66"
+        },
+        {
+          "id": "b9e2d7dc-78e6-4f7d-95dd-b62690e7b200",
+          "title": "Artwork",
+          "source_url": "https://higgsfield.ai/soul/b9e2d7dc-78e6-4f7d-95dd-b62690e7b200"
+        },
+        {
+          "id": "0c636e12-3411-4a65-8d86-67858caf2fa7",
+          "title": "Avant-Garde",
+          "source_url": "https://higgsfield.ai/soul/0c636e12-3411-4a65-8d86-67858caf2fa7"
+        },
+        {
+          "id": "b7c621b5-9d3c-46a3-8efb-4cdfbc592271",
+          "title": "Babydoll Makeup",
+          "source_url": "https://higgsfield.ai/soul/b7c621b5-9d3c-46a3-8efb-4cdfbc592271"
+        },
+        {
+          "id": "90df2935-3ded-477f-8253-1d67dd939cbe",
+          "title": "Bike Mafia",
+          "source_url": "https://higgsfield.ai/soul/90df2935-3ded-477f-8253-1d67dd939cbe"
+        },
+        {
+          "id": "2d47f079-c021-4b8e-b2c0-3b927a80fc31",
+          "title": "Birthday Mess",
+          "source_url": "https://higgsfield.ai/soul/2d47f079-c021-4b8e-b2c0-3b927a80fc31"
+        },
+        {
+          "id": "cc099663-9621-422e-8626-c8ee68953a0c",
+          "title": "Bleached Brows",
+          "source_url": "https://higgsfield.ai/soul/cc099663-9621-422e-8626-c8ee68953a0c"
+        },
+        {
+          "id": "84c23cef-7eda-4f8f-9931-e3e6af8192d9",
+          "title": "Burgundy Suit",
+          "source_url": "https://higgsfield.ai/soul/84c23cef-7eda-4f8f-9931-e3e6af8192d9"
+        },
+        {
+          "id": "07a85fb3-4407-4122-a4eb-42124e57734c",
+          "title": "CCTV",
+          "source_url": "https://higgsfield.ai/soul/07a85fb3-4407-4122-a4eb-42124e57734c"
+        },
+        {
+          "id": "493bda5b-bb4b-46fe-9343-7d5e414534ef",
+          "title": "Clouded Dream",
+          "source_url": "https://higgsfield.ai/soul/493bda5b-bb4b-46fe-9343-7d5e414534ef"
+        },
+        {
+          "id": "bd78cfc6-9b92-4889-9347-f21dbf0a269c",
+          "title": "Coquette Core",
+          "source_url": "https://higgsfield.ai/soul/bd78cfc6-9b92-4889-9347-f21dbf0a269c"
+        },
+        {
+          "id": "b3c8075a-cb4c-42de-b8b3-7099dd2df672",
+          "title": "Creatures",
+          "source_url": "https://higgsfield.ai/soul/b3c8075a-cb4c-42de-b8b3-7099dd2df672"
+        },
+        {
+          "id": "d3e2b71d-b24b-462e-bd96-12f7a22b5142",
+          "title": "Crossing the Street",
+          "source_url": "https://higgsfield.ai/soul/d3e2b71d-b24b-462e-bd96-12f7a22b5142"
+        },
+        {
+          "id": "ca4e6ad3-3e93-4e03-81a0-d1722d2c128b",
+          "title": "Digital Camera",
+          "source_url": "https://higgsfield.ai/soul/ca4e6ad3-3e93-4e03-81a0-d1722d2c128b"
+        },
+        {
+          "id": "923e4fb0-d4ea-480c-876d-ac7cad862b9d",
+          "title": "dmv",
+          "source_url": "https://higgsfield.ai/soul/923e4fb0-d4ea-480c-876d-ac7cad862b9d"
+        },
+        {
+          "id": "2a1898d0-548f-4433-8503-5721157b93a1",
+          "title": "Double Take",
+          "source_url": "https://higgsfield.ai/soul/2a1898d0-548f-4433-8503-5721157b93a1"
+        },
+        {
+          "id": "7df83cc9-1e13-4bd0-b6ff-1e6a456b9e5a",
+          "title": "Eating Food",
+          "source_url": "https://higgsfield.ai/soul/7df83cc9-1e13-4bd0-b6ff-1e6a456b9e5a"
+        },
+        {
+          "id": "524be50a-4388-4ff5-a843-a73d2dd7ef87",
+          "title": "Elevator Mirror",
+          "source_url": "https://higgsfield.ai/soul/524be50a-4388-4ff5-a843-a73d2dd7ef87"
+        },
+        {
+          "id": "bab6e4bd-9093-4bb5-a371-01ef6cbd58ad",
+          "title": "Escalator",
+          "source_url": "https://higgsfield.ai/soul/bab6e4bd-9093-4bb5-a371-01ef6cbd58ad"
+        },
+        {
+          "id": "7f21e7bd-4df6-4cef-a9a9-9746bceaea1d",
+          "title": "Fairycore",
+          "source_url": "https://higgsfield.ai/soul/7f21e7bd-4df6-4cef-a9a9-9746bceaea1d"
+        },
+        {
+          "id": "86fc814e-856a-4af0-98b0-d4da75d0030b",
+          "title": "Fashion Show",
+          "source_url": "https://higgsfield.ai/soul/86fc814e-856a-4af0-98b0-d4da75d0030b"
+        },
+        {
+          "id": "373420f7-489e-4a5d-930e-cc4ecfcc23cc",
+          "title": "Fireproof",
+          "source_url": "https://higgsfield.ai/soul/373420f7-489e-4a5d-930e-cc4ecfcc23cc"
+        },
+        {
+          "id": "d4775423-d214-4862-b061-47baa1978208",
+          "title": "Fish-Eye Twin",
+          "source_url": "https://higgsfield.ai/soul/d4775423-d214-4862-b061-47baa1978208"
+        },
+        {
+          "id": "cc4e7248-dcfe-4c93-b264-2ab418a7556b",
+          "title": "Fisheye",
+          "source_url": "https://higgsfield.ai/soul/cc4e7248-dcfe-4c93-b264-2ab418a7556b"
+        },
+        {
+          "id": "3f90dc5b-f474-4259-95c4-d29fbd6be645",
+          "title": "Flight Mode",
+          "source_url": "https://higgsfield.ai/soul/3f90dc5b-f474-4259-95c4-d29fbd6be645"
+        },
+        {
+          "id": "0fe8ad66-ff61-411f-9186-b392e140b18c",
+          "title": "Foggy Morning",
+          "source_url": "https://higgsfield.ai/soul/0fe8ad66-ff61-411f-9186-b392e140b18c"
+        },
+        {
+          "id": "36061eb7-4907-4cba-afb1-47afcf699873",
+          "title": "Gallery",
+          "source_url": "https://higgsfield.ai/soul/36061eb7-4907-4cba-afb1-47afcf699873"
+        },
+        {
+          "id": "372cc37b-9add-4952-a415-53db3998139f",
+          "title": "Geominimal",
+          "source_url": "https://higgsfield.ai/soul/372cc37b-9add-4952-a415-53db3998139f"
+        },
+        {
+          "id": "70fbb531-5ee2-492e-8c53-5dbd6923e8c2",
+          "title": "Giant Accessory",
+          "source_url": "https://higgsfield.ai/soul/70fbb531-5ee2-492e-8c53-5dbd6923e8c2"
+        },
+        {
+          "id": "a5f63c3b-70eb-4979-af5e-98c7ee1e18e8",
+          "title": "Giant People",
+          "source_url": "https://higgsfield.ai/soul/a5f63c3b-70eb-4979-af5e-98c7ee1e18e8"
+        },
+        {
+          "id": "a2a42ada-75cc-42a9-be12-cb16c1dec2a8",
+          "title": "Glazed Doll Skin Makeup",
+          "source_url": "https://higgsfield.ai/soul/a2a42ada-75cc-42a9-be12-cb16c1dec2a8"
+        },
+        {
+          "id": "62355e77-7096-45ae-9bea-e7c5b88c3b70",
+          "title": "Glitch",
+          "source_url": "https://higgsfield.ai/soul/62355e77-7096-45ae-9bea-e7c5b88c3b70"
+        },
+        {
+          "id": "96758335-d1d1-42b7-9c21-5ac38c433485",
+          "title": "Gorpcore",
+          "source_url": "https://higgsfield.ai/soul/96758335-d1d1-42b7-9c21-5ac38c433485"
+        },
+        {
+          "id": "0b4dac9a-f73a-4e5b-a5a7-1a40ee40d6ac",
+          "title": "Graffiti",
+          "source_url": "https://higgsfield.ai/soul/0b4dac9a-f73a-4e5b-a5a7-1a40ee40d6ac"
+        },
+        {
+          "id": "91abc4fe-1cf8-4a77-8ade-d36d46699014",
+          "title": "Green Editorial",
+          "source_url": "https://higgsfield.ai/soul/91abc4fe-1cf8-4a77-8ade-d36d46699014"
+        },
+        {
+          "id": "255f4045-d68b-42b1-9e4c-f49d3263a9d7",
+          "title": "Grillz Selfie",
+          "source_url": "https://higgsfield.ai/soul/255f4045-d68b-42b1-9e4c-f49d3263a9d7"
+        },
+        {
+          "id": "ad9de607-3941-4540-81ea-ba978ef1550b",
+          "title": "Grunge",
+          "source_url": "https://higgsfield.ai/soul/ad9de607-3941-4540-81ea-ba978ef1550b"
+        },
+        {
+          "id": "ea6f4dc0-d6dd-4bdf-a8cf-94ed1db91ab2",
+          "title": "Hair Clips",
+          "source_url": "https://higgsfield.ai/soul/ea6f4dc0-d6dd-4bdf-a8cf-94ed1db91ab2"
+        },
+        {
+          "id": "a643a36a-85e6-4e3d-80db-13e4997203cc",
+          "title": "Hallway Noir",
+          "source_url": "https://higgsfield.ai/soul/a643a36a-85e6-4e3d-80db-13e4997203cc"
+        },
+        {
+          "id": "5ad23bca-4a4b-4316-8c59-b80d7709d8ee",
+          "title": "Help, It\u2019s Too Big",
+          "source_url": "https://higgsfield.ai/soul/5ad23bca-4a4b-4316-8c59-b80d7709d8ee"
+        },
+        {
+          "id": "5a72fec7-a12e-43db-8ef3-1d193b4f7ab4",
+          "title": "Indie sleaze",
+          "source_url": "https://higgsfield.ai/soul/5a72fec7-a12e-43db-8ef3-1d193b4f7ab4"
+        },
+        {
+          "id": "82edba1e-b093-4484-a25e-9276e0454999",
+          "title": "Invertethereal",
+          "source_url": "https://higgsfield.ai/soul/82edba1e-b093-4484-a25e-9276e0454999"
+        },
+        {
+          "id": "1b798b54-03da-446a-93bf-12fcba1050d7",
+          "title": "iPhone",
+          "source_url": "https://higgsfield.ai/soul/1b798b54-03da-446a-93bf-12fcba1050d7"
+        },
+        {
+          "id": "79bfaa63-4e12-4ea2-8ada-7d4406eecece",
+          "title": "It\u2019s French",
+          "source_url": "https://higgsfield.ai/soul/79bfaa63-4e12-4ea2-8ada-7d4406eecece"
+        },
+        {
+          "id": "0089e17c-d0f0-4d0c-b522-6d25c88a29fc",
+          "title": "Japandi",
+          "source_url": "https://higgsfield.ai/soul/0089e17c-d0f0-4d0c-b522-6d25c88a29fc"
+        },
+        {
+          "id": "6fb3e1f5-d721-4523-ac38-9902f2b2b850",
+          "title": "Library",
+          "source_url": "https://higgsfield.ai/soul/6fb3e1f5-d721-4523-ac38-9902f2b2b850"
+        },
+        {
+          "id": "12eda704-18e5-4783-aa0f-deba5296cc83",
+          "title": "Long Legs",
+          "source_url": "https://higgsfield.ai/soul/12eda704-18e5-4783-aa0f-deba5296cc83"
+        },
+        {
+          "id": "1fc861ed-5923-41a6-9963-b9f04681dddd",
+          "title": "Medieval",
+          "source_url": "https://higgsfield.ai/soul/1fc861ed-5923-41a6-9963-b9f04681dddd"
+        },
+        {
+          "id": "2fcf02e2-919a-4642-8b31-d58bde5e6bd9",
+          "title": "Mixed Media",
+          "source_url": "https://higgsfield.ai/soul/2fcf02e2-919a-4642-8b31-d58bde5e6bd9"
+        },
+        {
+          "id": "811de7ab-7aaf-4a6b-b352-cdea6c34c8f1",
+          "title": "Movie",
+          "source_url": "https://higgsfield.ai/soul/811de7ab-7aaf-4a6b-b352-cdea6c34c8f1"
+        },
+        {
+          "id": "de0118ba-7c27-49f7-9841-38abe2aae8e1",
+          "title": "Mt. Fuji",
+          "source_url": "https://higgsfield.ai/soul/de0118ba-7c27-49f7-9841-38abe2aae8e1"
+        },
+        {
+          "id": "4b66c2db-8166-4293-b1aa-5269c9effb07",
+          "title": "Nail Check",
+          "source_url": "https://higgsfield.ai/soul/4b66c2db-8166-4293-b1aa-5269c9effb07"
+        },
+        {
+          "id": "5dbb6a20-0541-4f06-8352-a2408d8781dc",
+          "title": "Nicotine Glow",
+          "source_url": "https://higgsfield.ai/soul/5dbb6a20-0541-4f06-8352-a2408d8781dc"
+        },
+        {
+          "id": "62ba1751-63af-4648-a11c-711ac64e216a",
+          "title": "Night Beach",
+          "source_url": "https://higgsfield.ai/soul/62ba1751-63af-4648-a11c-711ac64e216a"
+        },
+        {
+          "id": "1fba888b-9ab0-447f-a6a4-9ce5251ec2a6",
+          "title": "Night Rider",
+          "source_url": "https://higgsfield.ai/soul/1fba888b-9ab0-447f-a6a4-9ce5251ec2a6"
+        },
+        {
+          "id": "b7908955-2868-4e35-87a0-35e50cb92e5d",
+          "title": "Object Makeup",
+          "source_url": "https://higgsfield.ai/soul/b7908955-2868-4e35-87a0-35e50cb92e5d"
+        },
+        {
+          "id": "e454956b-caf2-4913-a398-dbc03f1cbedf",
+          "title": "Office Beach",
+          "source_url": "https://higgsfield.ai/soul/e454956b-caf2-4913-a398-dbc03f1cbedf"
+        },
+        {
+          "id": "d8a35238-ba42-48a0-a76a-186a97734b9d",
+          "title": "Overexposed",
+          "source_url": "https://higgsfield.ai/soul/d8a35238-ba42-48a0-a76a-186a97734b9d"
+        },
+        {
+          "id": "7fa63380-64b7-48b1-b684-4c9ef37560a9",
+          "title": "Paper Face",
+          "source_url": "https://higgsfield.ai/soul/7fa63380-64b7-48b1-b684-4c9ef37560a9"
+        },
+        {
+          "id": "34c50302-83ff-487d-b3a9-e35e501d80a7",
+          "title": "Pixelated Face",
+          "source_url": "https://higgsfield.ai/soul/34c50302-83ff-487d-b3a9-e35e501d80a7"
+        },
+        {
+          "id": "ff1ad8a2-94e7-4e70-a12f-e992ca9a0d36",
+          "title": "Quiet Luxury",
+          "source_url": "https://higgsfield.ai/soul/ff1ad8a2-94e7-4e70-a12f-e992ca9a0d36"
+        },
+        {
+          "id": "53bdadfa-8eb6-4eaa-8923-ebece4faa91c",
+          "title": "Rainy Day",
+          "source_url": "https://higgsfield.ai/soul/53bdadfa-8eb6-4eaa-8923-ebece4faa91c"
+        },
+        {
+          "id": "1cb4b936-77bf-4f9a-9039-f3d349a4cdbe",
+          "title": "Realistic",
+          "source_url": "https://higgsfield.ai/soul/1cb4b936-77bf-4f9a-9039-f3d349a4cdbe"
+        },
+        {
+          "id": "3de71b9e-3973-4828-b246-a34c606e25a7",
+          "title": "Red Balloon",
+          "source_url": "https://higgsfield.ai/soul/3de71b9e-3973-4828-b246-a34c606e25a7"
+        },
+        {
+          "id": "c7ea4e7a-c40c-498d-948c-1f6919631f60",
+          "title": "Rhyme & Blues",
+          "source_url": "https://higgsfield.ai/soul/c7ea4e7a-c40c-498d-948c-1f6919631f60"
+        },
+        {
+          "id": "ba3d7634-447e-455c-98e3-63705d5403b8",
+          "title": "Sand",
+          "source_url": "https://higgsfield.ai/soul/ba3d7634-447e-455c-98e3-63705d5403b8"
+        },
+        {
+          "id": "71ac929c-4002-4640-9b65-cb06402844c6",
+          "title": "Sea Breeze",
+          "source_url": "https://higgsfield.ai/soul/71ac929c-4002-4640-9b65-cb06402844c6"
+        },
+        {
+          "id": "d24c016c-9fb1-47d0-9909-19f57a2830d4",
+          "title": "Self-Care",
+          "source_url": "https://higgsfield.ai/soul/d24c016c-9fb1-47d0-9909-19f57a2830d4"
+        },
+        {
+          "id": "30458874-d9c0-4d5a-b2b7-597e0eee2404",
+          "title": "Shoe Check",
+          "source_url": "https://higgsfield.ai/soul/30458874-d9c0-4d5a-b2b7-597e0eee2404"
+        },
+        {
+          "id": "7696fd45-6e67-47d7-b800-096ce21cd449",
+          "title": "Sitting on the Street",
+          "source_url": "https://higgsfield.ai/soul/7696fd45-6e67-47d7-b800-096ce21cd449"
+        },
+        {
+          "id": "40ff999c-f576-443c-b5b3-c7d1391a666e",
+          "title": "Spotlight",
+          "source_url": "https://higgsfield.ai/soul/40ff999c-f576-443c-b5b3-c7d1391a666e"
+        },
+        {
+          "id": "fb9cee2b-632f-4fd4-ae4f-4664deecc0f4",
+          "title": "Static Glow",
+          "source_url": "https://higgsfield.ai/soul/fb9cee2b-632f-4fd4-ae4f-4664deecc0f4"
+        },
+        {
+          "id": "a13917c7-02a4-450f-b007-e72d53151980",
+          "title": "Street View",
+          "source_url": "https://higgsfield.ai/soul/a13917c7-02a4-450f-b007-e72d53151980"
+        },
+        {
+          "id": "d2e8ba04-9935-4dee-8bc4-39ac789746fc",
+          "title": "Subway",
+          "source_url": "https://higgsfield.ai/soul/d2e8ba04-9935-4dee-8bc4-39ac789746fc"
+        },
+        {
+          "id": "bc00b419-f8ca-4887-a990-e2760c3cb761",
+          "title": "Sunbathing",
+          "source_url": "https://higgsfield.ai/soul/bc00b419-f8ca-4887-a990-e2760c3cb761"
+        },
+        {
+          "id": "26241c54-ed78-4ea7-b1bf-d881737c9feb",
+          "title": "Sunset Beach",
+          "source_url": "https://higgsfield.ai/soul/26241c54-ed78-4ea7-b1bf-d881737c9feb"
+        },
+        {
+          "id": "5b6f467e-f509-4afe-a8db-4c07a6f3770d",
+          "title": "Swords Hill",
+          "source_url": "https://higgsfield.ai/soul/5b6f467e-f509-4afe-a8db-4c07a6f3770d"
+        },
+        {
+          "id": "1900111a-4ce8-42a7-9394-7367f0e0385c",
+          "title": "Through the Glass",
+          "source_url": "https://higgsfield.ai/soul/1900111a-4ce8-42a7-9394-7367f0e0385c"
+        },
+        {
+          "id": "ce9a88c2-c962-45e2-abaa-c8979d48f8d5",
+          "title": "tokyo drift",
+          "source_url": "https://higgsfield.ai/soul/ce9a88c2-c962-45e2-abaa-c8979d48f8d5"
+        },
+        {
+          "id": "99de6fc5-1177-49b9-b2e9-19e17d95bcaf",
+          "title": "Tokyo Street Style",
+          "source_url": "https://higgsfield.ai/soul/99de6fc5-1177-49b9-b2e9-19e17d95bcaf"
+        },
+        {
+          "id": "0367d609-dfa1-4a81-a983-b2b19ecd6480",
+          "title": "Tumblr",
+          "source_url": "https://higgsfield.ai/soul/0367d609-dfa1-4a81-a983-b2b19ecd6480"
+        },
+        {
+          "id": "83caff04-691c-468c-b4a0-fd6bbabe062b",
+          "title": "Vintage Photo Booth",
+          "source_url": "https://higgsfield.ai/soul/83caff04-691c-468c-b4a0-fd6bbabe062b"
+        },
+        {
+          "id": "6b9e6b4d-325a-4a78-a0fb-a00ddf612380",
+          "title": "Y2K",
+          "source_url": "https://higgsfield.ai/soul/6b9e6b4d-325a-4a78-a0fb-a00ddf612380"
+        },
+        {
+          "id": "cbefda85-0f76-49bd-82d7-9bcd65be00ca",
+          "title": "Y2K Posters",
+          "source_url": "https://higgsfield.ai/soul/cbefda85-0f76-49bd-82d7-9bcd65be00ca"
+        },
+        {
+          "id": "71fecd8c-6696-42df-b5eb-f69e4150ca01",
+          "title": "0.5 Outfit",
+          "source_url": "https://higgsfield.ai/soul/71fecd8c-6696-42df-b5eb-f69e4150ca01"
+        },
+        {
+          "id": "181b3796-008a-403b-b31e-a9b760219f17",
+          "title": "2000s Cam",
+          "source_url": "https://higgsfield.ai/soul/181b3796-008a-403b-b31e-a9b760219f17"
+        },
+        {
+          "id": "facaafeb-4ab5-4384-92a1-b4086180e9ac",
+          "title": "2000s Fashion",
+          "source_url": "https://higgsfield.ai/soul/facaafeb-4ab5-4384-92a1-b4086180e9ac"
+        },
+        {
+          "id": "53959c8a-4323-4b78-9888-e9f6fb0f6b98",
+          "title": "2049",
+          "source_url": "https://higgsfield.ai/soul/53959c8a-4323-4b78-9888-e9f6fb0f6b98"
+        },
+        {
+          "id": "294bb3ee-eaef-4d2a-93e3-164268803db4",
+          "title": "360 Cam",
+          "source_url": "https://higgsfield.ai/soul/294bb3ee-eaef-4d2a-93e3-164268803db4"
+        },
+        {
+          "id": "673cf0d4-c193-4fa2-8ad3-b4db4611e3ae",
+          "title": "505room",
+          "source_url": "https://higgsfield.ai/soul/673cf0d4-c193-4fa2-8ad3-b4db4611e3ae"
+        },
+        {
+          "id": "5659c554-9367-4a27-8c66-333c072cbbc2",
+          "title": "7\\",
+          "source_url": "https://higgsfield.ai/soul/5659c554-9367-4a27-8c66-333c072cbbc2"
+        },
+        {
+          "id": "710f9073-f580-48dc-b5c3-9bbc7cbb7f37",
+          "title": "90\u2019s Editorial",
+          "source_url": "https://higgsfield.ai/soul/710f9073-f580-48dc-b5c3-9bbc7cbb7f37"
+        },
+        {
+          "id": "f5c094c7-4671-4d86-90d2-369c8fdbd7a5",
+          "title": "90s Grain",
+          "source_url": "https://higgsfield.ai/soul/f5c094c7-4671-4d86-90d2-369c8fdbd7a5"
+        }
+      ],
+      "wordmark": "/reference-media/soul-wordmark.svg"
+    },
+    "soul-id-cast": {
+      "examples": [
+        {
+          "id": "507947d1bde1",
+          "title": "Examples 1",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-1.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "6a59aef122d8",
+          "title": "Examples 2",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-2.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "9bab5f304b60",
+          "title": "Examples 3",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-3.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "83fdfdbd989c",
+          "title": "Examples 4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-4.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        }
+      ],
+      "good_examples": [
+        {
+          "id": "5912c62a14d5",
+          "title": "Good Examples 1",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good1.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "7ad2b61c2419",
+          "title": "Good Examples 2",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good2.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "fe0d45c316a6",
+          "title": "Good Examples 3",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good3.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "5851e0618838",
+          "title": "Good Examples 4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good4.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "4e9988d02098",
+          "title": "Good Examples 5",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good5.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "b3eb64ece670",
+          "title": "Good Examples 6",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good6.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "131d552be24a",
+          "title": "Good Examples 7",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good7.png",
+          "source_url": "https://higgsfield.ai/character"
+        }
+      ],
+      "bad_examples": [
+        {
+          "id": "2fe4e21c224e",
+          "title": "Bad Examples 1",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad1.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "63deee3d42ac",
+          "title": "Bad Examples 2",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad2.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "0719d8717b8b",
+          "title": "Bad Examples 3",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad3.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "2c943f3195d6",
+          "title": "Bad Examples 4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad4.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "778263fe650d",
+          "title": "Bad Examples 5",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad5.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "35f2ea7fa43d",
+          "title": "Bad Examples 6",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad6.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "98289069c39e",
+          "title": "Bad Examples 7",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad7.png",
+          "source_url": "https://higgsfield.ai/character"
+        }
+      ],
+      "hero": [
+        {
+          "id": "507947d1bde1",
+          "title": "Examples 1",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-1.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "6a59aef122d8",
+          "title": "Examples 2",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-2.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "9bab5f304b60",
+          "title": "Examples 3",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-3.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "83fdfdbd989c",
+          "title": "Examples 4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-4.jpg",
+          "source_url": "https://higgsfield.ai/character"
+        }
+      ],
+      "characters": [
+        {
+          "id": "5912c62a14d5",
+          "title": "Good Examples 1",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good1.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "7ad2b61c2419",
+          "title": "Good Examples 2",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good2.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "fe0d45c316a6",
+          "title": "Good Examples 3",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good3.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "5851e0618838",
+          "title": "Good Examples 4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good4.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "4e9988d02098",
+          "title": "Good Examples 5",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good5.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "b3eb64ece670",
+          "title": "Good Examples 6",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good6.png",
+          "source_url": "https://higgsfield.ai/character"
+        },
+        {
+          "id": "131d552be24a",
+          "title": "Good Examples 7",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good7.png",
+          "source_url": "https://higgsfield.ai/character"
+        }
+      ]
+    }
+  },
+  "assets": [
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/14be9bd0-1777-4e46-abc1-4c3805905a12.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/26b1630c-3606-437c-a167-83730e42c570.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/4b5787f6-5f20-4ea8-a027-20fc503c8fb9.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/60232189-54a0-4ca8-ba19-79936912a2d0.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/6934665d-0b5d-492b-8786-1c495937b46c.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/70994afe-9800-4669-b9b3-b02875f42a21.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/8ab53648-e4d3-41ad-900e-b38b6f33dbaf.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-1.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-2.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-3.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/image/character-panel-cinematic-4.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/public/image/empty-state/soul-cinematic-1.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/public/image/empty-state/soul-cinematic-2.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/public/image/empty-state/soul-cinematic-3.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/public/image/empty-state/soul-cinematic-4.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-1.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-2.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-3.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-4.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-5.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul-v2/2-6.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad1.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad2.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad3.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad4.jpg",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad5.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad6.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/bad7.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good1.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good2.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good3.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good4.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good5.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good6.png",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/soul2/good7.png",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F0632359a-1a64-477e-bd57-c5e6acd19c29.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F165e0767-3f59-46f9-ba4e-fac1c3fa86de.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F170d2e75-7f4f-45cb-9e8e-2167a0e663a7.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F4f7307cd-f754-482f-9399-fdfe651fb5f4.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F5ba29aaf-a69e-49d2-8b7e-f940db3d2f2c.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F63838d69-5424-4b2f-b260-86af537cc501.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F69ffd880-3c1a-4330-8277-f2d3bed98e10.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2F83034e1a-1d32-4053-a1bc-bbcb7a9491c8.jpeg&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2Fb258ad5f-e382-462a-9857-ac6dd18e5f7b.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2Fc63686a7-cad2-4a60-9b17-3201313f2a89.png&w=1920&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcontent_user_id%2Fdb7a10f8-910a-425f-9eb7-227df49270f9.png&w=1920&q=85",
+      "download": true
+    }
+  ],
+  "observed_layout": {
+    "codex-soul-default-dom.txt": {
+      "prompt_and_ancestors": [
+        {
+          "tag": "div",
+          "class": "text-sm focus:outline-none size-full cursor-text size-full resize-none bg-inherit hide-scrollbar border-none rounded-none focus:outline-none",
+          "style": "user-select: text; white-space: pre-wrap; word-break: break-word;"
+        },
+        {
+          "tag": "div",
+          "class": "relative text-[15px] w-full overflow-y-auto reference-prompt",
+          "style": "min-height: 40px; height: auto; max-height: 20dvh; transition: max-height 0.3s;"
+        },
+        {
+          "tag": "div",
+          "class": "flex gap-3",
+          "style": null
+        },
+        {
+          "tag": "div",
+          "class": "flex-1 min-h-0 min-w-0 space-y-3",
+          "style": null
+        },
+        {
+          "tag": "fieldset",
+          "class": "z-2 relative flex gap-3 items-end justify-end self-stretch rounded-q-400 bg-[#27292C] p-3 [&_[data-image-form-prompt-row]]:min-h-10 [&_[data-image-form-prompt-row]]:items-center [&_[data-image-form-prompt-row]]:self-stretch [&_[data-image-form-prompt-row]]:p-1 [&_[data-image-form-prompt]]:cursor-text [&_[data-image-form-prompt]]:text-q-body-sm-regular [&_[data-image-form-prompt]]:text-q-text-primary [&_[data-prompt-placeholder]]:text-q-text-secondary [&_textarea]:max-h-28 min-w-0",
+          "style": null
+        },
+        {
+          "tag": "form",
+          "class": "image-form w-full rounded-[var(--radius-500,20px)] bg-q-background-secondary p-1 shadow-[0_32px_24px_0_rgba(0,0,0,0.15)]",
+          "style": "transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out, border 0.2s ease-in-out;"
+        },
+        {
+          "tag": "div",
+          "class": "hidden md:flex z-50 flex-col items-center justify-center rounded-[var(--radius-500,20px)] p-0 fixed bottom-4 -translate-x-1/2 z-1 w-full",
+          "style": "pointer-events: auto; left: calc((100% - var(--cinematic-right-sidebar-width, 0px)) / 2); max-width: min(calc(100vw - 32px - var(--cinematic-right-sidebar-width, 0px)), 880px); anchor-name: --image-form; opacity: 1; transform: none;"
+        }
+      ]
+    },
+    "codex-image-default-dom.txt": {
+      "prompt_and_ancestors": [
+        {
+          "tag": "div",
+          "class": "text-sm focus:outline-none size-full cursor-text size-full resize-none bg-inherit hide-scrollbar border-none rounded-none focus:outline-none",
+          "style": "user-select: text; white-space: pre-wrap; word-break: break-word;"
+        },
+        {
+          "tag": "div",
+          "class": "relative text-[15px] w-full overflow-y-auto reference-prompt",
+          "style": "min-height: 40px; height: auto; max-height: 20dvh; transition: max-height 0.3s;"
+        },
+        {
+          "tag": "div",
+          "class": "flex gap-3",
+          "style": null
+        },
+        {
+          "tag": "div",
+          "class": "flex-1 min-h-0 min-w-0 space-y-3",
+          "style": null
+        },
+        {
+          "tag": "fieldset",
+          "class": "z-2 relative flex gap-3 items-end justify-end self-stretch rounded-q-400 bg-[#27292C] p-3 [&_[data-image-form-prompt-row]]:min-h-10 [&_[data-image-form-prompt-row]]:items-center [&_[data-image-form-prompt-row]]:self-stretch [&_[data-image-form-prompt-row]]:p-1 [&_[data-image-form-prompt]]:cursor-text [&_[data-image-form-prompt]]:text-q-body-sm-regular [&_[data-image-form-prompt]]:text-q-text-primary [&_[data-prompt-placeholder]]:text-q-text-secondary [&_textarea]:max-h-28 min-w-0",
+          "style": null
+        },
+        {
+          "tag": "form",
+          "class": "image-form w-full rounded-[var(--radius-500,20px)] bg-q-background-secondary p-1 shadow-[0_32px_24px_0_rgba(0,0,0,0.15)]",
+          "style": "transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out, border 0.2s ease-in-out;"
+        },
+        {
+          "tag": "div",
+          "class": "hidden md:flex z-50 flex-col items-center justify-center rounded-[var(--radius-500,20px)] p-0 fixed bottom-4 -translate-x-1/2 z-1 w-full",
+          "style": "pointer-events: auto; left: calc((100% - var(--cinematic-right-sidebar-width, 0px)) / 2); max-width: min(calc(100vw - 32px - var(--cinematic-right-sidebar-width, 0px)), 880px); anchor-name: --image-form; opacity: 1; transform: none;"
+        }
+      ]
+    },
+    "hero": {
+      "soul_media_card_class": "relative w-50 h-29.5 overflow-hidden shrink-0",
+      "soul_wordmark_class": "relative z-10 w-[773px] h-32.5 shrink-0 pointer-events-none",
+      "hero_spacing_class": "flex flex-col items-center w-full gap-10",
+      "image_card_class": "relative overflow-hidden size-[clamp(64px,min(12vw,16vh),172px)] rounded-xl border-3 xl:border-4 border-white/30",
+      "composer_surface_color": "#27292C",
+      "composer_radius_fallback": "20px",
+      "prompt_font_size": "15px",
+      "prompt_max_height": "20dvh",
+      "note": "Exact DOM classes/inline declarations, not inferred computed styles."
+    }
+  }
+}

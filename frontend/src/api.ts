@@ -15,7 +15,9 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
     } catch {
       /* Plain response body. */
     }
-    throw new Error(text || `Request failed (${response.status})`);
+    throw Object.assign(new Error(text || `Request failed (${response.status})`), {
+      status: response.status,
+    });
   }
   return response.status === 204 ? (undefined as T) : response.json();
 }

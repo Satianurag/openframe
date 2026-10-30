@@ -1,0 +1,3653 @@
+{
+  "source": "Observed rendered Higgsfield DOM and accessibility captures,29October2026",
+  "apps": {
+    "ai-influencer": {
+      "groups": [
+        {
+          "id": "character-type",
+          "title": "Character type",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Average",
+              "poster": "https://static.higgsfield.ai/ai-influencer/design-update/2026-10-02/sidebar/average.webp"
+            },
+            {
+              "title": "Bold",
+              "poster": "https://static.higgsfield.ai/ai-influencer/design-update/2026-10-02/sidebar/bold-v2.webp"
+            },
+            {
+              "title": "Extreme",
+              "poster": "https://static.higgsfield.ai/ai-influencer/design-update/2026-10-02/sidebar/extreme.webp"
+            },
+            {
+              "title": "Insect",
+              "poster": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/insect.webp"
+            },
+            {
+              "title": "Frog",
+              "poster": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/frog.webp"
+            },
+            {
+              "title": "Cat",
+              "poster": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/cat.webp"
+            },
+            {
+              "title": "Dog",
+              "poster": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/dog.webp"
+            },
+            {
+              "title": "Rodent",
+              "poster": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/rodent.webp"
+            },
+            {
+              "title": "Bird",
+              "poster": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/bird.webp"
+            }
+          ]
+        },
+        {
+          "id": "gender",
+          "title": "Gender",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Female",
+              "poster": "https://cdn.higgsfield.ai/ai_influencer_option/f9fa514b-620d-433e-bd4e-eadd880de118.webp"
+            },
+            {
+              "title": "Male",
+              "poster": "https://cdn.higgsfield.ai/ai_influencer_option/fb91b108-27fc-4e7c-a8fd-876dc8c30ecf.webp"
+            },
+            {
+              "title": "Trans man",
+              "poster": "https://cdn.higgsfield.ai/ai_influencer_option/95002c8f-c0d6-4dec-8cac-fc7b50501600.webp"
+            },
+            {
+              "title": "Trans woman",
+              "poster": "https://cdn.higgsfield.ai/ai_influencer_option/21fc9f46-6f1f-4aed-8f74-0ca3080c8eec.webp"
+            },
+            {
+              "title": "Non-binary",
+              "poster": "https://cdn.higgsfield.ai/ai_influencer_option/58a652a4-bf5e-43ca-95a8-8f9e9cef5b6b.webp"
+            }
+          ]
+        },
+        {
+          "id": "build",
+          "title": "Build",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Slim",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_slim.webp"
+            },
+            {
+              "title": "Athletic",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_athletic.webp"
+            },
+            {
+              "title": "Muscular",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_muscular.webp"
+            },
+            {
+              "title": "Curvy",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_curvy.webp"
+            },
+            {
+              "title": "Heavy",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_heavy.webp"
+            },
+            {
+              "title": "Ultra Muscular",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_ultra.webp"
+            },
+            {
+              "title": "Centaur",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-06-centaur/centaur.webp"
+            }
+          ]
+        },
+        {
+          "id": "hairstyle",
+          "title": "Hairstyle",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Bob",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_lampshade.webp"
+            },
+            {
+              "title": "Bald",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_bald.webp"
+            },
+            {
+              "title": "Buzz cut",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_buzz.webp"
+            },
+            {
+              "title": "Bowl cut",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_bowl.webp"
+            },
+            {
+              "title": "Mullet",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_mullet.webp"
+            },
+            {
+              "title": "Braids",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_braids.webp"
+            },
+            {
+              "title": "Pigtails",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_pigtails.webp"
+            },
+            {
+              "title": "Afro",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_afro.webp"
+            },
+            {
+              "title": "Mohawk",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_punk.webp"
+            },
+            {
+              "title": "Volume waves",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_pompadour.webp"
+            },
+            {
+              "title": "Beehive",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_beehive.webp"
+            },
+            {
+              "title": "Perm",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_dome.webp"
+            },
+            {
+              "title": "Long hair",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_long.webp"
+            },
+            {
+              "title": "Short hair",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_short.webp"
+            },
+            {
+              "title": "Hair horns",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_horns.webp"
+            },
+            {
+              "title": "Soft-serve swirl",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_softserve.webp"
+            },
+            {
+              "title": "Curl sphere",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_sphere.webp"
+            },
+            {
+              "title": "Mouse-ear puffs",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_mouse.webp"
+            },
+            {
+              "title": "Hair wings",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_wings.webp"
+            },
+            {
+              "title": "Hedgehog spikes",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_hedgehog.webp"
+            },
+            {
+              "title": "Side tufts",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_tufts.webp"
+            },
+            {
+              "title": "Stair steps",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_stairs.webp"
+            },
+            {
+              "title": "Shelf bob",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_shelf.webp"
+            },
+            {
+              "title": "Corkscrews",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_corkscrews.webp"
+            },
+            {
+              "title": "Side coil",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_sidecoil.webp"
+            },
+            {
+              "title": "Mushroom",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_mushroom.webp"
+            }
+          ]
+        },
+        {
+          "id": "hair-color",
+          "title": "Hair Color",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Jet black",
+              "swatch": "rgb(21, 21, 21)"
+            },
+            {
+              "title": "Dark brown",
+              "swatch": "rgb(57, 40, 31)"
+            },
+            {
+              "title": "Chestnut",
+              "swatch": "rgb(121, 74, 51)"
+            },
+            {
+              "title": "Ginger",
+              "swatch": "rgb(181, 97, 49)"
+            },
+            {
+              "title": "Red",
+              "swatch": "rgb(180, 54, 54)"
+            },
+            {
+              "title": "Blonde",
+              "swatch": "rgb(217, 183, 116)"
+            },
+            {
+              "title": "Platinum",
+              "swatch": "rgb(228, 217, 188)"
+            },
+            {
+              "title": "Grey",
+              "swatch": "rgb(140, 140, 140)"
+            },
+            {
+              "title": "White",
+              "swatch": "rgb(238, 233, 221)"
+            },
+            {
+              "title": "Pastel pink",
+              "swatch": "rgb(221, 154, 183)"
+            },
+            {
+              "title": "Lilac",
+              "swatch": "rgb(176, 160, 206)"
+            },
+            {
+              "title": "Blue",
+              "swatch": "rgb(64, 128, 187)"
+            },
+            {
+              "title": "Green",
+              "swatch": "rgb(84, 128, 96)"
+            }
+          ]
+        },
+        {
+          "id": "style",
+          "title": "Style",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Retro",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/retro.webp"
+            },
+            {
+              "title": "Sporty",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/sporty.webp"
+            },
+            {
+              "title": "Y2K",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/y2k.webp"
+            },
+            {
+              "title": "Theatre",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/theatrical.webp"
+            },
+            {
+              "title": "Goth",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/goth.webp"
+            },
+            {
+              "title": "Suits",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-suits/suits_black_B_1.webp"
+            },
+            {
+              "title": "Streetstyle",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/streetstyle.webp"
+            },
+            {
+              "title": "Casual",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/casual.webp"
+            }
+          ]
+        },
+        {
+          "id": "ethnicity",
+          "title": "Ethnicity",
+          "multiple": false,
+          "options": [
+            {
+              "title": "African",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/african.webp"
+            },
+            {
+              "title": "Asian",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/east_asian.webp"
+            },
+            {
+              "title": "European",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/european.webp"
+            },
+            {
+              "title": "Indian",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/indian.webp"
+            },
+            {
+              "title": "Middle Eastern",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/middle_eastern.webp"
+            },
+            {
+              "title": "Mixed",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/latin_american.webp"
+            }
+          ]
+        },
+        {
+          "id": "age",
+          "title": "Age",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Adult"
+            },
+            {
+              "title": "Mature"
+            },
+            {
+              "title": "Senior"
+            }
+          ]
+        },
+        {
+          "id": "skin-color",
+          "title": "Skin color",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Porcelain",
+              "swatch": "rgb(241, 226, 213)"
+            },
+            {
+              "title": "Fair",
+              "swatch": "rgb(232, 201, 181)"
+            },
+            {
+              "title": "Light",
+              "swatch": "rgb(218, 180, 154)"
+            },
+            {
+              "title": "Olive",
+              "swatch": "rgb(182, 151, 110)"
+            },
+            {
+              "title": "Tan",
+              "swatch": "rgb(188, 142, 103)"
+            },
+            {
+              "title": "Brown",
+              "swatch": "rgb(128, 81, 53)"
+            },
+            {
+              "title": "Deep brown",
+              "swatch": "rgb(84, 54, 33)"
+            },
+            {
+              "title": "Ebony",
+              "swatch": "rgb(45, 33, 27)"
+            }
+          ]
+        },
+        {
+          "id": "height",
+          "title": "Height",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Average",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/h_average.webp"
+            },
+            {
+              "title": "Tall",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/h_tall.webp"
+            },
+            {
+              "title": "Very tall",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/h_very_tall.webp"
+            }
+          ]
+        },
+        {
+          "id": "proportions",
+          "title": "Proportions",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Long limbs",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/pr_longlimbs.webp"
+            },
+            {
+              "title": "Short legs",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/pr_shortlegs.webp"
+            },
+            {
+              "title": "Broad shoulders",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/pr_shoulders.webp"
+            },
+            {
+              "title": "Tiny waist",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/pr_waist.webp"
+            },
+            {
+              "title": "Egg body",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/pr_egg.webp"
+            }
+          ]
+        },
+        {
+          "id": "head-shape",
+          "title": "Head shape",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Standard",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_oval.webp"
+            },
+            {
+              "title": "Long",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_long.webp"
+            },
+            {
+              "title": "Tiny",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_tiny.webp"
+            },
+            {
+              "title": "High forehead",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_forehead.webp"
+            },
+            {
+              "title": "Caveman",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-head-shapes/head_ancient.webp"
+            },
+            {
+              "title": "Gigachad",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-head-shapes/head_herojaw.webp"
+            },
+            {
+              "title": "Mega jaw",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-head-shapes/head_megachin.webp"
+            },
+            {
+              "title": "Round",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_round.webp"
+            },
+            {
+              "title": "Square",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_square.webp"
+            },
+            {
+              "title": "Heart",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_heart.webp"
+            }
+          ]
+        },
+        {
+          "id": "neck",
+          "title": "Neck",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Standard",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/neck_normal.webp"
+            },
+            {
+              "title": "Column",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/neck_column.webp"
+            },
+            {
+              "title": "Long",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/neck_long.webp"
+            },
+            {
+              "title": "Short",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/neck_short.webp"
+            }
+          ]
+        },
+        {
+          "id": "eye-shape",
+          "title": "Eye shape",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Almond",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_almond.webp"
+            },
+            {
+              "title": "Round",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_round.webp"
+            },
+            {
+              "title": "Monolid",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_monolid.webp"
+            },
+            {
+              "title": "Close-set",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02-v2/es_close.webp"
+            },
+            {
+              "title": "Wide-set",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02-v2/es_wide.webp"
+            },
+            {
+              "title": "Uneven",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02-v2/es_uneven.webp"
+            },
+            {
+              "title": "Large",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_large.webp"
+            },
+            {
+              "title": "Huge",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02-v2/es_huge.webp"
+            },
+            {
+              "title": "Hooded",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_hooded.webp"
+            },
+            {
+              "title": "Upturned",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_upturned.webp"
+            },
+            {
+              "title": "Downturned",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_downturned.webp"
+            }
+          ]
+        },
+        {
+          "id": "eye-color",
+          "title": "Eye color",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Black",
+              "swatch": "rgb(25, 22, 21)"
+            },
+            {
+              "title": "Brown",
+              "swatch": "rgb(103, 67, 44)"
+            },
+            {
+              "title": "Hazel",
+              "swatch": "rgb(136, 117, 70)"
+            },
+            {
+              "title": "Green",
+              "swatch": "rgb(100, 130, 84)"
+            },
+            {
+              "title": "Blue",
+              "swatch": "rgb(81, 130, 161)"
+            },
+            {
+              "title": "Ice blue",
+              "swatch": "rgb(165, 203, 214)"
+            },
+            {
+              "title": "Amber",
+              "swatch": "rgb(189, 140, 69)"
+            },
+            {
+              "title": "Grey",
+              "swatch": "rgb(147, 155, 157)"
+            }
+          ]
+        },
+        {
+          "id": "features",
+          "title": "Features",
+          "multiple": true,
+          "options": [
+            {
+              "title": "Freckles",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_freckles.webp"
+            },
+            {
+              "title": "Dimples",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_dimples.webp"
+            },
+            {
+              "title": "Heavy eye bags",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_eyebags.webp"
+            },
+            {
+              "title": "Blush",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_marks_12.webp"
+            },
+            {
+              "title": "High cheekbones",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_cheekbones.webp"
+            },
+            {
+              "title": "Full lips",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_fulllips.webp"
+            },
+            {
+              "title": "Thick brows",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_thickbrows.webp"
+            },
+            {
+              "title": "Beauty mark",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_mole.webp"
+            },
+            {
+              "title": "Potato nose",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_nose_0.webp"
+            },
+            {
+              "title": "Button nose",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_nose_1.webp"
+            },
+            {
+              "title": "Pointy nose",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_nose_2.webp"
+            },
+            {
+              "title": "Tiny nose",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_tinynose.webp"
+            },
+            {
+              "title": "Pouty lips",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_lips_3.webp"
+            },
+            {
+              "title": "Tiny pursed mouth",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_lips_4.webp"
+            },
+            {
+              "title": "Wide mouth",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_widemouth.webp"
+            },
+            {
+              "title": "Unibrow",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_brows_5.webp"
+            },
+            {
+              "title": "Thin high brows",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_brows_6.webp"
+            },
+            {
+              "title": "Brush brows",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_brows_7.webp"
+            },
+            {
+              "title": "Jug ears",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_ears_8.webp"
+            },
+            {
+              "title": "Uneven ears",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_ears_9.webp"
+            },
+            {
+              "title": "Gap teeth",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_teeth_10.webp"
+            },
+            {
+              "title": "Buck teeth",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_teeth_11.webp"
+            },
+            {
+              "title": "Pointy chin",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_pointychin.webp"
+            },
+            {
+              "title": "Weak chin",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_chin_13.webp"
+            },
+            {
+              "title": "Big forehead",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_forehead_14.webp"
+            }
+          ]
+        },
+        {
+          "id": "facial-hair",
+          "title": "Facial hair",
+          "multiple": false,
+          "options": [
+            {
+              "title": "Clean",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_none.webp"
+            },
+            {
+              "title": "Stubble",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_stubble.webp"
+            },
+            {
+              "title": "Full beard",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_beard.webp"
+            },
+            {
+              "title": "Goatee",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_goatee.webp"
+            },
+            {
+              "title": "Moustache",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_moustache.webp"
+            },
+            {
+              "title": "Pencil",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_pencil.webp"
+            },
+            {
+              "title": "Push-broom",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_pushbroom.webp"
+            },
+            {
+              "title": "Braided",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_braid.webp"
+            }
+          ]
+        },
+        {
+          "id": "distinctive-features",
+          "title": "Distinctive features",
+          "multiple": true,
+          "options": [
+            {
+              "title": "Odd eyes",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_hetero.webp"
+            },
+            {
+              "title": "Face tattoo",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_facetattoo.webp"
+            },
+            {
+              "title": "Piercing",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_septum.webp"
+            },
+            {
+              "title": "Ear piercing",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_ears.webp"
+            },
+            {
+              "title": "Brow slits",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_slits.webp"
+            },
+            {
+              "title": "Bleached",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_bleached.webp"
+            },
+            {
+              "title": "No brows",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_nobrows.webp"
+            },
+            {
+              "title": "Gold grill",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_grill.webp"
+            },
+            {
+              "title": "Braces",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_braces.webp"
+            },
+            {
+              "title": "Brow scar",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_scar.webp"
+            },
+            {
+              "title": "Face gems",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_gems.webp"
+            },
+            {
+              "title": "Elf ears",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_elf.webp"
+            },
+            {
+              "title": "Big lashes",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_lashes.webp"
+            },
+            {
+              "title": "Nose tape",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_bandage.webp"
+            }
+          ]
+        },
+        {
+          "id": "accessories",
+          "title": "Accessories",
+          "multiple": true,
+          "options": [
+            {
+              "title": "None",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_none.webp"
+            },
+            {
+              "title": "Glasses",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_glasses.webp"
+            },
+            {
+              "title": "Headphones",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_headphones.webp"
+            },
+            {
+              "title": "Jewelry",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_jewelry.webp"
+            },
+            {
+              "title": "Hat",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_hat.webp"
+            },
+            {
+              "title": "Bag",
+              "poster": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_bag.webp"
+            }
+          ]
+        }
+      ],
+      "hero": [
+        {
+          "title": "Cream Shirt",
+          "video": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-shirt.mp4",
+          "poster": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-shirt-poster.webp",
+          "source_url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-shirt.mp4"
+        },
+        {
+          "title": "Cream Tuxedo",
+          "video": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-tuxedo.mp4",
+          "poster": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-tuxedo-poster.webp",
+          "source_url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-tuxedo.mp4"
+        },
+        {
+          "title": "Red Bob",
+          "video": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/red-bob.mp4",
+          "poster": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/red-bob-poster.webp",
+          "source_url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/red-bob.mp4"
+        },
+        {
+          "title": "Green Suit",
+          "video": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/green-suit.mp4",
+          "poster": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/green-suit-poster.webp",
+          "source_url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/green-suit.mp4"
+        },
+        {
+          "title": "Burgundy Suit Dancer",
+          "video": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/burgundy-suit-dancer.mp4",
+          "poster": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/burgundy-suit-dancer-poster.webp",
+          "source_url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/burgundy-suit-dancer.mp4"
+        }
+      ],
+      "characters": [
+        {
+          "id": "ai-influencer-38",
+          "title": "AI Influencer 38",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/9252b19379108ae708458738df92b8565df0c0b25ae5930f09c2b6752cbd0965",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/9252b19379108ae708458738df92b8565df0c0b25ae5930f09c2b6752cbd0965"
+        },
+        {
+          "id": "ai-influencer-52",
+          "title": "AI Influencer 52",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/1f47e7fff8f467c11975a089935c002c03c80084cce7db04e52e23fa4ef2e6a4",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/1f47e7fff8f467c11975a089935c002c03c80084cce7db04e52e23fa4ef2e6a4"
+        },
+        {
+          "id": "ai-influencer-35",
+          "title": "AI Influencer 35",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/ef446f6f5e626085f77c31306db50f11f09ca77b59ad9c749f7e1667822a61c5",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/ef446f6f5e626085f77c31306db50f11f09ca77b59ad9c749f7e1667822a61c5"
+        },
+        {
+          "id": "ai-influencer-50",
+          "title": "AI Influencer 50",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/33e71d15f64fd4af32e9d128bef2b724af4f599f6004d5fc2171afc50d500dd1",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/33e71d15f64fd4af32e9d128bef2b724af4f599f6004d5fc2171afc50d500dd1"
+        },
+        {
+          "id": "ai-influencer-18",
+          "title": "AI Influencer 18",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/a50801ab9f8c7466f30c9d1da6b7f1a6c3070143f1fd1b1ce17d07d4079f7266.webp",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/a50801ab9f8c7466f30c9d1da6b7f1a6c3070143f1fd1b1ce17d07d4079f7266.webp"
+        },
+        {
+          "id": "ai-influencer-36",
+          "title": "AI Influencer 36",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/f2f9ba4da235c11d8a0ea960cd5ab34de312c7143fae3cd9a88e6b5e9483faa1",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/f2f9ba4da235c11d8a0ea960cd5ab34de312c7143fae3cd9a88e6b5e9483faa1"
+        },
+        {
+          "id": "ai-influencer-41",
+          "title": "AI Influencer 41",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/f0074246264cff6c267542faa56deba27d1e63742d749a2f1063ccd52677641e",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/f0074246264cff6c267542faa56deba27d1e63742d749a2f1063ccd52677641e"
+        },
+        {
+          "id": "ai-influencer-43",
+          "title": "AI Influencer 43",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/69806e5c2c4d407e70a08a9862522e91be7872388f97ce696b1f86b34db86df2",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/69806e5c2c4d407e70a08a9862522e91be7872388f97ce696b1f86b34db86df2"
+        },
+        {
+          "id": "ai-influencer-10",
+          "title": "AI Influencer 10",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/74d0701fef4fbbab6de02e3047939632679c67089929b3343d533f99ba2b6c8a.webp",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/74d0701fef4fbbab6de02e3047939632679c67089929b3343d533f99ba2b6c8a.webp"
+        },
+        {
+          "id": "ai-influencer-47",
+          "title": "AI Influencer 47",
+          "poster": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/91c23e5c7b1a5b01054c9eaeb00700fd853e0850d413897ba907dc59ccc3e058",
+          "source_url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/91c23e5c7b1a5b01054c9eaeb00700fd853e0850d413897ba907dc59ccc3e058"
+        }
+      ],
+      "styles": [
+        {
+          "id": "aa2fdf41d6eb",
+          "title": "Hand-Painted Cel Animation",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/c82c8999-ab3c-4ffa-be6b-7f2c26601e46.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/4c0c1a60-3184-4e6b-90b1-6f6ff479123e.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "74d4b14e1130",
+          "title": "Knitted Yarn World",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/503426a7-2965-41bd-bdbf-c61c8ce4c698.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/5c2f5251-e100-4ecb-baca-f32dd026f0ad.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "2bb321bdd27c",
+          "title": "Expressive 2D Animation",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/8bfdb57c-42ac-4ab8-8da5-071a7dce386d.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/c1fe8718-9e29-43e9-96a8-c31026b4450f.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "01ace25dcef4",
+          "title": "Rounded Toy CGI",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/fb5c31a7-fc65-48bf-968d-e882eb62b2eb.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/d94a16ba-2675-4da1-ad54-9157df77dfa1.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "a1db7f8e9110",
+          "title": "Felt Puppet Stop Motion",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/23c5d423-c85d-4ae5-abe9-c2dd88aec631.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/fc0dad71-1ea2-4f8b-943c-7ce21702fd96.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "bf1b7f61e5c7",
+          "title": "Grotesque Street CGI",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/895b0fd5-a79f-48e2-ac39-868d38959a7c.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/a60999ff-1574-4823-b31d-b1ae5bf8d3df.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "c79203bd72b6",
+          "title": "Warm Painterly 3D Animation",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/9ec3f2fd-7b6e-44ba-8d09-e01d217f6b55.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/04bb6062-17ce-4a5e-8a5c-14310d9561f4.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "eb544859a4c6",
+          "title": "Graphic Cel",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/3f87bbff-fd1a-4d93-8b32-5db0c8700a85.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/c8881bd8-1891-4ca5-abd9-288e600f03e8.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "bea55cb8260d",
+          "title": "Expressive Gouache Fashion",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/7c9e2e5d-f704-46fd-aeec-2f45e9579e12.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/941191a2-aad2-4c87-9613-7b139c85a029.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "914bc93682e8",
+          "title": "Sculptural 3D Fashion",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/5db936eb-1040-4b71-afb5-80737ab73716.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/4ac9536e-04e3-4325-9622-9c8b77000aea.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "223366e2f260",
+          "title": "Chunky Textured Low-Poly",
+          "source_url": "https://higgsfield.ai/influencer",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/aad05a6a-a4c4-4931-8701-e26face70a82.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/661f14cb-7fd9-4e50-99fc-f98290e22c6e.mp4",
+          "category": "Style transfer",
+          "capture": "codex-influencer-style-dialog-settled-dom.txt"
+        },
+        {
+          "id": "d3e1acb9d485",
+          "title": "Cel-Shaded CG Anime",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/01e641df-bce6-4d88-91ed-c6081516c76c.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/c5c759d8-c066-4c70-adf9-52b7838cc43d.mp4",
+          "category": "Style transfer",
+          "capture": "firefox-influencer-motion-styles.txt + codex-genjutsu-selected-style-dom.txt",
+          "association": "Exact visible style name; shared catalogue media. The first eleven modal styles have matching asset IDs."
+        },
+        {
+          "id": "32cbced5ac62",
+          "title": "Painterly Cinematic 3D",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/2500c15f-600d-495e-a731-921e57f174b0.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/6bb12140-74e0-4249-aabb-3a9e4cc95c2e.mp4",
+          "category": "Style transfer",
+          "capture": "firefox-influencer-motion-styles.txt + codex-genjutsu-selected-style-dom.txt",
+          "association": "Exact visible style name; shared catalogue media. The first eleven modal styles have matching asset IDs."
+        },
+        {
+          "id": "fd58d00be20f",
+          "title": "Outline-free Cel",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/ac1fd12b-8e5d-4572-98b3-ef5bb3132e30.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/7c835158-7e96-49f1-9cb8-68b3369793b0.mp4",
+          "category": "Style transfer",
+          "capture": "firefox-influencer-motion-styles.txt + codex-genjutsu-selected-style-dom.txt",
+          "association": "Exact visible style name; shared catalogue media. The first eleven modal styles have matching asset IDs."
+        },
+        {
+          "id": "ec7887e9d532",
+          "title": "Painterly Sculpted Animation",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/c8ee6085-e998-4871-bf77-186e16e094d4.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/91ec3be0-8b14-4bfa-a0f4-17889ae22102.mp4",
+          "category": "Style transfer",
+          "capture": "firefox-influencer-motion-styles.txt + codex-genjutsu-selected-style-dom.txt",
+          "association": "Exact visible style name; shared catalogue media. The first eleven modal styles have matching asset IDs."
+        }
+      ]
+    },
+    "marketing-ads": {
+      "hero": [
+        {
+          "id": "6f5eb581aada",
+          "title": "UGC",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-UGC.webp",
+          "video": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-UGC.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "866b2bf54fcb",
+          "title": "Product shot",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Product.webp",
+          "video": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Product.mp4",
+          "category": "Product shot"
+        },
+        {
+          "id": "fbc197ae89c6",
+          "title": "Motion",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Motion.webp",
+          "video": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Motion.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "d5ce799b6af5",
+          "title": "Ads",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Ads.webp",
+          "video": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Ads.mp4",
+          "category": "Ads"
+        },
+        {
+          "id": "002dafe88d0e",
+          "title": "Posters",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-poster.webp",
+          "video": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-poster.mp4",
+          "category": "Posters"
+        },
+        {
+          "id": "c18eb8c002fd",
+          "title": "Marketplace",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Marketplace.webp",
+          "video": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Marketplace.mp4",
+          "category": "Marketplace"
+        },
+        {
+          "id": "7630a427067d",
+          "title": "TikTok",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://d29nkk4626dxhc.cloudfront.net/marketing_studio_preset_thumbnails/0ffef77f-c1ad-4d98-9847-29afe067b2c3-94eab0f0131f5125.jpg",
+          "video": "https://d29nkk4626dxhc.cloudfront.net/marketing_studio_video_preset/0ffef77f-c1ad-4d98-9847-29afe067b2c3-a739d64f60a6fb5b.mp4",
+          "category": "TikTok"
+        }
+      ],
+      "presets": [
+        {
+          "id": "2f289860f956",
+          "title": "Brushed Tin",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/862de749-aa5c-4816-b028-7e254d969759.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "20a828e67843",
+          "title": "Pixel Block Yard",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/510e9364-771a-43f0-b8ca-9bd36deed0ab.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/353daae1-e520-486b-b7d5-83f026169305.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "2b197b8c66ef",
+          "title": "Green Tea Macro",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/eb685bb2-9aa9-42e1-bd9f-3296a5b7eae9.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/68a696dc-2c2e-43b1-b285-511c8783db1f.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "69d95b359969",
+          "title": "Ice Cube Hover",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/941ef07a-c2ab-5a0e-ac67-4e6c762c8ef2.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "8844beeefeea",
+          "title": "Golden Dew",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/711ecf09-1b4a-4441-adb5-b0856f756f7b.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "fdec9d1c7af8",
+          "title": "Chilled Can",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/834bb6b2-3a9b-48dd-9889-6934c765ccc2.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "c55c0d102c19",
+          "title": "Emerald Pajamas",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/51944329-8f88-4487-9a23-5dcf87711e48.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "5c12b37b582f",
+          "title": "Monospace Callouts",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/6b262d6f-bd0d-4c88-8998-26c2535d88e4.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/aef59e19-f388-4dcc-b55a-e43a5c48c835.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "67c36460777c",
+          "title": "Blue Sky Cap",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/6b5971ab-9719-4f86-b58f-f0558f00dfbf.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "46405ca49dc6",
+          "title": "Sky High Chili",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/987c5b31-e651-4c84-b93a-20106b0c9f93.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "8acd775d3a49",
+          "title": "Linen Lid Lift",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/36052145-6b41-51f2-95c1-7a0f0393a112.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "cd717634688e",
+          "title": "Before and After",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260604_001524_97ecfb10-b20e-46a8-b2ce-2104dd612f08_thumbnail.webp",
+          "video": "https://d29nkk4626dxhc.cloudfront.net/marketing_studio_video_preset/a6bd1da8-b768-425e-beb6-821075efbc2e-6748bfc5a91afbfc.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "8a83be7f98e2",
+          "title": "Bubble Bead Dopamine",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/76d385b0-543e-486b-b615-66a408c4f401.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/a9c8bc31-ff80-4f43-8e64-293671999d67.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "d352b665630a",
+          "title": "Takeout Hand-Off",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/a0383024-2b0b-56cc-86b7-9e403229b5e9.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "91c78986a3e4",
+          "title": "Halftone Street Collage",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/c49bf307-e63a-41e6-9287-98662b4c3f17.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/ebc2e460-9324-4241-a4ac-6bba19ad0084.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "74180ebc8963",
+          "title": "Classic Unboxing",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_39acLUpaKDzX3Ox7Ekzzl7vlQ67/hf_20260413_133035_bf1fbde5-d95a-4c23-907d-df9c475f948f_thumbnail.webp",
+          "video": "https://d29nkk4626dxhc.cloudfront.net/marketing_studio_video_preset/9f8bc173-e29a-4fa9-8809-4f6ba0475974-74d89c050f6fa165.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "4408b1075584",
+          "title": "Slatted Light Breakfast",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/33888a36-fca8-523b-ade4-d3cd3afd6c09.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "aaa77a00d6e0",
+          "title": "Botanical Shadows",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/5c18dd14-78e9-5c20-a454-fdca7340c8c4.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "d329fc6e4148",
+          "title": "Everyday Carry",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/6f3519f2-0ed6-5b86-9992-7dd6be05437a.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "6f8927a3de85",
+          "title": "Checkerboard Mosaic",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/d1e4c217-c2b8-5463-8c8d-bda432a5ee68.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "8820e9110fd4",
+          "title": "Poolside Float",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/ab962d74-7861-588c-bcaf-55b3fe979b52.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "04894bcd9503",
+          "title": "Buried in Ice",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/c44f58b7-8941-51cc-9a6e-4182cd97d9e1.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "29adbf75527f",
+          "title": "Fruit Ice Bed",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/ec7f8b54-442b-516e-9f36-c7dc3089503a.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "a95a2ea9451b",
+          "title": "Pineapple Core",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/829c4739-534c-5e0a-b3f7-1fab77775f72.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "6f045e558b4a",
+          "title": "Candy Color Swap",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/e019f474-3be9-40db-b960-bbb699c0454e.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/2270a163-40c5-4908-a3bc-bb18807d85fd.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "90a99d897b86",
+          "title": "Spa Morning",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/a02f89eb-2e3d-480b-8692-4aacc0b32fd5.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "e3a78a0b75ba",
+          "title": "Focus Pull Trio",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/bc966d45-b841-577d-9d97-ef113c07d948.webp",
+          "category": "Product shot"
+        }
+      ],
+      "styles": [
+        {
+          "id": "e9bb367ff765",
+          "title": "Closeup",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/bb41b4ca-dbeb-4755-867d-508250b2d981.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "b6e49e257771",
+          "title": "Faceless",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/7344f15e-0f1a-4520-a73f-dbb1dc2f34a4.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "7bd2d56d2c9f",
+          "title": "Full body",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/2450c7f8-8b0c-4149-a6dd-d011ba48625e.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "215d271cc238",
+          "title": "Editorial",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/6b773178-a21b-43a1-a9ea-3f50888ad958.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "8668356318f4",
+          "title": "UGC",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/945bde67-d3b4-4a80-a6eb-c9779b6630c1.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "5980f1b12b19",
+          "title": "Studio white",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/2901a3ca-5eb9-469a-b167-2e2d50996a1e.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "876dcf5183a6",
+          "title": "Color pop",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/d23593e3-bbe6-413d-bdee-3908639de143.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "b0d4c380b02d",
+          "title": "Natural",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/750aea75-3936-406b-923d-07b0bee44955.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "80df31efa95b",
+          "title": "Usage",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/17517b48-1fd8-46aa-b269-a658049d418e.webp",
+          "category": "Product shot"
+        },
+        {
+          "id": "cba81ac87a6d",
+          "title": "Social proof",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/7d82b55a-294f-450c-8908-1c5c0ba34300.webp",
+          "category": "Ads"
+        },
+        {
+          "id": "2994ed9f4f85",
+          "title": "Comparison",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/2ed46ff0-7411-419f-a7a9-6472c97d3e5d.webp",
+          "category": "Ads"
+        },
+        {
+          "id": "8261b7abf349",
+          "title": "Problem \u2192 Solution",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/4dd1bb60-b4d0-4e6d-9a85-19e045dc06a2.webp",
+          "category": "Ads"
+        },
+        {
+          "id": "92cc28ec3cf2",
+          "title": "Dark",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/b5e7d2dc-1693-4c40-b315-21d96a045bb3.webp",
+          "category": "Marketplace"
+        },
+        {
+          "id": "bffb1bdb8cb9",
+          "title": "3D surreal",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/073255fb-afec-403f-b194-04b673f36d82.webp",
+          "category": "Marketplace"
+        },
+        {
+          "id": "cda0203b8bab",
+          "title": "Pastel",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/e0d40df7-359b-47fa-817f-7dd9e59d52e4.webp",
+          "category": "Marketplace"
+        },
+        {
+          "id": "2011b629d7c6",
+          "title": "Clean Studio",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/11389d2f-1324-4a99-9a69-00b194bf695a.webp",
+          "category": "Marketplace"
+        },
+        {
+          "id": "9eabfa3eef1e",
+          "title": "Shopping",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/4dd6e4ce-b65a-46dd-9479-ed2b182ba44f.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/5a9ba7c1-144b-4158-8582-47548837dd85.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "57ff3c9ce0e0",
+          "title": "At home",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/b023a0f0-f13c-41af-b4ef-9bf0a123a39f.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/a0a7c111-da50-4c3f-a2e0-172d4a9deefb.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "366ddfb9e321",
+          "title": "Delivery",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/86ede977-ab41-4894-945d-f5dc1113a5ee.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/a9f10f0d-0acd-4b86-9ee8-6e4d6a2bcb76.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "5e32f8618d70",
+          "title": "Review",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/c3f35825-20b9-4673-a508-9c9b20fcb3d4.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/0307d62d-efd8-4906-9162-be99158d25fb.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "32c27c2b6259",
+          "title": "Try-on",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/5624a15b-2117-419e-9341-752e20ef7d3c.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/7a9bcdd4-c60f-4aea-ad4f-14b607479d76.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "861f899f4e4b",
+          "title": "Unboxing",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/dedcc95c-0e28-4669-a239-37cbfa4a22f7.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/73366684-a5c0-4c71-8061-95c7486deceb.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "6012e8b299f3",
+          "title": "Tutorial",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/46c091cc-6f1e-47f0-82dc-14de2d65ea43.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/97464e03-828d-4177-a29d-11d165d2f7bb.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "5c73c91bdb7f",
+          "title": "Before/after",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/fce5f2c3-6797-40a6-a701-ec4fa1f1c637.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/703da148-3bfa-42d9-a674-4371ebbc857f.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "d95401cb4e65",
+          "title": "Giant Figure",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_150008_ee9cf142-7741-40e9-8076-897fb0947742_thumbnail.webp",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_150008_ee9cf142-7741-40e9-8076-897fb0947742.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "d764441c6fb5",
+          "title": "Unboxing Virtual Try-On",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_225935_abf54d8e-3766-4bf5-9163-2f87467c9953_thumbnail.webp",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_225935_abf54d8e-3766-4bf5-9163-2f87467c9953.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "5aaac002e7be",
+          "title": "Unboxing ASMR",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3E2rnQvU0fCTk5iGN1MMbzgiYer/hf_20260604_151251_092a48c7-4867-41ca-8d63-dfb1526785fb_thumbnail.webp",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/user_3E2rnQvU0fCTk5iGN1MMbzgiYer/hf_20260604_151251_092a48c7-4867-41ca-8d63-dfb1526785fb.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "5b3bc48d2ae4",
+          "title": "Virtual Try-On Sneakers",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3DgH8zZ7H7xieJnKMyo5N4NA9ge/hf_20260603_235259_8a9eed37-73ed-4c71-b6a8-a462a60beb50_thumbnail.webp",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/user_3DgH8zZ7H7xieJnKMyo5N4NA9ge/hf_20260603_235259_8a9eed37-73ed-4c71-b6a8-a462a60beb50.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "0b231598a910",
+          "title": "Crush Test",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260505_015725_c13394e1-02c4-48fe-9d61-94f340d0e7f4_thumbnail.webp",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260505_015725_c13394e1-02c4-48fe-9d61-94f340d0e7f4.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "ec904af0885a",
+          "title": "Mystery Box",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/mystery_box.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/mystery_box.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "d2f78545a7f4",
+          "title": "Reboxing",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/reboxing.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/reboxing.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "477a97a91cd5",
+          "title": "TV Spot",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/marketing-studio-presets/tv-spot-mini-thumbnail.webp",
+          "video": "https://static.higgsfield.ai/marketing-studio-presets/tv-spot-mini.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "b36f7183aa19",
+          "title": "UGC Addiction",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_153723_6b1bb39e-dd94-43fc-9fe8-007a658e49a5_thumbnail.webp",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_153723_6b1bb39e-dd94-43fc-9fe8-007a658e49a5.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "42f170b5af40",
+          "title": "UGC Virtual Try On",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/marketing-studio-presets/ugc_virtual_try_on-thumbnail.webp",
+          "video": "https://static.higgsfield.ai/marketing-studio-presets/ugc_virtual_try_on.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "b481640083be",
+          "title": "Pro Virtual Try On",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/marketing-studio-presets/virtual_try_on-thumbnail.webp",
+          "video": "https://static.higgsfield.ai/marketing-studio-presets/virtual_try_on.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "52e51d746972",
+          "title": "Wild Card",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/marketing-studio-presets/wild_card-thumbnail.webp",
+          "video": "https://static.higgsfield.ai/marketing-studio-presets/wild_card.mp4",
+          "category": "UGC"
+        },
+        {
+          "id": "09660b8ba8ce",
+          "title": "2D product motion",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-2d-motion/88a427c2-1740-4493-a9c1-fd1588eaf5fb.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-2d-motion/83bcfb32-b4dd-47b5-9cfe-0ab09d971282.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "1ea48403594b",
+          "title": "Hypermotion",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-hypermotion/f10c27f6-d539-47ba-b3d5-d7a35eed3c51.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-hypermotion/1c4141ef-07a9-42b2-998a-ea2208d000c5.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "23fc944780f4",
+          "title": "Typography",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-hypermotion/0f448fc0-d591-462a-ac07-c88976c3be64.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-hypermotion/a23c53dd-b07d-40f5-9d3a-c5c89fba8efa.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "1ec182242fd0",
+          "title": "Dark Minimalism",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/ad4a7c85-b598-4045-9f93-be7dba96b2ed.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/acc1ab72-f43f-41d8-9d4b-9a72da284bab.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "5da257e0375d",
+          "title": "Color pop",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-hypermotion/3e90ff54-e611-4ac4-8ab4-f7a14e18e478.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-hypermotion/5a9d5c90-c2f4-451a-8899-2a9e01f06316.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "f5f3ef200a72",
+          "title": "Mixed media",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/5f8aabc1-cf28-48c1-bab6-63ceccd6a142.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/593b1f6d-1967-4dce-ac20-2d5df33e94b0.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "27aae2801ec6",
+          "title": "SaaS",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-saas-motion/a3b23783-514a-4823-8924-3159ee7bfed6.webp",
+          "video": "https://cdn.higgsfield.ai/marketing-studio-v2-saas-motion/f1e76327-8ab0-46c2-a436-445cfe9870cf.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "0b121191e714",
+          "title": "Product Showcase",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/marketing-studio-presets/hyper-motion-mini-thumbnail.webp",
+          "video": "https://static.higgsfield.ai/marketing-studio-presets/hyper-motion-mini.mp4",
+          "category": "Motion"
+        },
+        {
+          "id": "0b1efebbe91b",
+          "title": "This Gadget Saved Me",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/ugc_gadget_saved_me.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/ugc_gadget_saved_me.mp4",
+          "category": "TikTok"
+        },
+        {
+          "id": "baf0cf9e0a2e",
+          "title": "Couple Sharing At Home",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/couple_sharing_home.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/couple_sharing_home.mp4",
+          "category": "TikTok"
+        },
+        {
+          "id": "af8ebafdad1b",
+          "title": "Selfie Testimonial",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/ugc_selfie_testimonial.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/ugc_selfie_testimonial.mp4",
+          "category": "TikTok"
+        },
+        {
+          "id": "a246d337fda3",
+          "title": "Direct-to-Camera",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/ugc_direct_to_camera.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/ugc_direct_to_camera.mp4",
+          "category": "TikTok"
+        },
+        {
+          "id": "4db469a5693e",
+          "title": "Secret Hack Reveal",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/ugc_secret_hack_reveal.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/ugc_secret_hack_reveal.mp4",
+          "category": "TikTok"
+        },
+        {
+          "id": "c9c23d9b2964",
+          "title": "Camera POV",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/camera_pov.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/camera_pov.mp4",
+          "category": "TikTok"
+        },
+        {
+          "id": "8a483c0658b1",
+          "title": "Classic Meets Modern",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/classic_meets_modern.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/classic_meets_modern.mp4",
+          "category": "TikTok"
+        },
+        {
+          "id": "eb0ec5db51e2",
+          "title": "Mess to Fresh",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://static.higgsfield.ai/ms-modes/mess_to_fresh.jpg",
+          "video": "https://static.higgsfield.ai/ms-modes/mess_to_fresh.mp4",
+          "category": "TikTok"
+        }
+      ],
+      "banner": [
+        {
+          "id": "d2957b10a153",
+          "title": "Ad Reference",
+          "source_url": "https://higgsfield.ai/marketing-studio",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/marketing-studio/ad-reference.webp",
+          "video": "https://static.higgsfield.ai/ms-ad-reference/ad-reference.mp4"
+        }
+      ]
+    },
+    "katana": {
+      "hero": [
+        {
+          "id": "19d45216a3f7",
+          "title": "Katana reference edit",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static.higgsfield.ai/katana-custom-test-v02-20261009/test_v02-poster.webp",
+          "video": "https://static.higgsfield.ai/katana-custom-test-v02-20261009/test_v02.mp4"
+        }
+      ],
+      "banner": [
+        {
+          "id": "40037e3ba050",
+          "title": "Katana reference edit",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static.higgsfield.ai/katana/katana-banner-v2-thumbnail.webp",
+          "video": "https://static.higgsfield.ai/katana/katana-banner-v2-mini.mp4"
+        }
+      ],
+      "presets": [
+        {
+          "id": "900b48cb60dc",
+          "title": "Industrial Style Lookbook",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/d8fa1c4b-4b68-4f4f-956d-ff1ad55c795c.webp",
+          "video": "https://static-public-media.higgsfield.ai/katana-presets/68303bce-5293-4880-8a80-cacf13aa6ce4.mp4",
+          "capture": "codex-katana-preset-detail-dom.txt",
+          "observed_dimensions": {
+            "width": 1080,
+            "height": 1920
+          },
+          "displayed_duration": "0:12"
+        },
+        {
+          "id": "b8a0f2ef036a",
+          "title": "Gentleman Driver Style",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/25f32735-08df-4832-847b-abfe69241c90.webp"
+        },
+        {
+          "id": "5eb0ea128c2c",
+          "title": "candy-pop",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/published/beddd287607f7a48193f117f2c6d98a9cd696e275b361b2550f5d244c40f7c8e"
+        },
+        {
+          "id": "4a791dad9944",
+          "title": "Daytona Drift",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/8cf3d15b-bdea-4285-b44a-00eff92b680e.webp"
+        },
+        {
+          "id": "4138fe5db36a",
+          "title": "Pop Cutout Fashion Edit",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/442ed328-6c4e-4ab7-892c-5c56adcfb3d2.webp"
+        },
+        {
+          "id": "5e215e324e25",
+          "title": "monolith",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/published/3531f1c6e7b0e3026c3d50d1c18c14be7e548a1e411c83d54afe741f8b4d7a9e"
+        },
+        {
+          "id": "9a48fb58a272",
+          "title": "Track Day Showcase",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/0d368f85-a314-4924-887c-59c6fc5f5b21.webp"
+        },
+        {
+          "id": "085864bd7fbc",
+          "title": "Surreal Collage Vibe",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/a0867faf-4f17-4b64-91e3-40648410ce60.webp"
+        },
+        {
+          "id": "9a7f3361f817",
+          "title": "Kinetic Graphic Photo Edit",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/1cccd347-5c5a-44e5-acf7-7371701fab40.webp"
+        },
+        {
+          "id": "95a869f7b809",
+          "title": "FW26 Style Lookbook",
+          "source_url": "https://higgsfield.ai/katana",
+          "poster": "https://static-public-media.higgsfield.ai/katana-presets/8860b1ea-135b-4921-af82-680a19d2bbbd.webp"
+        }
+      ]
+    },
+    "genjutsu": {
+      "hero": [
+        {
+          "id": "f3844d45d124",
+          "title": "Genjutsu public reference",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fstatic.higgsfield.ai%2Fgenjutsu%2Fgenjutsu-intro-poster.webp&w=384&q=85",
+          "video": "https://static.higgsfield.ai/genjutsu/genjutsu-intro.mp4"
+        }
+      ],
+      "banner": [
+        {
+          "id": "8e05eb2ade88",
+          "title": "Genjutsu public reference",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "video": "https://static.higgsfield.ai/genjutsu/model-preview-20261006/ver-1.mp4"
+        }
+      ],
+      "presets": [
+        {
+          "id": "4db9001f1378",
+          "title": "Motion transfer",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F57ea73d1-18b2-42b0-b059-cfd859088c38%2Fgeneration.webp&w=384&q=85",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/57ea73d1-18b2-42b0-b059-cfd859088c38/generation-genjutsu-h264-600-v1.mp4",
+          "category": "Motion transfer"
+        },
+        {
+          "id": "aa6537f23778",
+          "title": "Objects swap",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F956447fc-cb9c-4793-8856-0c2676bc7e67%2Fgeneration.webp&w=384&q=85",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/956447fc-cb9c-4793-8856-0c2676bc7e67/generation-genjutsu-h264-600-v1.mp4",
+          "category": "Objects swap"
+        },
+        {
+          "id": "e7cfd1742cc3",
+          "title": "Objects swap",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F1adb89f1-0242-4dc7-867b-12a9306ea12f%2Fgeneration.webp&w=384&q=85",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/1adb89f1-0242-4dc7-867b-12a9306ea12f/generation-genjutsu-h264-600-v1.mp4",
+          "category": "Objects swap"
+        },
+        {
+          "id": "5210cefb8967",
+          "title": "Motion transfer",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F79134f0b-0fa7-4f9d-b82b-129c1cd576ca%2Fgeneration.webp&w=384&q=85",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/79134f0b-0fa7-4f9d-b82b-129c1cd576ca/generation-genjutsu-h264-600-v1.mp4",
+          "category": "Motion transfer"
+        },
+        {
+          "id": "9d165247b762",
+          "title": "Objects swap",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F19a17c3a-fa72-406a-8325-5d2624690e9e%2Fgeneration.webp&w=384&q=85",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/19a17c3a-fa72-406a-8325-5d2624690e9e/generation-genjutsu-h264-600-v1.mp4",
+          "category": "Objects swap"
+        },
+        {
+          "id": "d44e05b27027",
+          "title": "Motion transfer",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F520857ff-18a9-4ba0-b8f7-2212dea7f486%2Fgeneration.webp&w=384&q=85",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/520857ff-18a9-4ba0-b8f7-2212dea7f486/generation-genjutsu-h264-600-v1.mp4",
+          "category": "Motion transfer"
+        },
+        {
+          "id": "a3d2c1b3d6dc",
+          "title": "Objects swap",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2Ff3755ef3-8376-454c-bcd0-f3e4bf07c852%2Fgeneration.webp&w=384&q=85",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/f3755ef3-8376-454c-bcd0-f3e4bf07c852/generation-genjutsu-h264-600-v1.mp4",
+          "category": "Objects swap"
+        },
+        {
+          "id": "627bae74566a",
+          "title": "Objects swap",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2Fe5ab6721-aac4-4d66-bfb2-a6ec5c93ce7f%2Fgeneration.webp&w=384&q=85",
+          "video": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/e5ab6721-aac4-4d66-bfb2-a6ec5c93ce7f/generation-genjutsu-h264-600-v1.mp4",
+          "category": "Objects swap"
+        }
+      ],
+      "styles": [
+        {
+          "id": "aa2fdf41d6eb",
+          "title": "Hand-Painted Cel Animation",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/c82c8999-ab3c-4ffa-be6b-7f2c26601e46.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/4c0c1a60-3184-4e6b-90b1-6f6ff479123e.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "74d4b14e1130",
+          "title": "Knitted Yarn World",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/503426a7-2965-41bd-bdbf-c61c8ce4c698.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/5c2f5251-e100-4ecb-baca-f32dd026f0ad.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "2bb321bdd27c",
+          "title": "Expressive 2D Animation",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/8bfdb57c-42ac-4ab8-8da5-071a7dce386d.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/c1fe8718-9e29-43e9-96a8-c31026b4450f.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "01ace25dcef4",
+          "title": "Rounded Toy CGI",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/fb5c31a7-fc65-48bf-968d-e882eb62b2eb.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/d94a16ba-2675-4da1-ad54-9157df77dfa1.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "a1db7f8e9110",
+          "title": "Felt Puppet Stop Motion",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/23c5d423-c85d-4ae5-abe9-c2dd88aec631.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/fc0dad71-1ea2-4f8b-943c-7ce21702fd96.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "bf1b7f61e5c7",
+          "title": "Grotesque Street CGI",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/895b0fd5-a79f-48e2-ac39-868d38959a7c.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/a60999ff-1574-4823-b31d-b1ae5bf8d3df.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "c79203bd72b6",
+          "title": "Warm Painterly 3D Animation",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/9ec3f2fd-7b6e-44ba-8d09-e01d217f6b55.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/04bb6062-17ce-4a5e-8a5c-14310d9561f4.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "eb544859a4c6",
+          "title": "Graphic Cel",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/3f87bbff-fd1a-4d93-8b32-5db0c8700a85.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/c8881bd8-1891-4ca5-abd9-288e600f03e8.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "bea55cb8260d",
+          "title": "Expressive Gouache Fashion",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/7c9e2e5d-f704-46fd-aeec-2f45e9579e12.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/941191a2-aad2-4c87-9613-7b139c85a029.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "914bc93682e8",
+          "title": "Sculptural 3D Fashion",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/5db936eb-1040-4b71-afb5-80737ab73716.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/4ac9536e-04e3-4325-9622-9c8b77000aea.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "223366e2f260",
+          "title": "Chunky Textured Low-Poly",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/aad05a6a-a4c4-4931-8701-e26face70a82.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/661f14cb-7fd9-4e50-99fc-f98290e22c6e.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "d3e1acb9d485",
+          "title": "Cel-Shaded CG Anime",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/01e641df-bce6-4d88-91ed-c6081516c76c.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/c5c759d8-c066-4c70-adf9-52b7838cc43d.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "32cbced5ac62",
+          "title": "Painterly Cinematic 3D",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/2500c15f-600d-495e-a731-921e57f174b0.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/6bb12140-74e0-4249-aabb-3a9e4cc95c2e.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "fd58d00be20f",
+          "title": "Outline-free Cel",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/ac1fd12b-8e5d-4572-98b3-ef5bb3132e30.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/7c835158-7e96-49f1-9cb8-68b3369793b0.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "ec7887e9d532",
+          "title": "Painterly Sculpted Animation",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/c8ee6085-e998-4871-bf77-186e16e094d4.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/91ec3be0-8b14-4bfa-a0f4-17889ae22102.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "8ccddd7d77f5",
+          "title": "Neon Graphic Cinematic 3D",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/3eac90ae-9081-4a60-b6af-4009f96e8a95.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/08189891-2c6b-4726-8193-744fc201cfbd.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "04b387c94389",
+          "title": "Textured Gouache Character Illustration",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/99e895b2-4e98-4243-b650-abadbd2fa259.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/54ede5c1-a35b-43f2-a5b9-30743f2c8ac3.mp4",
+          "category": "Style transfer"
+        },
+        {
+          "id": "e11ae2cfb175",
+          "title": "Comic 3D",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://static-public-media.higgsfield.ai/restyle-presets/39bedcae-c0e5-4476-a7a9-195b718bf7a8.webp",
+          "video": "https://static-public-media.higgsfield.ai/restyle-presets/a2eb8b8b-9114-4787-9fab-f708fb32cb45.mp4",
+          "category": "Style transfer"
+        }
+      ],
+      "style_hero": [
+        {
+          "id": "0b945d24ec4c",
+          "title": "One video, any style",
+          "source_url": "https://higgsfield.ai/ai/video?model=genjutsu",
+          "poster": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fstatic.higgsfield.ai%2Fgenjutsu%2Frestyle-cover-20260927%2FCOVER-poster.webp&w=384&q=85",
+          "video": "https://static.higgsfield.ai/genjutsu/restyle-cover-20260927/COVER.mp4"
+        }
+      ]
+    },
+    "popcorn": {
+      "hero": [
+        {
+          "id": "09204d667e25",
+          "title": "Popcorn storyboard",
+          "source_url": "https://higgsfield.ai/storyboard",
+          "video": "https://static.higgsfield.ai/storyboard-empty-state.mp4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/storyboard-empty-state.webp"
+        }
+      ],
+      "mobile_hero": [
+        {
+          "id": "0beb1c0287ef",
+          "title": "Popcorn storyboard",
+          "source_url": "https://higgsfield.ai/storyboard",
+          "video": "https://static.higgsfield.ai/storyboard-empty-state-mobile.mp4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/storyboard-empty-state.webp"
+        }
+      ],
+      "instadump_hero": [
+        {
+          "id": "7e1f23e7f600",
+          "title": "Instadump",
+          "source_url": "https://higgsfield.ai/storyboard",
+          "video": "https://static.higgsfield.ai/instadump_notext.mp4",
+          "poster": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/instadump_notext.webp"
+        }
+      ],
+      "packs": []
+    }
+  },
+  "assets": [
+    {
+      "url": "https://cdn.higgsfield.ai/ai_influencer_option/21fc9f46-6f1f-4aed-8f74-0ca3080c8eec.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/ai_influencer_option/58a652a4-bf5e-43ca-95a8-8f9e9cef5b6b.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/ai_influencer_option/95002c8f-c0d6-4dec-8cac-fc7b50501600.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/ai_influencer_option/f9fa514b-620d-433e-bd4e-eadd880de118.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/ai_influencer_option/fb91b108-27fc-4e7c-a8fd-876dc8c30ecf.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/510e9364-771a-43f0-b8ca-9bd36deed0ab.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/5f8aabc1-cf28-48c1-bab6-63ceccd6a142.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/6b262d6f-bd0d-4c88-8998-26c2535d88e4.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/76d385b0-543e-486b-b615-66a408c4f401.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/ad4a7c85-b598-4045-9f93-be7dba96b2ed.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/c49bf307-e63a-41e6-9287-98662b4c3f17.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/e019f474-3be9-40db-b960-bbb699c0454e.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-motion-preview/eb685bb2-9aa9-42e1-bd9f-3296a5b7eae9.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-2d-motion/88a427c2-1740-4493-a9c1-fd1588eaf5fb.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/073255fb-afec-403f-b194-04b673f36d82.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/11389d2f-1324-4a99-9a69-00b194bf695a.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/2ed46ff0-7411-419f-a7a9-6472c97d3e5d.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/4dd1bb60-b4d0-4e6d-9a85-19e045dc06a2.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/7d82b55a-294f-450c-8908-1c5c0ba34300.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/b5e7d2dc-1693-4c40-b315-21d96a045bb3.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ad/e0d40df7-359b-47fa-817f-7dd9e59d52e4.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-hypermotion/0f448fc0-d591-462a-ac07-c88976c3be64.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-hypermotion/3e90ff54-e611-4ac4-8ab4-f7a14e18e478.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-hypermotion/f10c27f6-d539-47ba-b3d5-d7a35eed3c51.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/17517b48-1fd8-46aa-b269-a658049d418e.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/2901a3ca-5eb9-469a-b167-2e2d50996a1e.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/33888a36-fca8-523b-ade4-d3cd3afd6c09.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/36052145-6b41-51f2-95c1-7a0f0393a112.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/5c18dd14-78e9-5c20-a454-fdca7340c8c4.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/6f3519f2-0ed6-5b86-9992-7dd6be05437a.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/750aea75-3936-406b-923d-07b0bee44955.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/829c4739-534c-5e0a-b3f7-1fab77775f72.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/941ef07a-c2ab-5a0e-ac67-4e6c762c8ef2.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/a0383024-2b0b-56cc-86b7-9e403229b5e9.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/ab962d74-7861-588c-bcaf-55b3fe979b52.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/bc966d45-b841-577d-9d97-ef113c07d948.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/c44f58b7-8941-51cc-9a6e-4182cd97d9e1.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/d1e4c217-c2b8-5463-8c8d-bda432a5ee68.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/d23593e3-bbe6-413d-bdee-3908639de143.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shot/ec7f8b54-442b-516e-9f36-c7dc3089503a.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/2450c7f8-8b0c-4149-a6dd-d011ba48625e.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/51944329-8f88-4487-9a23-5dcf87711e48.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/6b5971ab-9719-4f86-b58f-f0558f00dfbf.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/6b773178-a21b-43a1-a9ea-3f50888ad958.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/711ecf09-1b4a-4441-adb5-b0856f756f7b.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/7344f15e-0f1a-4520-a73f-dbb1dc2f34a4.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/834bb6b2-3a9b-48dd-9889-6934c765ccc2.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/862de749-aa5c-4816-b028-7e254d969759.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/945bde67-d3b4-4a80-a6eb-c9779b6630c1.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/987c5b31-e651-4c84-b93a-20106b0c9f93.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/a02f89eb-2e3d-480b-8692-4aacc0b32fd5.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-product-shots-people/bb41b4ca-dbeb-4755-867d-508250b2d981.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-saas-motion/a3b23783-514a-4823-8924-3159ee7bfed6.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/46c091cc-6f1e-47f0-82dc-14de2d65ea43.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/4dd6e4ce-b65a-46dd-9479-ed2b182ba44f.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/5624a15b-2117-419e-9341-752e20ef7d3c.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/86ede977-ab41-4894-945d-f5dc1113a5ee.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/b023a0f0-f13c-41af-b4ef-9bf0a123a39f.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/c3f35825-20b9-4673-a508-9c9b20fcb3d4.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/dedcc95c-0e28-4669-a239-37cbfa4a22f7.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/marketing-studio-v2-ugc/fce5f2c3-6797-40a6-a701-ec4fa1f1c637.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_39acLUpaKDzX3Ox7Ekzzl7vlQ67/hf_20260413_133035_bf1fbde5-d95a-4c23-907d-df9c475f948f_thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260505_015725_c13394e1-02c4-48fe-9d61-94f340d0e7f4_thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_150008_ee9cf142-7741-40e9-8076-897fb0947742_thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_153723_6b1bb39e-dd94-43fc-9fe8-007a658e49a5_thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_225935_abf54d8e-3766-4bf5-9163-2f87467c9953_thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260604_001524_97ecfb10-b20e-46a8-b2ce-2104dd612f08_thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3DgH8zZ7H7xieJnKMyo5N4NA9ge/hf_20260603_235259_8a9eed37-73ed-4c71-b6a8-a462a60beb50_thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/cdn-cgi/image/width=1080,quality=80,format=auto/user_3E2rnQvU0fCTk5iGN1MMbzgiYer/hf_20260604_151251_092a48c7-4867-41ca-8d63-dfb1526785fb_thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/2270a163-40c5-4908-a3bc-bb18807d85fd.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/353daae1-e520-486b-b7d5-83f026169305.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/593b1f6d-1967-4dce-ac20-2d5df33e94b0.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/68a696dc-2c2e-43b1-b285-511c8783db1f.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/a9c8bc31-ff80-4f43-8e64-293671999d67.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/acc1ab72-f43f-41d8-9d4b-9a72da284bab.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/aef59e19-f388-4dcc-b55a-e43a5c48c835.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-motion-preview/ebc2e460-9324-4241-a4ac-6bba19ad0084.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-2d-motion/83bcfb32-b4dd-47b5-9cfe-0ab09d971282.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-hypermotion/1c4141ef-07a9-42b2-998a-ea2208d000c5.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-hypermotion/5a9d5c90-c2f4-451a-8899-2a9e01f06316.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-hypermotion/a23c53dd-b07d-40f5-9d3a-c5c89fba8efa.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-saas-motion/f1e76327-8ab0-46c2-a436-445cfe9870cf.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/0307d62d-efd8-4906-9162-be99158d25fb.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/5a9ba7c1-144b-4158-8582-47548837dd85.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/703da148-3bfa-42d9-a674-4371ebbc857f.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/73366684-a5c0-4c71-8061-95c7486deceb.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/7a9bcdd4-c60f-4aea-ad4f-14b607479d76.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/97464e03-828d-4177-a29d-11d165d2f7bb.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/a0a7c111-da50-4c3f-a2e0-172d4a9deefb.mp4",
+      "download": true
+    },
+    {
+      "url": "https://cdn.higgsfield.ai/marketing-studio-v2-ugc/a9f10f0d-0acd-4b86-9ee8-6e4d6a2bcb76.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d29nkk4626dxhc.cloudfront.net/marketing_studio_preset_thumbnails/0ffef77f-c1ad-4d98-9847-29afe067b2c3-94eab0f0131f5125.jpg",
+      "download": true
+    },
+    {
+      "url": "https://d29nkk4626dxhc.cloudfront.net/marketing_studio_video_preset/0ffef77f-c1ad-4d98-9847-29afe067b2c3-a739d64f60a6fb5b.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d29nkk4626dxhc.cloudfront.net/marketing_studio_video_preset/9f8bc173-e29a-4fa9-8809-4f6ba0475974-74d89c050f6fa165.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d29nkk4626dxhc.cloudfront.net/marketing_studio_video_preset/a6bd1da8-b768-425e-beb6-821075efbc2e-6748bfc5a91afbfc.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/19a17c3a-fa72-406a-8325-5d2624690e9e/generation-genjutsu-h264-600-v1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/1adb89f1-0242-4dc7-867b-12a9306ea12f/generation-genjutsu-h264-600-v1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/520857ff-18a9-4ba0-b8f7-2212dea7f486/generation-genjutsu-h264-600-v1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/57ea73d1-18b2-42b0-b059-cfd859088c38/generation-genjutsu-h264-600-v1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/79134f0b-0fa7-4f9d-b82b-129c1cd576ca/generation-genjutsu-h264-600-v1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/956447fc-cb9c-4793-8856-0c2676bc7e67/generation-genjutsu-h264-600-v1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/e5ab6721-aac4-4d66-bfb2-a6ec5c93ce7f/generation-genjutsu-h264-600-v1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/community-presets/f3755ef3-8376-454c-bcd0-f3e4bf07c852/generation-genjutsu-h264-600-v1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260505_015725_c13394e1-02c4-48fe-9d61-94f340d0e7f4.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_150008_ee9cf142-7741-40e9-8076-897fb0947742.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_153723_6b1bb39e-dd94-43fc-9fe8-007a658e49a5.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Cfdr00kbZ1hJCLpPQkaicInqxv/hf_20260603_225935_abf54d8e-3766-4bf5-9163-2f87467c9953.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3DgH8zZ7H7xieJnKMyo5N4NA9ge/hf_20260603_235259_8a9eed37-73ed-4c71-b6a8-a462a60beb50.mp4",
+      "download": true
+    },
+    {
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3E2rnQvU0fCTk5iGN1MMbzgiYer/hf_20260604_151251_092a48c7-4867-41ca-8d63-dfb1526785fb.mp4",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/instadump_notext.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/marketing-studio/ad-reference.webp",
+      "download": true
+    },
+    {
+      "url": "https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://static.higgsfield.ai/storyboard-empty-state.webp",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F19a17c3a-fa72-406a-8325-5d2624690e9e%2Fgeneration.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F1adb89f1-0242-4dc7-867b-12a9306ea12f%2Fgeneration.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F520857ff-18a9-4ba0-b8f7-2212dea7f486%2Fgeneration.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F57ea73d1-18b2-42b0-b059-cfd859088c38%2Fgeneration.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F79134f0b-0fa7-4f9d-b82b-129c1cd576ca%2Fgeneration.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2F956447fc-cb9c-4793-8856-0c2676bc7e67%2Fgeneration.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2Fe5ab6721-aac4-4d66-bfb2-a6ec5c93ce7f%2Fgeneration.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fcommunity-presets%2Ff3755ef3-8376-454c-bcd0-f3e4bf07c852%2Fgeneration.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fstatic.higgsfield.ai%2Fgenjutsu%2Fgenjutsu-intro-poster.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fstatic.higgsfield.ai%2Fgenjutsu%2Frestyle-cover-20260927%2FCOVER-poster.webp&w=384&q=85",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/74d0701fef4fbbab6de02e3047939632679c67089929b3343d533f99ba2b6c8a.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/a50801ab9f8c7466f30c9d1da6b7f1a6c3070143f1fd1b1ce17d07d4079f7266.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/1f47e7fff8f467c11975a089935c002c03c80084cce7db04e52e23fa4ef2e6a4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/33e71d15f64fd4af32e9d128bef2b724af4f599f6004d5fc2171afc50d500dd1",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/69806e5c2c4d407e70a08a9862522e91be7872388f97ce696b1f86b34db86df2",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/91c23e5c7b1a5b01054c9eaeb00700fd853e0850d413897ba907dc59ccc3e058",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/9252b19379108ae708458738df92b8565df0c0b25ae5930f09c2b6752cbd0965",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/ef446f6f5e626085f77c31306db50f11f09ca77b59ad9c749f7e1667822a61c5",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/f0074246264cff6c267542faa56deba27d1e63742d749a2f1063ccd52677641e",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/ai-influencer-explore-presets/published/f2f9ba4da235c11d8a0ea960cd5ab34de312c7143fae3cd9a88e6b5e9483faa1",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/0d368f85-a314-4924-887c-59c6fc5f5b21.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/1cccd347-5c5a-44e5-acf7-7371701fab40.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/25f32735-08df-4832-847b-abfe69241c90.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/442ed328-6c4e-4ab7-892c-5c56adcfb3d2.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/68303bce-5293-4880-8a80-cacf13aa6ce4.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/8860b1ea-135b-4921-af82-680a19d2bbbd.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/8cf3d15b-bdea-4285-b44a-00eff92b680e.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/a0867faf-4f17-4b64-91e3-40648410ce60.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/d8fa1c4b-4b68-4f4f-956d-ff1ad55c795c.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/published/3531f1c6e7b0e3026c3d50d1c18c14be7e548a1e411c83d54afe741f8b4d7a9e",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/katana-presets/published/beddd287607f7a48193f117f2c6d98a9cd696e275b361b2550f5d244c40f7c8e",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/01e641df-bce6-4d88-91ed-c6081516c76c.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/04bb6062-17ce-4a5e-8a5c-14310d9561f4.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/08189891-2c6b-4726-8193-744fc201cfbd.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/23c5d423-c85d-4ae5-abe9-c2dd88aec631.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/2500c15f-600d-495e-a731-921e57f174b0.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/39bedcae-c0e5-4476-a7a9-195b718bf7a8.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/3eac90ae-9081-4a60-b6af-4009f96e8a95.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/3f87bbff-fd1a-4d93-8b32-5db0c8700a85.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/4ac9536e-04e3-4325-9622-9c8b77000aea.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/4c0c1a60-3184-4e6b-90b1-6f6ff479123e.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/503426a7-2965-41bd-bdbf-c61c8ce4c698.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/54ede5c1-a35b-43f2-a5b9-30743f2c8ac3.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/5c2f5251-e100-4ecb-baca-f32dd026f0ad.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/5db936eb-1040-4b71-afb5-80737ab73716.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/661f14cb-7fd9-4e50-99fc-f98290e22c6e.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/6bb12140-74e0-4249-aabb-3a9e4cc95c2e.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/7c835158-7e96-49f1-9cb8-68b3369793b0.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/7c9e2e5d-f704-46fd-aeec-2f45e9579e12.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/895b0fd5-a79f-48e2-ac39-868d38959a7c.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/8bfdb57c-42ac-4ab8-8da5-071a7dce386d.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/91ec3be0-8b14-4bfa-a0f4-17889ae22102.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/941191a2-aad2-4c87-9613-7b139c85a029.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/99e895b2-4e98-4243-b650-abadbd2fa259.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/9ec3f2fd-7b6e-44ba-8d09-e01d217f6b55.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/a2eb8b8b-9114-4787-9fab-f708fb32cb45.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/a60999ff-1574-4823-b31d-b1ae5bf8d3df.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/aad05a6a-a4c4-4931-8701-e26face70a82.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/ac1fd12b-8e5d-4572-98b3-ef5bb3132e30.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/c1fe8718-9e29-43e9-96a8-c31026b4450f.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/c5c759d8-c066-4c70-adf9-52b7838cc43d.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/c82c8999-ab3c-4ffa-be6b-7f2c26601e46.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/c8881bd8-1891-4ca5-abd9-288e600f03e8.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/c8ee6085-e998-4871-bf77-186e16e094d4.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/d94a16ba-2675-4da1-ad54-9157df77dfa1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/fb5c31a7-fc65-48bf-968d-e882eb62b2eb.webp",
+      "download": true
+    },
+    {
+      "url": "https://static-public-media.higgsfield.ai/restyle-presets/fc0dad71-1ea2-4f8b-943c-7ce21702fd96.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/bird.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/cat.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/dog.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/frog.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/insect.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/character-types/2026-10-05-heads/rodent.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/design-update/2026-10-02/sidebar/average.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/design-update/2026-10-02/sidebar/bold-v2.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/design-update/2026-10-02/sidebar/extreme.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/burgundy-suit-dancer-poster.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/burgundy-suit-dancer.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-shirt-poster.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-shirt.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-tuxedo-poster.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/cream-tuxedo.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/green-suit-poster.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/green-suit.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/red-bob-poster.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/hero/2026-10-04/red-bob.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02-v2/es_close.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02-v2/es_huge.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02-v2/es_uneven.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02-v2/es_wide.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_bag.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_glasses.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_hat.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_headphones.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_jewelry.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/acc_none.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_almond.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_downturned.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_hooded.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_large.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_monolid.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_round.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-02/es_upturned.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_corkscrews.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_mushroom.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_shelf.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_sidecoil.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/hs_stairs.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-hair-body/pr_egg.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-head-shapes/head_ancient.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-head-shapes/head_herojaw.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-head-shapes/head_megachin.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/african.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_athletic.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_curvy.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_heavy.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_muscular.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_slim.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/body_ultra.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/casual.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_bandage.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_bleached.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_braces.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_ears.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_elf.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_facetattoo.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_gems.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_grill.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_hetero.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_lashes.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_nobrows.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_scar.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_septum.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/df_slits.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/east_asian.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/european.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_brows_5.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_brows_6.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_brows_7.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_chin_13.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_ears_8.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_ears_9.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_forehead_14.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_lips_3.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_lips_4.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_marks_12.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_nose_0.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_nose_1.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_nose_2.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_teeth_10.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/ff_teeth_11.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_beard.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_braid.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_goatee.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_moustache.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_none.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_pencil.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_pushbroom.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fh_stubble.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_cheekbones.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_dimples.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_eyebags.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_freckles.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_fulllips.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_mole.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_pointychin.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_thickbrows.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_tinynose.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/fn_widemouth.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/goth.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/h_average.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/h_tall.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/h_very_tall.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_afro.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_bald.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_bowl.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_braids.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_buzz.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_long.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_mullet.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_pigtails.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_punk.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hair_short.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_forehead.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_heart.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_long.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_oval.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_round.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_square.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/head_tiny.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_beehive.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_dome.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_hedgehog.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_horns.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_lampshade.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_mouse.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_pompadour.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_softserve.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_sphere.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_tufts.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/hs_wings.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/indian.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/latin_american.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/middle_eastern.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/neck_column.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/neck_long.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/neck_normal.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/neck_short.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/pr_longlimbs.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/pr_shortlegs.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/pr_shoulders.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/pr_waist.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/retro.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/sporty.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/streetstyle.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/theatrical.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-icons-full/y2k.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-03-suits/suits_black_B_1.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ai-influencer/option-previews/2026-10-06-centaur/centaur.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/genjutsu/genjutsu-intro.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/genjutsu/model-preview-20261006/ver-1.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/genjutsu/restyle-cover-20260927/COVER.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/instadump_notext.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/katana-custom-test-v02-20261009/test_v02-poster.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/katana-custom-test-v02-20261009/test_v02.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/katana/katana-banner-v2-mini.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/katana/katana-banner-v2-thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/hyper-motion-mini-thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/hyper-motion-mini.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/tv-spot-mini-thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/tv-spot-mini.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/ugc_virtual_try_on-thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/ugc_virtual_try_on.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/virtual_try_on-thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/virtual_try_on.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/wild_card-thumbnail.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/marketing-studio-presets/wild_card.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-ad-reference/ad-reference.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/camera_pov.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/camera_pov.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/classic_meets_modern.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/classic_meets_modern.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/couple_sharing_home.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/couple_sharing_home.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/mess_to_fresh.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/mess_to_fresh.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/mystery_box.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/mystery_box.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/reboxing.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/reboxing.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/ugc_direct_to_camera.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/ugc_direct_to_camera.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/ugc_gadget_saved_me.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/ugc_gadget_saved_me.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/ugc_secret_hack_reveal.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/ugc_secret_hack_reveal.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/ugc_selfie_testimonial.jpg",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/ms-modes/ugc_selfie_testimonial.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Ads.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Ads.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Marketplace.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Marketplace.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Motion.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Motion.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Product.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Product.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-UGC.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-UGC.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-poster.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-poster.webp",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/storyboard-empty-state-mobile.mp4",
+      "download": true
+    },
+    {
+      "url": "https://static.higgsfield.ai/storyboard-empty-state.mp4",
+      "download": true
+    }
+  ]
+}

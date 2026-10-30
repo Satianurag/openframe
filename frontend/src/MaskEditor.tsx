@@ -14,12 +14,14 @@ export function MaskEditor({
   asset,
   existingMask,
   startTime = 0,
+  selectionMeaning = 'edit',
   onSave,
   onClose,
 }: {
   asset: Asset;
   existingMask?: Asset;
   startTime?: number;
+  selectionMeaning?: 'edit' | 'protect';
   onSave: (mask: Asset) => void;
   onClose: () => void;
 }) {
@@ -32,12 +34,54 @@ export function MaskEditor({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [loaded, setLoaded] = useState(false);
+  const [imageBounds, setImageBounds] = useState<{
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  } | null>(null);
   const [keepExisting, setKeepExisting] = useState(true);
   const canvas = useRef<HTMLCanvasElement>(null);
   const base = useRef<HTMLImageElement | null>(null);
   const current = useRef<Stroke | null>(null);
   const image = useRef<HTMLImageElement>(null);
   const frame = `/api/assets/${asset.id}/frame?time=${time.toFixed(2)}`;
+  const alignOverlay = useCallback(() => {
+    const img = image.current;
+    if (!img?.naturalWidth || !img.naturalHeight) return;
+    const style = getComputedStyle(img);
+    const boxWidth = parseFloat(style.width),
+      boxHeight = parseFloat(style.height);
+    const scale = Math.min(boxWidth / img.naturalWidth, boxHeight / img.naturalHeight);
+    const width = img.naturalWidth * scale,
+      height = img.naturalHeight * scale;
+    // object-fit: contain centers the source inside the image element's box.
+    // The overlay covers only source pixels; pointer coordinates and PNG pixels share
+    // this native-image rectangle. Saved masks are never warped to compensate for UI layout.
+    const next = {
+      left: img.offsetLeft + (boxWidth - width) / 2,
+      top: img.offsetTop + (boxHeight - height) / 2,
+      width,
+      height,
+    };
+    setImageBounds((previous) =>
+      previous &&
+      previous.left === next.left &&
+      previous.top === next.top &&
+      previous.width === next.width &&
+      previous.height === next.height
+        ? previous
+        : next,
+    );
+  }, []);
+  useEffect(() => {
+    const img = image.current;
+    if (!img) return;
+    const observer = new ResizeObserver(alignOverlay);
+    observer.observe(img);
+    alignOverlay();
+    return () => observer.disconnect();
+  }, [alignOverlay]);
   const paint = useCallback(() => {
     const c = canvas.current;
     if (!c) return;
@@ -88,7 +132,7 @@ export function MaskEditor({
       ctx.drawImage(img, 0, 0);
       const data = ctx.getImageData(0, 0, c.width, c.height);
       for (let i = 0; i < data.data.length; i += 4) {
-        data.data[i + 3] = data.data[i] > 127 ? 255 : 0;
+        data.data[i + 3] = data.data[i];
         data.data[i] = data.data[i + 1] = data.data[i + 2] = 255;
       }
       ctx.putImageData(data, 0, 0);
@@ -112,7 +156,7 @@ export function MaskEditor({
     };
   };
   const start = (e: PointerEvent<HTMLCanvasElement>) => {
-    if (!loaded) return;
+    if (!loaded || !imageBounds?.width || !imageBounds.height) return;
     if (Math.abs(time - startTime) > 0.01) {
       setError('Return to the first frame of your selected clip to paint its tracking mask.');
       return;
@@ -189,17 +233,23 @@ export function MaskEditor({
                   w: image.current!.naturalWidth,
                   h: image.current!.naturalHeight,
                 });
+                alignOverlay();
                 setLoaded(true);
               }}
               onError={() =>
-                setError('The source frame could not be loaded. Try uploading the video again.')
+                setError('The source frame could not be loaded. Try uploading the media again.')
               }
             />
             <canvas
               ref={canvas}
               width={dimensions.w}
               height={dimensions.h}
-              style={{ opacity }}
+              style={{
+                opacity,
+                inset: 'auto',
+                ...imageBounds,
+                visibility: imageBounds ? 'visible' : 'hidden',
+              }}
               onPointerDown={start}
               onPointerMove={move}
               onPointerUp={end}
@@ -227,7 +277,9 @@ export function MaskEditor({
             </button>
           )}
           <p className="muted small">
-            White selects the area the model can change. Black protects the surrounding scene.
+            {selectionMeaning === 'protect'
+              ? 'White protects original image pixels. Black is the area the model can change.'
+              : 'White selects the area the model can change. Black protects the surrounding scene.'}
           </p>
         </div>
         <aside className="mask-tools">
@@ -285,15 +337,26 @@ export function MaskEditor({
           </button>
           <div className="mask-help">
             <Icon name="info" />
-            <p>
-              Paint the whole object, its soft edges, its cast shadow, and a small margin. Preserve
-              unmasked area keeps pixels outside the painted/tracked mask unchanged. Generation
-              margin adds model context; it does not enlarge the final edit area.
-            </p>
-            <p>
-              If you inspect another frame, return to {startTime.toFixed(1)}s to paint the tracking
-              seed.
-            </p>
+            {asset.kind === 'video' ? (
+              <>
+                <p>
+                  Paint the whole object, its soft edges, its cast shadow, and a small margin.
+                  Preserve unmasked area keeps pixels outside the painted/tracked mask unchanged.
+                  Generation margin adds model context; it does not enlarge the final edit area.
+                </p>
+                <p>
+                  If you inspect another frame, return to {startTime.toFixed(1)}s to paint the
+                  tracking seed.
+                </p>
+              </>
+            ) : (
+              <p>
+                {selectionMeaning === 'protect'
+                  ? 'Paint the product or region to preserve. Include every edge that should remain original. The surrounding image can be regenerated.'
+                  : 'Paint every area you want to change, including soft edges or shadows. Pixels outside this region will be preserved.'}{' '}
+                The PNG mask uses the original image dimensions.
+              </p>
+            )}
           </div>
           {error && <ErrorBox message={error} />}
           <button className="primary" onClick={save} disabled={saving || !loaded}>

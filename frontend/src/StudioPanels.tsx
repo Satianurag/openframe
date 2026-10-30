@@ -3,7 +3,7 @@ import { HistoryToolbar } from './HistoryToolbar';
 import type { HistoryView } from './HistoryToolbar';
 import { AnchoredPopover } from './Popovers';
 import type { Dispatch, SetStateAction, DragEvent } from 'react';
-import { previewVideos, previewDescriptions, previewLabels } from './previews';
+import { previewSources, previewVideos, previewDescriptions, previewLabels } from './previews';
 import type { Asset, Catalog, Effect, Job, JobRequest } from './types';
 import { api, mediaUrl, downloadedJobs } from './api';
 import { Icon } from './Icon';
@@ -74,9 +74,7 @@ export function EffectsPanel({
         </button>
       </div>
       <div className="effects-grid">
-        {filteredEffects
-          .filter((e) => e.model_ids.includes(draft.model_id))
-          .map((e) => (
+        {filteredEffects.map((e) => (
             <button
               className={`effect-card ${e.id === draft.effect_id ? 'chosen' : ''}`}
               key={e.id}
@@ -85,7 +83,7 @@ export function EffectsPanel({
             >
               <SceneArt id={e.id}>
                 <span className="preview-origin">
-                  {previewLabels[e.id] || 'Workflow illustration'}
+                  {previewLabels[e.id] || 'No reference preview'}
                 </span>
                 <div className="card-title">
                   <h3>{e.id === 'text-to-video' ? 'GENERAL' : e.name.toUpperCase()}</h3>
@@ -106,8 +104,8 @@ export function EffectsPanel({
         />
       )}
       <p className="preset-provenance">
-        Workflow previews include original illustrations. Verified generated examples are identified
-        in their preview descriptions.
+        Public Higgsfield examples illustrate the controls. They are external references, not
+        OpenFrame generation results.
       </p>
     </div>
   );
@@ -258,6 +256,8 @@ export function HistoryPanel({
                       <img src={job.outputs[0].thumbnail_url} alt="Generated video preview" />
                     ) : job.outputs[0].kind === 'video' ? (
                       <video src={mediaUrl(job.outputs[0])} preload="metadata" muted />
+                    ) : job.outputs[0].kind === 'audio' ? (
+                      <Icon name="sound" size={36} />
                     ) : (
                       <img src={mediaUrl(job.outputs[0])} alt="Generated output" />
                     )
@@ -390,6 +390,7 @@ export function MediaLibrary({
   const filterAnchor = useRef<HTMLButtonElement>(null);
   const shown = assets.filter(
     (a) =>
+      (a.kind === 'image' || a.kind === 'video') &&
       (!picker || picker !== 'reference' || a.kind === 'image') &&
       (assetFilter === 'All' || a.kind === assetFilter.toLowerCase()),
   );
@@ -521,9 +522,9 @@ export function MediaLibrary({
                       await api(`/assets/${a.id}`, { method: 'DELETE' });
                       setAssets((s) => s.filter((x) => x.id !== a.id));
                       if (draft.source_asset_id === a.id)
-                        update({ source_asset_id: undefined, mask_asset_id: undefined });
+                        update({ source_asset_id: undefined, mask_asset_id: undefined, ...(draft.inpaint_reference_mode === 'edited-first-frame' ? { reference_asset_id: undefined, inpaint_reference_mode: undefined } : {}) });
                       if (draft.reference_asset_id === a.id)
-                        update({ reference_asset_id: undefined });
+                        update({ reference_asset_id: undefined, inpaint_reference_mode: undefined });
                     } catch (e) {
                       setError((e as Error).message);
                     }
@@ -568,13 +569,16 @@ export function HelpPanel({
   onUpload,
   onPresets,
   editing,
+  effectId,
+  sourceAssetId,
 }: {
   onSettings: () => void;
   onUpload: () => void;
   onPresets: () => void;
   editing: boolean;
+  effectId: string;
+  sourceAssetId?: string;
 }) {
-  const [slide, setSlide] = useState(0);
   const examples = [
     [
       'remove-object',
@@ -593,17 +597,21 @@ export function HelpPanel({
     ],
     ['cinematic', 'LIGHT & ATMOSPHERE', 'Describe a new lighting treatment for the scene.'],
     ['weather', 'CHANGE THE WEATHER', 'Explore a new atmosphere using a video-to-video workflow.'],
+    ['video-outpaint', 'RE-FRAME & COMPOSITION', 'Place your source inside a new canvas and generate the surrounding scene.'],
   ];
+  const initialSlide = Math.max(0, examples.findIndex(([id]) => id === (effectId === 'relight' ? 'cinematic' : effectId)));
+  const [slide, setSlide] = useState(initialSlide);
+  useEffect(() => setSlide(initialSlide), [initialSlide]);
   const example = examples[slide];
   const bottom = (
     <button className="help-bottom reference-help-bottom" onClick={onSettings}>
       <span className="help-bottom-art">
-        <img src="/previews/ltx-fast-vase.jpg" alt="Original LTX Fast generation" />
-        <img src="/previews/ltx-fast-vase.jpg" alt="" />
+        <img src={previewSources['image-to-video']} alt="Higgsfield input-image example" />
+        <img src={previewSources['image-to-video']} alt="" />
       </span>
       <span>
         <strong>Don’t know where to start?</strong>
-        <small>Render locally, on Modal, or Comfy Cloud.</small>
+        <small>Connect local ComfyUI or Comfy Cloud.</small>
       </span>
     </button>
   );
@@ -616,10 +624,13 @@ export function HelpPanel({
           </div>
           <h1>{example[1]}</h1>
           <p>{example[2]}</p>
+          {example[0] === 'video-outpaint' && (
+            <a className="secondary" href={`/apps/video-outpaint${sourceAssetId ? `?source=${encodeURIComponent(sourceAssetId)}` : ''}`}>
+              Open AI Reframe
+            </a>
+          )}
           <small className="example-kind">
-            {previewVideos[example[0]]
-              ? previewDescriptions[example[0]] || 'Original generated example'
-              : 'Workflow illustration · choose a source video to make your own'}
+            {previewDescriptions[example[0]] || 'Choose a source video to make your own'}
           </small>
           <div className="example-carousel">
             <button
@@ -669,7 +680,7 @@ export function HelpPanel({
               <Icon name="image" size={26} />
               <strong>UPLOAD IMAGE</strong>
               <small>or choose from your media</small>
-              <img src="/previews/ltx-fast-vase.jpg" alt="Original generated vase example" />
+              <img src={previewSources['image-to-video']} alt="Higgsfield input-image example" />
             </button>
             <h2>ADD IMAGE</h2>
             <p>Upload or generate an image to start your animation</p>
@@ -699,11 +710,11 @@ export function HelpPanel({
           <article>
             <div
               className="tutorial-media tutorial-result"
-              title="Original LTX Fast output; seed42;97frames;24fps"
+              title="Public Higgsfield video example, not an OpenFrame output"
             >
               <video
-                src="/previews/ltx-fast-vase.mp4"
-                poster="/previews/ltx-fast-vase.jpg"
+                src={previewVideos['text-to-video']}
+                poster={previewSources['text-to-video']}
                 muted
                 autoPlay={!matchMedia('(prefers-reduced-motion: reduce)').matches}
                 loop
