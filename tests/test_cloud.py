@@ -16,6 +16,37 @@ from engine.runner import JobCancelled, ProviderError
 from engine.workflows import build_workflow, normalize_request
 
 
+class CloudSubmissionGuard(unittest.TestCase):
+    def test_cached_unavailable_cloud_is_rejected_before_queueing(self):
+        from fastapi.testclient import TestClient
+        from backend.app import create_app
+
+        with tempfile.TemporaryDirectory(prefix="openframe-cloud-guard-") as temp:
+            app = create_app(Path(temp))
+            with TestClient(app) as client:
+                saved = client.patch("/api/settings", json={"comfy_cloud_api_key": "test-only-api-key"})
+                self.assertEqual(saved.status_code, 200, saved.text)
+                app.state.provider_checks["comfy-cloud"] = {
+                    "available": False,
+                    "detail": "Cloud is authenticated, but this workspace has no remaining free runs or credits.",
+                }
+                response = client.post("/api/jobs", json={
+                    "model_id": "ltx-0.9.8",
+                    "effect_id": "text-to-video",
+                    "provider": "comfy-cloud",
+                    "prompt": "A moving test subject",
+                    "width": 256,
+                    "height": 256,
+                    "frames": 9,
+                    "fps": 8,
+                    "steps": 1,
+                })
+                self.assertEqual(response.status_code, 422, response.text)
+                self.assertIn("no remaining free runs", response.json()["detail"])
+                self.assertNotIn("test-only-api-key", response.text)
+                self.assertEqual(client.get("/api/jobs").json()["total"], 0)
+
+
 class HostedCloudContract(unittest.TestCase):
     def request(self, effect="replace-object", **changes):
         return normalize_request(dict(job_id="contract-check", model_id="ltx-2.3", effect_id=effect,

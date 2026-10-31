@@ -214,8 +214,17 @@ def create_app(data_dir: Path | str | None = None) -> FastAPI:
 
     def prepare_job(request: RenderRequest, *, require_assets=True, check_provider=True):
         data, warnings = validate_request(request, app.state.store, require_assets=require_assets)
-        if check_provider and not provider_configured(data["provider"], settings(app.state.store)):
-            raise HTTPException(422, "Configure the selected compute provider in Settings before rendering")
+        if check_provider:
+            current = settings(app.state.store)
+            if not provider_configured(data["provider"], current):
+                raise HTTPException(422, "Configure the selected compute provider in Settings before rendering")
+            if data["provider"] == "comfy-cloud":
+                checked = app.state.provider_checks.get("comfy-cloud")
+                if checked and checked.get("available") is False:
+                    raise HTTPException(422, redact(
+                        checked.get("detail") or "Comfy Cloud is unavailable. Open Compute settings and check the connection before rendering.",
+                        current,
+                    ))
         timestamp = now()
         if data["seed"] == -1:
             data["seed"] = secrets.randbelow(2**32)

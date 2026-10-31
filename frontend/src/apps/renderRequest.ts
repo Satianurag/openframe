@@ -1,4 +1,4 @@
-import type { JobRequest, Model } from '../types';
+import type { JobRequest, Model, Provider } from '../types';
 
 export function modelSupportsReference(
   model: Model | undefined,
@@ -15,6 +15,18 @@ export function resolveProvider(saved: string | undefined, fallback: string | un
   if (saved === 'local' || saved === 'comfy-cloud') return saved;
   if (fallback === 'local' || fallback === 'comfy-cloud') return fallback;
   return 'local';
+}
+
+export function providerReadinessIssue(provider: Provider | undefined): string {
+  if (!provider)
+    return 'The selected compute connection is not available in this catalog. Open Compute settings and choose a supported provider.';
+  if (provider.configured === false)
+    return `${provider.name} is not connected. Add credentials in Compute settings before rendering.`;
+  if (provider.available === false)
+    return `${provider.name} is unavailable. ${provider.detail || 'Open Compute settings to check the connection and retry.'}`;
+  if (provider.id === 'comfy-cloud' && provider.available !== true)
+    return `${provider.name} must be verified in Compute settings before rendering. Run Check connection, then retry.`;
+  return '';
 }
 
 export function modelProviderIssue(model: Model | undefined, provider: string, task?: string): string {

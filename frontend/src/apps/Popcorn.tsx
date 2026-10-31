@@ -3,7 +3,7 @@ import { api, mediaUrl, post } from '../api';
 import { Icon } from '../Icon';
 import { AnchoredPopover } from '../Popovers';
 import { useAppDocument } from './useAppDocument';
-import { renderRequest, renderSize, resolveProvider } from './renderRequest';
+import { providerReadinessIssue, renderRequest, renderSize, resolveProvider } from './renderRequest';
 import type { Job } from '../types';
 import type { AppDocument } from './registry';
 import type { ShotProposal } from './SequencePlanner';
@@ -119,6 +119,9 @@ export function Popcorn({ catalog, settings, onSettings }: EngineAppProps) {
     catalog.effects.find((effect) => effect.id === operation)?.model_ids.includes(item.id),
   );
   const provider = resolveProvider(state.provider, settings.default_provider);
+  const providerIssue = providerReadinessIssue(
+    catalog.providers.find((item) => item.id === provider),
+  );
   const selected = session.jobs.find((job) => job.id === selectedId) || board?.items.find((job) => job.id === selectedId);
   const activePlan = plan?.status === 'queued' || plan?.status === 'running';
   const references = state.reference_asset_ids.map((id) => assets.get(id)).filter(Boolean);
@@ -274,6 +277,7 @@ export function Popcorn({ catalog, settings, onSettings }: EngineAppProps) {
     setBusy(true);
     setError('');
     try {
+      if (providerIssue) throw new Error(providerIssue);
       if (state.scenes.some((scene) => scene.prompt.length > 15900))
         throw new Error('Keep each scene description below15,900 characters.');
       if (state.scenes.some((scene) => !scene.prompt.trim()))
@@ -651,6 +655,11 @@ export function Popcorn({ catalog, settings, onSettings }: EngineAppProps) {
                 {error || session.error || assets.error}
               </p>
             )}
+            {providerIssue && (
+              <p className="muted small" role="status">
+                {providerIssue}
+              </p>
+            )}
             <footer>
               <div>
                 <button
@@ -681,6 +690,7 @@ export function Popcorn({ catalog, settings, onSettings }: EngineAppProps) {
                   busy ||
                   activePlan ||
                   !session.ready ||
+                  !!providerIssue ||
                   (state.mode === 'auto' &&
                     state.result_count > 1 &&
                     (!plannerReady || !catalog.providers.some((item) => item.id === plannerProvider)))

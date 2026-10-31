@@ -67,6 +67,7 @@ export type Provider = {
   model_capabilities?: Record<string, { composite_tracking_methods?: string[]; official_support_detail?: string; supports_recast_reference_cleanup?: boolean }>;
   training_available?: boolean;
   training_detail?: string;
+  narration_runtime?: { ming?: boolean; captions?: boolean; detail?: string };
 };
 export type Catalog = {
   models: Model[];

@@ -13,7 +13,7 @@ import { JobResult } from './JobResult';
 import { SceneArt } from './SceneArt';
 import { EffectsPanel, HistoryPanel, MediaLibrary, HelpPanel } from './StudioPanels';
 import { applications } from './apps/registry';
-import { modelProviderIssue, modelSupportsReference } from './apps/renderRequest';
+import { modelProviderIssue, modelSupportsReference, providerReadinessIssue } from './apps/renderRequest';
 import { nativeVideoRoutes, nativeVideoCards } from './apps/NativeVideoTools';
 
 const vfxEffects = new Set([
@@ -189,6 +189,7 @@ export default function App() {
   const computeIssue = catalog.providers.length && !catalog.providers.some((item) => item.id === draft.provider)
     ? 'The saved compute provider is disabled in this configuration. Choose an enabled connection; the recipe has not been changed.'
     : modelProviderIssue(model, draft.provider, effect?.task);
+  const readinessIssue = providerReadinessIssue(provider);
   const hostedCloud =
     draft.provider === 'comfy-cloud' &&
     /^https:\/\/cloud\.comfy\.org\/?$/.test(settings.comfy_cloud_url || 'https://cloud.comfy.org');
@@ -593,6 +594,7 @@ export default function App() {
     if (!draft.prompt.trim()) return 'Describe the scene you want to create.';
     if (!effect || !model) return loading ? 'The model catalogue is not available yet.' : 'The saved model or operation is unavailable in this catalogue. Choose a supported operation and model; the saved recipe has not been changed.';
     if (computeIssue) return computeIssue;
+    if (readinessIssue) return readinessIssue;
     if (provider?.unsupported_tasks?.includes(effect.task))
       return 'This compute connection does not support the selected operation. Choose another provider.';
     if (!effect.model_ids.includes(draft.model_id))
@@ -1412,6 +1414,11 @@ export default function App() {
             </div>
             {!editingTools && (
               <div className="generate-footer">
+                {readinessIssue && (
+                  <p className="muted small" role="status">
+                    {readinessIssue}
+                  </p>
+                )}
                 {computeIssue && (
                   <p className="field-error" role="alert">
                     {computeIssue}
@@ -1419,7 +1426,7 @@ export default function App() {
                 )}
                 <button
                   className="generate-button"
-                  disabled={!!busy || loading || offline || !!computeIssue}
+                  disabled={!!busy || loading || offline || !!computeIssue || !!readinessIssue}
                   onClick={generate}
                 >
                   <Icon name={busy ? 'clock' : 'spark'} size={19} />

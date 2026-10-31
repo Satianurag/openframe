@@ -33,6 +33,9 @@ export function SettingsPanel({
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [results, setResults] = useState<Record<string, ConnectionResult>>({});
+  const cloudVerified =
+    results['comfy-cloud']?.available ??
+    providers.find((provider) => provider.id === 'comfy-cloud')?.available === true;
   const field = (key: string, label: string, placeholder: string, password = false) => (
     <label className="input-label">
       {label}
@@ -61,9 +64,15 @@ export function SettingsPanel({
       )}
     </label>
   );
-  async function save(close = false) {
+  async function save(close = false, allowUnverified = false) {
     setError('');
     setNotice('');
+    if (!allowUnverified && draft.default_provider === 'comfy-cloud' && !cloudVerified) {
+      setError(
+        'Verify Comfy Cloud with Check connection before making it the default execution provider.',
+      );
+      return null;
+    }
     setBusy('save');
     try {
       const payload = {
@@ -87,7 +96,7 @@ export function SettingsPanel({
     }
   }
   async function check(id: string) {
-    const saved = await save();
+    const saved = await save(false, true);
     if (!saved) return;
     setBusy(id);
     try {
@@ -115,11 +124,22 @@ export function SettingsPanel({
               <option value={draft.default_provider} disabled>Saved connection is disabled</option>
             )}
             {providers.filter((p) => ['local', 'comfy-cloud'].includes(p.id)).map((p) => (
-              <option key={p.id} value={p.id}>
+              <option
+                key={p.id}
+                value={p.id}
+                disabled={p.id === 'comfy-cloud' && !cloudVerified}
+              >
                 {p.name}
+                {p.id === 'comfy-cloud' && !cloudVerified ? ' · verify connection first' : ''}
               </option>
             ))}
           </select>
+          {draft.default_provider === 'comfy-cloud' && !cloudVerified && (
+            <small className="muted" role="status">
+              Comfy Cloud is saved as the default but is not verified. Run Check connection, or
+              choose Local ComfyUI before saving.
+            </small>
+          )}
         </label>
         <div className="settings-grid">
           {providers.filter((p) => ['local', 'comfy-cloud'].includes(p.id)).map((p) => (

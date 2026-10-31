@@ -354,6 +354,9 @@
   padding: 6px 2px;
   font-size: 12px !important;
 }
+.sequence-preflight {
+  color: #ffd79a !important;
+}
 .sequence-error,
 .sequence-over strong,
 .sequence-shot p[role='alert'] {

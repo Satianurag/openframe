@@ -5,7 +5,7 @@ import { Modal } from '../ui';
 import type { Asset, Catalog, JobRequest, Settings } from '../types';
 import type { AppDocument, ApplicationId } from './registry';
 import { AssetPicker, useWorkspaceAssets } from './engine-apps-shared';
-import { renderRequest, resolveProvider } from './renderRequest';
+import { modelProviderIssue, providerReadinessIssue, renderRequest, resolveProvider } from './renderRequest';
 import { plannerAvailable, plannerRunNote } from './plannerStatus';
 import type { PlannerInfo } from './plannerStatus';
 import './sequence-planner.css';
@@ -226,6 +226,49 @@ function SequenceEditor(props: Props) {
         }) satisfies Episode,
     );
   const [episodes, setEpisodes] = useState<Episode[]>(freshEpisodes);
+  const narrationRuntime = catalog.providers.find((item) => item.id === 'local')?.narration_runtime;
+  const shotProviderIssue =
+    episodes
+      .flatMap((episode) =>
+        episode.shots.map((shot, shotIndex) => {
+          const provider = resolveProvider(shot.request.provider, settings.default_provider);
+          const issue =
+            providerReadinessIssue(catalog.providers.find((item) => item.id === provider)) ||
+            modelProviderIssue(
+              catalog.models.find((item) => item.id === shot.request.model_id),
+              provider,
+              shot.request.effect_id,
+            );
+          return issue ? `Shot ${shotIndex + 1} of ${episode.title}: ${issue}` : '';
+        }),
+      )
+      .find(Boolean) || '';
+  const pendingNarration = episodes.some((episode) =>
+    episode.shots.some(
+      (shot) => !!shot.narration?.text.trim() && shot.narration_status !== 'succeeded',
+    ),
+  );
+  const pendingNarrationCaptions = episodes.some(
+    (episode) =>
+      episode.captions?.mode === 'narration' &&
+      episode.shots.some(
+        (shot) => !!shot.narration?.text.trim() && shot.narration_status !== 'succeeded',
+      ),
+  );
+  const pendingSoundtrackCaptions = episodes.some(
+    (episode) =>
+      episode.captions?.mode === 'soundtrack' &&
+      !!episode.audio_asset_id &&
+      !(episode as Episode & { transcription?: { words?: unknown[] } }).transcription?.words?.length,
+  );
+  const narrationRuntimeIssue =
+    narrationRuntime?.ming === false && pendingNarration
+      ? `The Local ComfyUI host reports the pinned Ming speech runtime is not installed, so the planned voiceover cannot render. ${narrationRuntime.detail || ''} Clear the voiceover scripts or install the pinned runtime; no substitute voice is used.`
+      : narrationRuntime?.captions === false &&
+          (pendingNarrationCaptions || pendingSoundtrackCaptions)
+        ? `The Local ComfyUI host reports the pinned caption runtime is not installed, so automatic captions cannot render. ${narrationRuntime.detail || ''} Choose manual captions or install the pinned runtime.`
+        : '';
+  const preflightIssue = shotProviderIssue || narrationRuntimeIssue;
   const [sequence, setSequence] = useState<Sequence | null>(null);
   const [history, setHistory] = useState<Sequence[]>([]);
   const [plan, setPlan] = useState<ShotProposal | null>(null);
@@ -593,6 +636,7 @@ function SequenceEditor(props: Props) {
     }
   }
   async function start() {
+    if (preflightIssue) throw new Error(preflightIssue);
     const saved = await saveDraft(true);
     const result = await post<Sequence>(`/sequences/${saved.id}/start`, {
       expected_revision: saved.revision,
@@ -1355,6 +1399,11 @@ function SequenceEditor(props: Props) {
           order. A failed shot leaves the sequence incomplete; resume retains completed shots. No
           music or narration is added unless selected above.
         </p>
+        {preflightIssue && (
+          <p className="sequence-policy sequence-preflight" role="status">
+            {preflightIssue}
+          </p>
+        )}
         {pollError && (
           <p className="sequence-error" role="status">
             Status refresh interrupted; the saved job may still be running. Retrying status only.{' '}
@@ -1383,7 +1432,7 @@ function SequenceEditor(props: Props) {
               </button>
               <button
                 className="sequence-primary"
-                disabled={busy || !total}
+                disabled={busy || !total || !!preflightIssue}
                 onClick={() => void perform(start)}
               >
                 {busy ? 'Working…' : `Render ${total} reviewed shots`}
@@ -1398,7 +1447,7 @@ function SequenceEditor(props: Props) {
           {(sequence?.status === 'failed' || sequence?.status === 'cancelled') && (
             <button
               className="sequence-primary"
-              disabled={busy || unsaved}
+              disabled={busy || unsaved || !!preflightIssue}
               onClick={() =>
                 void perform(() =>
                   sequenceAction(sequence.status === 'failed' ? 'retry' : 'resume'),

@@ -5,7 +5,7 @@ import { Icon } from '../Icon';
 import type { Asset, Catalog, Job, Settings } from '../types';
 import { AppSwitcher } from './AppSwitcher';
 import { useAppDocument } from './useAppDocument';
-import { durationFrames, renderRequest, renderSize, resolveProvider } from './renderRequest';
+import { durationFrames, providerReadinessIssue, renderRequest, renderSize, resolveProvider } from './renderRequest';
 import { loadProjectSnapshot, showProjectDraft } from './projectReuse';
 import { AnchoredPopover } from '../Popovers';
 import './cinema-studio.css';
@@ -309,6 +309,9 @@ export function CinemaStudio({
   const imageReferenceLimit = Number(model?.max_references || 4);
   const referenceLimit = referenceLimitFromCatalog(referenceEffect, referenceModel, 9);
   const provider = resolveProvider(state.provider, settings.default_provider);
+  const providerIssue = providerReadinessIssue(
+    catalog.providers.find((item) => item.id === provider),
+  );
   const maxReferences =
     state.mode === 'image' ? imageReferenceLimit : referenceEffectAvailable ? referenceLimit : 1;
   const effectLabel =
@@ -585,6 +588,7 @@ export function CinemaStudio({
     setSubmitting(true);
     try {
       if (!state.prompt.trim()) throw new Error('Describe your shot before generating.');
+      if (providerIssue) throw new Error(providerIssue);
       if (referenceBlockReason) throw new Error(referenceBlockReason);
       if (activeIds.length > maxReferences)
         throw new Error(`${effectLabel} accepts ${maxReferences} active references. Remove the extra references first.`);
@@ -1110,7 +1114,7 @@ export function CinemaStudio({
               </div>
               <button
                 className="cin-generate"
-                disabled={!session.ready || !state.prompt.trim() || submitting}
+                disabled={!session.ready || !state.prompt.trim() || submitting || !!providerIssue}
                 onClick={() => void generate()}
               >
                 <Icon name="spark" size={18} />
@@ -1122,6 +1126,11 @@ export function CinemaStudio({
                 </span>
               </button>
             </div>
+            {providerIssue && (
+              <p className="cin-reference-note warning" role="status">
+                {providerIssue}
+              </p>
+            )}
             {(error || session.error) && (
               <p className="cin-error" role="alert">
                 {error || session.error}

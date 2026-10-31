@@ -6,7 +6,7 @@ import { AnchoredPopover } from '../Popovers';
 import type { Asset, Job, Model } from '../types';
 import { useAppDocument } from './useAppDocument';
 import { loadProjectSnapshot, missingProjectSnapshot, projectReuseDescription, showProjectDraft } from './projectReuse';
-import { modelSupportsReference, renderRequest, renderSize, resolveProvider } from './renderRequest';
+import { modelSupportsReference, providerReadinessIssue, renderRequest, renderSize, resolveProvider } from './renderRequest';
 import { buildMotionRequest } from './motionRequest';
 import { officialRecastAvailable, preferredRecastSupport, recastSupportIssue, recastReferenceCleanupAvailable, recastReferenceCleanupIssue } from './recastSupport';
 import { MotionControls, motionDefaults } from './MotionControls';
@@ -135,6 +135,9 @@ export function AIInfluencer({ catalog, settings, onSettings }: EngineAppProps) 
             : state.motion_model_id || 'wan-animate'),
   );
   const provider = resolveProvider(state.provider, settings.default_provider);
+  const providerIssue = providerReadinessIssue(
+    catalog.providers.find((item) => item.id === provider),
+  );
   const cleanupAvailable = recastReferenceCleanupAvailable(catalog, provider);
   const cleanupIssue = model?.id === 'scail-2' ? recastReferenceCleanupIssue(catalog, provider, state.recast_reference_cleanup ?? false) : '';
   const officialSupportAvailable = officialRecastAvailable(catalog, provider);
@@ -257,7 +260,7 @@ export function AIInfluencer({ catalog, settings, onSettings }: EngineAppProps) 
   }
   async function generate() {
     if (!model || submitting) return;
-    if (supportIssue || cleanupIssue || intervalIssue) { setError(supportIssue || cleanupIssue || intervalIssue); return; }
+    if (providerIssue || supportIssue || cleanupIssue || intervalIssue) { setError(providerIssue || supportIssue || cleanupIssue || intervalIssue); return; }
     setSubmitting(true);
     setError('');
     try {
@@ -643,6 +646,11 @@ export function AIInfluencer({ catalog, settings, onSettings }: EngineAppProps) 
               {intervalIssue || error || session.error || assets.error}
             </p>
           )}
+          {providerIssue && (
+            <p className="muted small" role="status">
+              {providerIssue}
+            </p>
+          )}
         </div>
         <footer className="influencer-generate">
           <div>
@@ -667,7 +675,7 @@ export function AIInfluencer({ catalog, settings, onSettings }: EngineAppProps) 
             )}
             <button
               className="influencer-submit"
-              disabled={!session.ready || submitting || !model || !!intervalIssue || !!cleanupIssue}
+              disabled={!session.ready || submitting || !model || !!intervalIssue || !!cleanupIssue || !!providerIssue}
               onClick={() => void generate()}
             >
               {submitting ? 'Preparing…' : prepareStyle ? 'Prepare styled character' : 'Generate'}

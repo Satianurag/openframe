@@ -10,7 +10,7 @@ import { useAppDocument } from './useAppDocument';
 import { buildMotionRequest } from './motionRequest';
 import { MotionControls, motionDefaults } from './MotionControls';
 import type { MotionConditioning } from './MotionControls';
-import { modelProviderIssue, modelSupportsReference, renderRequest, renderSize, resolveProvider } from './renderRequest';
+import { modelProviderIssue, modelSupportsReference, providerReadinessIssue, renderRequest, renderSize, resolveProvider } from './renderRequest';
 import {
   AssetPicker,
   SourceSlot,
@@ -166,7 +166,7 @@ export function Genjutsu({ catalog, settings, onSettings }: EngineAppProps) {
     model?.strength_controls as Record<string, { label: string; hint?: string }> | undefined
   )?.[effect?.task || ''];
   const provider = resolveProvider(state.provider, settings.default_provider);
-  const providerIssue = modelProviderIssue(model, provider, effect?.task);
+  const providerIssue = providerReadinessIssue(catalog.providers.find((item) => item.id === provider)) || modelProviderIssue(model, provider, effect?.task);
   const fps = Number(model?.fixed_fps ?? state.fps ?? model?.default_fps ?? 16);
   const fpsValid = Number.isFinite(fps) && fps >= 1 && fps <= 120;
   const frames =
@@ -256,6 +256,7 @@ export function Genjutsu({ catalog, settings, onSettings }: EngineAppProps) {
     setBusy(true);
     setError('');
     try {
+      if (providerIssue) throw new Error(providerIssue);
       if (!fpsValid) throw new Error('Choose a frame rate between 1 and 120 fps.');
       if (intervalIssue) throw new Error(intervalIssue);
       const seed = state.seed ?? -1;
@@ -768,6 +769,11 @@ export function Genjutsu({ catalog, settings, onSettings }: EngineAppProps) {
               {intervalIssue || error || session.error || workspace.error}
             </p>
           )}
+          {providerIssue && (
+            <p className="muted small" role="status">
+              {providerIssue}
+            </p>
+          )}
         </div>
         <footer>
           <button
@@ -1097,7 +1103,7 @@ export function Genjutsu({ catalog, settings, onSettings }: EngineAppProps) {
                     </option>
                   ))}
                 </select>
-                {providerIssue && <small role="alert">{providerIssue}</small>}
+                {providerIssue && <small role="status">{providerIssue}</small>}
               </label>
               <label>
                 Frame rate

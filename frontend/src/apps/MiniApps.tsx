@@ -16,6 +16,7 @@ import { useAppDocument } from './useAppDocument';
 import {
   modelProviderIssue,
   modelSupportsReference,
+  providerReadinessIssue,
   renderRequest,
   renderSize,
   resolveProvider,
@@ -525,7 +526,9 @@ export function MiniApps({ catalog, settings, onSettings }: EngineAppProps) {
   const supportIssue = model?.id === 'scail-2' && !state.mask_asset_id
     ? recastSupportIssue(catalog, provider, state.recast_composite_tracking) : '';
   const modelProviderError = modelProviderIssue(model, provider, effect?.task);
+  const providerIssue = providerReadinessIssue(selectedProvider);
   const cloudUnsupported =
+    !!providerIssue ||
     !!modelProviderError ||
     (provider === 'comfy-cloud' &&
       !!effect &&
@@ -846,7 +849,7 @@ export function MiniApps({ catalog, settings, onSettings }: EngineAppProps) {
       if (!preset || !model || !effect || !operation?.available)
         throw new Error(operation?.reason || 'The selected workflow is not loaded.');
       if (cloudUnsupported)
-        throw new Error(modelProviderError || 'Use Local ComfyUI for this workflow.');
+        throw new Error(providerIssue || modelProviderError || 'Use Local ComfyUI for this workflow.');
       if (supportIssue || cleanupIssue) throw new Error(supportIssue || cleanupIssue);
       if (restyleMethod !== 'latent' && !restyleMethods.some((method) => method.id === restyleMethod))
         throw new Error('The saved transformation method is unavailable for this model and operation. Explicitly choose a supported method.');
@@ -1503,7 +1506,12 @@ export function MiniApps({ catalog, settings, onSettings }: EngineAppProps) {
                   <Icon name="arrow" size={16} />
                 </button>
               </div>
-              {cloudUnsupported && (
+              {providerIssue && (
+                <p className="muted small" role="status">
+                  {providerIssue}
+                </p>
+              )}
+              {!providerIssue && cloudUnsupported && (
                 <p className="mini-error">
                   {modelProviderError ||
                     'This workflow requires Local ComfyUI. Choose a compatible provider in Generation settings below.'}
