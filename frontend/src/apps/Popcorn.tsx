@@ -3,7 +3,7 @@ import { api, mediaUrl, post } from '../api';
 import { Icon } from '../Icon';
 import { AnchoredPopover } from '../Popovers';
 import { useAppDocument } from './useAppDocument';
-import { renderRequest, renderSize } from './renderRequest';
+import { renderRequest, renderSize, resolveProvider } from './renderRequest';
 import type { Job } from '../types';
 import type { AppDocument } from './registry';
 import type { ShotProposal } from './SequencePlanner';
@@ -118,7 +118,7 @@ export function Popcorn({ catalog, settings, onSettings }: EngineAppProps) {
   const models = catalog.models.filter((item) =>
     catalog.effects.find((effect) => effect.id === operation)?.model_ids.includes(item.id),
   );
-  const provider = state.provider || settings.default_provider || 'local';
+  const provider = resolveProvider(state.provider, settings.default_provider);
   const selected = session.jobs.find((job) => job.id === selectedId) || board?.items.find((job) => job.id === selectedId);
   const activePlan = plan?.status === 'queued' || plan?.status === 'running';
   const references = state.reference_asset_ids.map((id) => assets.get(id)).filter(Boolean);

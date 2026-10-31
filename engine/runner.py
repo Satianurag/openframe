@@ -35,6 +35,19 @@ def _url(value):
     return value
 
 
+def _combo_options(classes, node, field):
+    inputs = classes.get(node, {}).get("input", {})
+    value = inputs.get("required", {}).get(field, inputs.get("optional", {}).get(field, []))
+    if not value:
+        return set()
+    head = value[0]
+    if isinstance(head, (list, tuple, set)):
+        return set(head)
+    if head == "COMBO" and len(value) > 1 and isinstance(value[1], dict):
+        return set(value[1].get("options") or [])
+    return set()
+
+
 def check_provider(provider, settings):
     try:
         if provider == "comfy-cloud":
@@ -53,7 +66,7 @@ def check_provider(provider, settings):
             raise ProviderError("Unknown compute provider.")
         url = _url(settings.get("comfy_url", "http://127.0.0.1:8188"))
         headers = {"Authorization": "Bearer " + settings["comfy_api_key"]} if settings.get("comfy_api_key") else {}
-        with httpx.Client(timeout=15, headers=headers) as client:
+        with httpx.Client(timeout=45, headers=headers) as client:
             response = client.get(url + "/system_stats"); response.raise_for_status()
             info = client.get(url + "/object_info"); info.raise_for_status()
             classes = info.json()
@@ -61,8 +74,8 @@ def check_provider(provider, settings):
             if missing:
                 return {"available": False, "detail": "ComfyUI is running. Install the OpenFrame node pack and restart: " + ", ".join(missing)}
             available = []
-            ckpts = classes.get("CheckpointLoaderSimple", {}).get("input", {}).get("required", {}).get("ckpt_name", [[]])[0]
-            unets = classes.get("UNETLoader", {}).get("input", {}).get("required", {}).get("unet_name", [[]])[0]
+            ckpts = _combo_options(classes, "CheckpointLoaderSimple", "ckpt_name")
+            unets = _combo_options(classes, "UNETLoader", "unet_name")
             if "ltxv-2b-0.9.8-distilled.safetensors" in ckpts:
                 available.append("ltx-0.9.8")
             if "ltx-2.3-22b-dev.safetensors" in ckpts:
@@ -75,16 +88,16 @@ def check_provider(provider, settings):
                 available.append("flux-klein-4b")
             from .flux3_workflows import PROFILES as FLUX3_PROFILES, VAE as FLUX3_VAE
             from .flux3_character_workflows import BASE_PROFILE
-            clips = classes.get("CLIPLoader", {}).get("input", {}).get("required", {}).get("clip_name", [[]])[0]
-            vaes = classes.get("VAELoader", {}).get("input", {}).get("required", {}).get("vae_name", [[]])[0]
-            clip_types = classes.get("CLIPLoader", {}).get("input", {}).get("required", {}).get("type", [[]])[0]
+            clips = _combo_options(classes, "CLIPLoader", "clip_name")
+            vaes = _combo_options(classes, "VAELoader", "vae_name")
+            clip_types = _combo_options(classes, "CLIPLoader", "type")
             for model_id, profile in {**FLUX3_PROFILES, "flux3-klein-base": BASE_PROFILE}.items():
                 if (profile["unet"] in unets and profile["encoder"] in clips and profile["upsampler"] in clips
                         and FLUX3_VAE in vaes and "flux3" in clip_types
                         and all(name in classes for name in ("OpenFrameFlux3Prompt", "OpenFrameSaveImage", "EmptyFlux2LatentImage", "ReferenceLatent"))):
                     if model_id != "flux3-klein-base" or all(name in classes for name in ("OpenFrameCharacterCaption", "LoraLoaderModelOnly")):
                         available.append(model_id)
-            qwen_loras = classes.get("LoraLoaderModelOnly", {}).get("input", {}).get("required", {}).get("lora_name", [[]])[0]
+            qwen_loras = _combo_options(classes, "LoraLoaderModelOnly", "lora_name")
             if ("qwen_image_edit_2509_fp8_e4m3fn.safetensors" in unets
                     and "qwen_2.5_vl_7b_fp8_scaled.safetensors" in clips and "qwen_image_vae.safetensors" in vaes
                     and all(name in qwen_loras for name in ("Qwen-Image-Lightning-8steps-V1.1.safetensors", "qwen-multi-angle-lighting-251121.safetensors"))
@@ -92,7 +105,7 @@ def check_provider(provider, settings):
                     and all(name in classes for name in ("TextEncodeQwenImageEditPlus", "ModelSamplingAuraFlow", "CFGNorm", "ImageScaleToTotalPixels"))):
                 available.append("qwen-image-relight")
             portrait_ready = classes.get("OpenFramePortraitAlphas", {}).get("input", {}).get("required", {}).get("source_mask", [None, {}])
-            checkpoints = classes.get("CheckpointLoaderSimple", {}).get("input", {}).get("required", {}).get("ckpt_name", [[]])[0]
+            checkpoints = _combo_options(classes, "CheckpointLoaderSimple", "ckpt_name")
             if ("qwen_image_edit_2509_fp8_e4m3fn.safetensors" in unets
                     and "qwen_2.5_vl_7b_fp8_scaled.safetensors" in clips and "qwen_image_vae.safetensors" in vaes
                     and all(name in qwen_loras for name in ("Qwen-Image-Edit-2509-Lightning-4steps-V1.0-bf16.safetensors", "Qwen-Image-Edit-2509-Relight.safetensors"))
@@ -102,11 +115,11 @@ def check_provider(provider, settings):
                 available.append("qwen-portrait-relight")
             if "Wan2_2-Animate-14B_fp8_e4m3fn_scaled_KJ.safetensors" in unets:
                 available.append("wan-animate")
-            audio_encoders = classes.get("AudioEncoderLoader", {}).get("input", {}).get("required", {}).get("audio_encoder_name", [[]])[0]
+            audio_encoders = _combo_options(classes, "AudioEncoderLoader", "audio_encoder_name")
             if ("wan2.2_s2v_14B_bf16.safetensors" in unets and "wav2vec2_large_english_fp16.safetensors" in audio_encoders
                     and all(name in classes for name in ("AudioEncoderEncode", "WanSoundImageToVideo"))):
                 available.append("wan-s2v")
-            matte_models = classes.get("LoadBackgroundRemovalModel", {}).get("input", {}).get("required", {}).get("bg_removal_name", [[]])[0]
+            matte_models = _combo_options(classes, "LoadBackgroundRemovalModel", "bg_removal_name")
             if "birefnet.safetensors" in matte_models and all(name in classes for name in ("RemoveBackground", "JoinImageWithAlpha")):
                 available.append("birefnet")
             voice_options = classes.get("OpenFrameKokoroSpeech", {}).get("input", {}).get("required", {}).get("voice", [])
@@ -125,7 +138,7 @@ def check_provider(provider, settings):
             if len(depth_options) > 1 and any(device.get("type") == "cuda" for device in response.json().get("devices", [])):
                 available.extend(depth_options[1].get("openframe_depth_available", []))
             from .ripple_models import RIPPLE_FILE
-            ripple_loras = classes.get("LoraLoaderModelOnly", {}).get("input", {}).get("required", {}).get("lora_name", [[]])[0]
+            ripple_loras = _combo_options(classes, "LoraLoaderModelOnly", "lora_name")
             if ("ltx-2.5-22b-distilled-transformer-bf16.safetensors" in unets
                     and "gemma4-12b-with-proj-ltx-2.5-bf16.safetensors" in clips
                     and all(name in vaes for name in ("ltx-2.5-video-vae-bf16.safetensors", "ltx-2.5-audio-vae-bf16.safetensors"))
@@ -219,29 +232,48 @@ def _run_local(request, assets, output_dir, settings, on_progress, is_cancelled)
             response.raise_for_status(); data = response.json()
             filenames[role] = "/".join(x for x in (data.get("subfolder", ""), data["name"]) if x)
         graph = build_workflow(request, filenames)
+        consumed = {value for item in graph.values() if isinstance(item, dict)
+                    for value in (item.get("inputs") or {}).values() if isinstance(value, str)}
+        for role, filename in filenames.items():
+            if (role == "reference" or role.startswith("reference_")) and filename not in consumed:
+                raise ProviderError(f"The selected workflow does not consume the {role} input; no reference was dropped silently.")
         try:
-            wsurl = url.replace("http://", "ws://", 1).replace("https://", "wss://", 1)
-            try:
-                ws = websocket.create_connection(f"{wsurl}/ws?clientId={client_id}", timeout=2, suppress_origin=True, header=headers)
-            except (OSError, websocket.WebSocketException):
-                ws = None  # History polling remains authoritative.
             response = client.post("/prompt", json={"prompt": graph, "client_id": client_id})
             if response.status_code >= 400:
                 raise ProviderError("ComfyUI rejected the workflow: " + response.text[:5000])
             prompt_id = response.json()["prompt_id"]
             (output_dir / "provider-job.json").write_text(json.dumps({"provider": "local", "prompt_id": prompt_id, "url": url}))
             on_progress(.05, "Queued in ComfyUI")
-            completed = set(); last_poll = 0.0; start = time.monotonic(); current = None
+            wsurl = url.replace("http://", "ws://", 1).replace("https://", "wss://", 1)
+            try:
+                ws = websocket.create_connection(f"{wsurl}/ws?clientId={client_id}", timeout=2, suppress_origin=True, header=headers)
+            except (OSError, websocket.WebSocketException):
+                ws = None  # History polling remains authoritative.
+            completed = set(); last_poll = 0.0; start = time.monotonic(); current = None; ws_finished = False
+            last_ws_event = time.monotonic()
             while True:
                 if is_cancelled():
+                    if ws:
+                        try:
+                            ws.close()
+                        except Exception:
+                            pass
+                        ws = None
                     _cancel_local(client, prompt_id)
                     raise JobCancelled("ComfyUI job cancelled.")
                 if time.monotonic() - start > 7200:
+                    if ws:
+                        try:
+                            ws.close()
+                        except Exception:
+                            pass
+                        ws = None
                     _cancel_local(client, prompt_id)
                     raise ProviderError("ComfyUI execution exceeded two hours and was cancelled.")
                 if ws:
                     try:
                         message = ws.recv()
+                        last_ws_event = time.monotonic()
                         if isinstance(message, str):
                             event = json.loads(message); data = event.get("data", {})
                             if data.get("prompt_id") in {None, prompt_id}:
@@ -251,6 +283,8 @@ def _run_local(request, assets, output_dir, settings, on_progress, is_cancelled)
                                     current = str(data["node"])
                                     stage = graph.get(current, {}).get("class_type", "ComfyUI")
                                     on_progress(min(.88, .08 + .8 * len(completed) / len(graph)), stage)
+                                elif (event.get("type") == "executing" and data.get("node") is None) or event.get("type") == "execution_success":
+                                    ws_finished = True
                                 elif event.get("type") == "progress" and data.get("max"):
                                     fraction = min(1, data.get("value", 0) / data["max"])
                                     tracking = current == "source"
@@ -264,12 +298,37 @@ def _run_local(request, assets, output_dir, settings, on_progress, is_cancelled)
                         pass
                     except websocket.WebSocketConnectionClosedException:
                         ws = None
+                    if ws and time.monotonic() - last_ws_event > 20:
+                        # A silent socket may mean the run finished before we attached.
+                        # Fall back to authoritative history polling.
+                        try:
+                            ws.close()
+                        except Exception:
+                            pass
+                        ws = None
+                    if ws_finished and ws:
+                        try:
+                            ws.close()
+                        except Exception:
+                            pass
+                        ws = None
+                    if ws:
+                        # Some deployments block other HTTP requests while a socket is
+                        # open; wait for the socket to report completion before polling.
+                        continue
                 else:
                     time.sleep(.5)
                 if time.monotonic() - last_poll < 1.5:
                     continue
                 last_poll = time.monotonic()
-                response = client.get(f"/history/{prompt_id}"); response.raise_for_status()
+                try:
+                    # ComfyUI blocks HTTP while loading multi-GB models; a slow poll must not fail the job.
+                    response = client.get(f"/history/{prompt_id}", timeout=httpx.Timeout(20, connect=10))
+                    response.raise_for_status()
+                except httpx.TimeoutException:
+                    continue
+                except httpx.TransportError:
+                    continue
                 record = response.json().get(prompt_id)
                 if not record:
                     continue
@@ -480,6 +539,20 @@ def _run_local(request, assets, output_dir, settings, on_progress, is_cancelled)
                     if not prompt_records:
                         raise ProviderError("Video generation finished without its required model-prompt provenance.")
                     metadata["video_prompt"] = prompt_records[0]
+                if request["task"] == "reference-video":
+                    sheet = graph["reference_sheet"]["inputs"]
+                    metadata["reference_sheet"] = {
+                        "template_commit": "220e1d45aa0469f518e982102fca4dca92a61862",
+                        "template": "example_workflows/2.5/LTX-2.5_ICLoRA_Ingredients_Single_Stage_Distilled.json",
+                        "reference_asset_ids": request.get("reference_asset_ids", []),
+                        "reference_count": len(request.get("reference_asset_ids") or []),
+                        "columns": sheet["columns"], "output_size": [sheet["width"], sheet["height"]],
+                        "layout": "row-major, ordered left-to-right; each still letterboxed without cropping",
+                        "adapter": graph["adapter"]["inputs"]["lora_name"],
+                        "adapter_strength": graph["adapter"]["inputs"]["strength_model"],
+                        "guide": "one sheet repeated on every frame, not the opening frame",
+                        "audio_policy": "generated native audio" if "audio" in graph["save"]["inputs"] else "silent",
+                    }
                 if request["model_id"] in {"ming-narration", "qwen-caption"}:
                     narration = record.get("outputs", {}).get("save", {}).get("openframe_narration", [])
                     if not narration:
@@ -579,6 +652,9 @@ def _run_local(request, assets, output_dir, settings, on_progress, is_cancelled)
 
 def _run_cloud(request, assets, output_dir, settings, on_progress, is_cancelled):
     from .cloud import HOSTED_URL, run_hosted
+    ordered_references = sorted(role for role in assets if role.startswith("reference_"))
+    if ordered_references:
+        raise ProviderError("The Cloud adapter cannot transport ordered reference images (" + ", ".join(ordered_references) + "). No reference was dropped; select Local ComfyUI.")
     if settings.get("comfy_cloud_url", HOSTED_URL).rstrip("/") == HOSTED_URL:
         return run_hosted(request, assets, output_dir, settings, on_progress, is_cancelled)
     try:
@@ -663,9 +739,17 @@ def run_job(request, assets, output_dir, settings, on_progress, is_cancelled):
         "inpaint": {"source", "mask"}, "image-to-video": {"source"}, "restyle": {"source"},
         "image-edit": {"source"}, "background-removal": {"source"}, "audio-to-video": {"source", "audio"},
         "motion-transfer": {"source", "reference"}, "character-replacement": {"source", "reference", "mask"},
+        "reference-video": {f"reference_{index}" for index in range(len(r.get("reference_asset_ids") or []))},
     }.get(r["task"], set())
-    from .catalog import model_by_id
+    from .catalog import effect_by_id, model_by_id, reference_limits
     model = model_by_id(r["model_id"])
+    if r["task"] == "reference-video":
+        ordered = r.get("reference_asset_ids") or []
+        limit = reference_limits(model, effect_by_id(r["effect_id"]))["max"]
+        if not 1 <= len(ordered) <= limit:
+            raise ProviderError(f"Reference-to-video requires one to {limit} ordered reference images; {len(ordered)} were supplied. No render was submitted.")
+        if any(r.get(key) for key in ("source_asset_id", "mask_asset_id", "audio_asset_id", "end_asset_id")):
+            raise ProviderError("Reference-to-video accepts only ordered reference images; source, mask, audio and end assets are not supported.")
     if model.get("mask_optional"):
         required_assets.discard("mask")
     if r.get("vace_reference_mode") == "first-frame":
@@ -695,6 +779,9 @@ def run_job(request, assets, output_dir, settings, on_progress, is_cancelled):
         raise ProviderError(str(exc)) from exc
     if model.get("supported_providers") and provider not in model["supported_providers"]:
         raise ProviderError("The selected model is unavailable on this provider; no substitute render was submitted.")
+    provider_tasks = model.get("provider_tasks", {}).get(provider)
+    if provider_tasks is not None and r["task"] not in provider_tasks:
+        raise ProviderError("This provider does not implement the selected model operation; no substitute workflow was submitted.")
     if provider == "comfy-cloud" and r["task"] in {"text-to-image", "image-edit", "audio-to-video", "motion-transfer", "character-replacement", "background-removal", "text-to-speech"}:
         raise ProviderError("This operation requires Local ComfyUI; the Cloud adapter does not implement it. No substitute render was submitted.")
     runner = {"local": _run_local, "comfy-cloud": _run_cloud}.get(provider)

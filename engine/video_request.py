@@ -118,6 +118,10 @@ def normalize_video_request(r, model, effect, error):
         if not 0 <= r["audio_conditioning_strength"] <= 2:
             raise error("Audio conditioning strength must be from 0 to 2.")
     if r["model_id"] == "ltx-2.5":
+        if r["task"] == "reference-video":
+            if r["steps"] != 8 or r["guidance"] != 1 or r["fps"] != 24:
+                raise error("The official Ingredients IC-LoRA recipe uses eight steps, guidance 1 and 24 fps.")
+            r["video_refinement"] = "single"
         if r.get("enhance_prompt") is None:
             r["enhance_prompt"] = r["task"] != "inpaint"
         r.setdefault("video_refinement", "two-stage")

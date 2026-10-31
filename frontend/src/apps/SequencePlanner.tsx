@@ -5,7 +5,7 @@ import { Modal } from '../ui';
 import type { Asset, Catalog, JobRequest, Settings } from '../types';
 import type { AppDocument, ApplicationId } from './registry';
 import { AssetPicker, useWorkspaceAssets } from './engine-apps-shared';
-import { renderRequest } from './renderRequest';
+import { renderRequest, resolveProvider } from './renderRequest';
 import { plannerAvailable, plannerRunNote } from './plannerStatus';
 import type { PlannerInfo } from './plannerStatus';
 import './sequence-planner.css';
@@ -166,7 +166,7 @@ function SequenceEditor(props: Props) {
     const request = renderRequest(model, {
       effect_id: 'text-to-video',
       prompt: '',
-      provider: props.initialRequest?.provider || settings.default_provider || 'local',
+      provider: resolveProvider(props.initialRequest?.provider, settings.default_provider),
       width: props.initialRequest?.width || 512,
       height: props.initialRequest?.height || 320,
       fps: props.initialRequest?.fps || Number(model.default_fps || 24),
@@ -452,7 +452,7 @@ function SequenceEditor(props: Props) {
         audio_asset_id: episode.audio_asset_id,
         audio_start: episode.audio_start,
         pad_audio_silence: episode.pad_audio_silence || false,
-        audio_provider: episode.audio_provider || 'local',
+        audio_provider: resolveProvider(episode.audio_provider || 'local', 'local'),
         keep_shot_audio: episode.keep_shot_audio,
         transition: episode.transition || 'cut',
         transition_frames: episode.transition_frames ?? 12,
@@ -469,7 +469,7 @@ function SequenceEditor(props: Props) {
           label: shot.label,
           source_from_previous: shot.source_from_previous,
           existing_video_asset_id: shot.existing_video_asset_id || null,
-          request: shot.request,
+          request: { ...shot.request, provider: resolveProvider(shot.request.provider, settings.default_provider) },
           narration: shot.narration || emptyNarration(),
         })),
       })),
@@ -500,7 +500,7 @@ function SequenceEditor(props: Props) {
             audio_asset_id: episode.audio_asset_id || null,
             audio_start: episode.audio_start,
             pad_audio_silence: episode.pad_audio_silence || false,
-            audio_provider: episode.audio_provider || 'local',
+            audio_provider: resolveProvider(episode.audio_provider || 'local', 'local'),
             keep_shot_audio: episode.keep_shot_audio,
             background_audio_asset_id: episode.background_audio_asset_id || null,
             background_audio_start: episode.background_audio_start || 0,
@@ -558,8 +558,8 @@ function SequenceEditor(props: Props) {
     setEpisodes(result.episodes);
     onCreated?.(result);
   }
-  async function saveDraft(): Promise<Sequence> {
-    if (sequence && !dirty) return sequence;
+  async function saveDraft(force = false): Promise<Sequence> {
+    if (!force && sequence && !dirty) return sequence;
     const current = await ensureDocument();
     const result =
       sequence?.status === 'draft'
@@ -593,7 +593,7 @@ function SequenceEditor(props: Props) {
     }
   }
   async function start() {
-    const saved = await saveDraft();
+    const saved = await saveDraft(true);
     const result = await post<Sequence>(`/sequences/${saved.id}/start`, {
       expected_revision: saved.revision,
     });
@@ -1146,7 +1146,7 @@ function SequenceEditor(props: Props) {
                         <label>
                           Compute
                           <select
-                            value={shot.request.provider}
+                            value={resolveProvider(shot.request.provider, settings.default_provider)}
                             disabled={renderLocked}
                             onChange={(event) =>
                               editShot(episodeIndex, shotIndex, {
@@ -1154,7 +1154,7 @@ function SequenceEditor(props: Props) {
                               })
                             }
                           >
-                            {!catalog.providers.some((item) => item.id === shot.request.provider) && <option value={shot.request.provider} disabled>{shot.request.provider} · saved connection disabled</option>}
+                            {!catalog.providers.some((item) => item.id === resolveProvider(shot.request.provider, settings.default_provider)) && <option value={resolveProvider(shot.request.provider, settings.default_provider)} disabled>{shot.request.provider} · saved connection disabled</option>}
                             {catalog.providers.filter((item) => ['local', 'comfy-cloud'].includes(item.id)).map((item) => (
                               <option key={item.id} value={item.id}>
                                 {item.name}

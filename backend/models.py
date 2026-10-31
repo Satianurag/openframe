@@ -53,7 +53,7 @@ class RenderRequest(BaseModel):
     source_asset_id: str | None = None
     mask_asset_id: str | None = None
     reference_asset_id: str | None = None
-    reference_asset_ids: list[str] = Field(default_factory=list, max_length=10)
+    reference_asset_ids: list[str] = Field(default_factory=list, max_length=50)
     image_prompt_mode: Literal["expand", "caption"] = "expand"
     image_layout: list[ImageLayoutElement] = Field(default_factory=list, max_length=32)
     image_preservation: Literal["none", "outside-mask", "inside-mask"] = "none"

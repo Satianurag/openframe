@@ -70,7 +70,7 @@ class OpenFrameRecastOfficialSupport:
             raise ValueError("Recast support requires aligned source and native masks, up to 161 frames and 1280 pixels per axis.")
         if generated_images is not None and generated_images.shape != images.shape:
             raise ValueError("Generated performer support requires exactly aligned source and decoded generated frames.")
-        decoded = images.detach().cpu().clamp(0, 1).mul(255).round().to(torch.uint8).numpy()
+        decoded = np.ascontiguousarray(images.detach().cpu().clamp(0, 1).mul(255).round().to(torch.uint8).numpy())
         selection = selected_performer[0].detach().float().cpu().numpy()
         _, masks, metadata = run_semantic_prediction(decoded, "person", 1, .5, binary_only=True, selection=selection)
         values = masks.numpy()
@@ -79,7 +79,7 @@ class OpenFrameRecastOfficialSupport:
             # Generated-person support preserves wider clothing/shoes. Both
             # official passes match the same native first-frame identity, using
             # the existing >=0.5 IoU guard; no box fill or frame-specific repair.
-            generated = generated_images.detach().cpu().clamp(0, 1).mul(255).round().to(torch.uint8).numpy()
+            generated = np.ascontiguousarray(generated_images.detach().cpu().clamp(0, 1).mul(255).round().to(torch.uint8).numpy())
             _, generated_masks, generated_metadata = run_semantic_prediction(
                 generated, "person", 1, .5, binary_only=True, selection=selection)
             native = selected_performer.detach().float().cpu().numpy() >= .5

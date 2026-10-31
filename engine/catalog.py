@@ -15,6 +15,16 @@ from .portrait_relight_models import PORTRAIT_RELIGHT_MODEL
 from .ripple_models import RIPPLE_MODEL
 from .editvid_models import EDITVID_MODEL
 
+# Per-effect limits for ordered additional references. None means the effect
+# inherits the selected model's max_references (used by image effects, where
+# the still source itself counts toward the limit).
+REFERENCE_LIMITS_BY_TASK = {
+    "reference-video": {"min": 1, "max": 9},
+    "image-to-video": {"min": 0, "max": 1},
+    "transition-video": {"min": 0, "max": 1},
+    "inpaint": {"min": 0, "max": 1},
+}
+
 MODELS = [
     {"id": "ltx-2.3", "name": "LTX 2.3", "audio_modes_by_task": {"inpaint": ["source", "generated", "silent"], "restyle": ["source", "generated", "silent"]}, "recommended_vfx_longest_side": 1024, "strength_controls": {"inpaint": {"label": "Source guidance", "hint": "Higher values keep source conditioning stronger."}, "restyle": {"label": "Transformation strength", "hint": "Higher values allow more regeneration and can change scene geometry."}}, "family": "LTX", "badge": "VFX + audio", "description": "22B video generation with native audio and IC-LoRA masked video editing.", "tasks": ["text-to-video", "image-to-video", "inpaint", "restyle"], "aspect_ratios": ["16:9", "9:16", "1:1", "4:3"], "default_steps": 8, "default_guidance": 1, "default_fps": 24, "default_frames": 97, "max_frames": 241, "dimension_multiple": 32, "frame_multiple": 8, "supports_audio": True, "supports_mask": True, "supports_reference": False, "reference_tasks": [], "min_width": 256, "min_height": 256, "max_width": 1536, "max_height": 1536},
     {"id": "ltx-0.9.8", "name": "LTX Fast", "family": "LTX", "badge": "Lightweight", "description": "Distilled 2B LTX model for rapid text-to-video and image animation. No native audio or IC-LoRA editing.", "tasks": ["text-to-video", "image-to-video"], "aspect_ratios": ["16:9", "9:16", "1:1", "4:3"], "default_steps": 8, "default_guidance": 1, "default_fps": 24, "default_frames": 97, "max_frames": 241, "dimension_multiple": 32, "frame_multiple": 8, "supports_audio": False, "supports_mask": False, "supports_reference": False, "reference_tasks": [], "min_width": 256, "min_height": 256, "max_width": 1536, "max_height": 1536},
@@ -48,11 +58,15 @@ _ALL = [m["id"] for m in MODELS if "text-to-video" in m["tasks"]]
 _VFX = ["ltx-2.5", "ltx-2.3", "wan-vace"]
 
 def _effect(id, name, description, category, task, prompt, models, *, video=False, image=False, mask=False, audio=False, reference=False):
-    return {"id": id, "name": name, "description": description, "category": category, "task": task, "prompt": prompt, "model_ids": models, "requires_video": video, "requires_image": image, "requires_mask": mask, "requires_audio": audio, "requires_reference": reference, "output_kind": "audio" if task == "text-to-speech" else "image" if task in {"text-to-image", "image-edit", "image-outpaint", "background-removal"} else "video", "kind": "workflow-preset"}
+    item = {"id": id, "name": name, "description": description, "category": category, "task": task, "prompt": prompt, "model_ids": models, "requires_video": video, "requires_image": image, "requires_mask": mask, "requires_audio": audio, "requires_reference": reference, "output_kind": "audio" if task == "text-to-speech" else "image" if task in {"text-to-image", "image-edit", "image-outpaint", "background-removal"} else "video", "kind": "workflow-preset"}
+    if limits := REFERENCE_LIMITS_BY_TASK.get(task):
+        item.update(min_references=limits["min"], max_references=limits["max"])
+    return item
 
 EFFECTS = [
     _effect("text-to-video", "Create video", "Turn a detailed scene description into a moving shot.", "Generate", "text-to-video", "", _ALL),
     _effect("image-to-video", "Animate image", "Give a photograph movement while retaining its opening composition.", "Generate", "image-to-video", "Natural cinematic movement, coherent detail, smooth motion.", _ALL, image=True),
+    _effect("reference-to-video", "Reference to video", "Steer a shot with one reference sheet built from one to nine character, location or prop images in order.", "Generate", "reference-video", "", ["ltx-2.5"], reference=True),
     _effect("remove-object", "Vanish", "Regenerate a painted region and preserve the surrounding plate.", "VFX", "inpaint", "A clean, uninterrupted background, natural scene details, consistent lighting and camera movement.", [*_VFX, "wan-vace-14b", "ltx-ripple"], video=True, mask=True),
     _effect("replace-object", "Replace", "Paint the area to change, then describe what belongs there.", "VFX", "inpaint", "", [*_VFX, "wan-vace-14b", "ltx-ripple"], video=True, mask=True),
     _effect("restyle", "Restyle", "Reimagine the full clip using video conditioning.", "Transform", "restyle", "A cinematic reinterpretation of the source scene, coherent movement and detailed textures.", [*_VFX, "flux-klein-editvid"], video=True),
@@ -92,6 +106,18 @@ def get_catalog():
 
 def model_by_id(model_id):
     return next((deepcopy(x) for x in MODELS if x["id"] == model_id), None)
+
+def reference_limits(model, effect):
+    """Return the active {min, max} ordered-reference limit for one effect/model."""
+    maximum = effect.get("max_references")
+    minimum = effect.get("min_references", 0)
+    by_task = (model or {}).get("reference_limits_by_task") or {}
+    if effect.get("task") in by_task:
+        task_limit = int(by_task[effect["task"]])
+        maximum = task_limit if maximum is None else min(int(maximum), task_limit)
+    if maximum is None:
+        maximum = int((model or {}).get("max_references", 1))
+    return {"min": max(0, int(minimum)), "max": max(0, maximum)}
 
 def effect_by_id(effect_id):
     return next((deepcopy(x) for x in EFFECTS if x["id"] == effect_id), None)

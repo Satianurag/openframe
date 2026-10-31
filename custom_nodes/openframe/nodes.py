@@ -257,6 +257,10 @@ from .inpaint_reference import OpenFrameInpaintFirstFrame
 NODE_CLASS_MAPPINGS["OpenFrameInpaintFirstFrame"] = OpenFrameInpaintFirstFrame
 NODE_DISPLAY_NAME_MAPPINGS["OpenFrameInpaintFirstFrame"] = "OpenFrame · Edited Inpaint Starting Frame"
 
+from .reference_sheet import OpenFrameReferenceSheet
+NODE_CLASS_MAPPINGS["OpenFrameReferenceSheet"] = OpenFrameReferenceSheet
+NODE_DISPLAY_NAME_MAPPINGS["OpenFrameReferenceSheet"] = "OpenFrame · Ingredients Reference Sheet"
+
 from .recast import OpenFrameRecastMasks, OpenFrameRecastOfficialSupport
 from .reference_foreground import OpenFrameReferenceForeground
 NODE_CLASS_MAPPINGS["OpenFrameReferenceForeground"] = OpenFrameReferenceForeground

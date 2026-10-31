@@ -18,7 +18,10 @@ from engine.workflows import build_workflow
 
 
 class AppWorkflowTests(unittest.TestCase):
-    setUp = base.BackendIntegration.setUp
+    def setUp(self):
+        base.BackendIntegration.setUp(self)
+        self.asset_roles = []
+
     tearDown = base.BackendIntegration.tearDown
     tearDownClass = classmethod(base.BackendIntegration.tearDownClass.__func__)
     request = base.BackendIntegration.request
@@ -42,6 +45,7 @@ class AppWorkflowTests(unittest.TestCase):
 
     def fake_runner(self, request, assets, output_dir, settings, on_progress, is_cancelled):
         self.calls.append(copy.deepcopy(request));self.started.set()
+        self.asset_roles.append(sorted(assets))
         if request['prompt']=='block until cancelled' and sum(item['prompt']=='block until cancelled' for item in self.calls)==1:
             deadline=time.monotonic()+5
             while time.monotonic()<deadline and not is_cancelled():time.sleep(.01)
@@ -63,7 +67,8 @@ class AppWorkflowTests(unittest.TestCase):
         else:
             target=Path(output_dir)/'result.mp4';shutil.copyfile(self.render_video,target)
             outputs=[{'path':str(target),'kind':'video','role':'result'}]
-        return {'outputs':outputs,'workflow':build_workflow(request,{role:Path(item).name for role,item in assets.items()}),'metadata':{'execution':'test-double; no model inference'}}
+        workflow={} if request.get('task')=='reference-video' else build_workflow(request,{role:Path(item).name for role,item in assets.items()})
+        return {'outputs':outputs,'workflow':workflow,'metadata':{'execution':'test-double; no model inference'}}
 
     def document(self, app='cinema-studio', state=None, ids=None):
         response=self.client.post(f'/api/apps/{app}/documents',json={'title':'Isolated draft','state':state or {},'asset_ids':ids or []})
@@ -291,6 +296,95 @@ class AppWorkflowTests(unittest.TestCase):
             self.assertTrue(all(item['destination'].startswith('models/') for item in requirements['model_files']))
             self.assertNotIn('sam2_package',requirements)
             self.assertIn('custom_nodes/openframe/speech.py',archive.namelist())
+
+    def reference_images(self, count):
+        from PIL import Image
+        assets=[]
+        for index in range(count):
+            data=io.BytesIO();Image.new('RGB',(256,256),((index*11)%256,(index*29)%256,90)).save(data,'PNG')
+            response=self.client.post('/api/assets',files={'file':(f'ref-{index}.png',data.getvalue(),'image/png')})
+            self.assertEqual(response.status_code,201,response.text);assets.append(response.json())
+        return assets
+
+    def test_reference_video_accepts_document_subset_in_order_and_retry_preserves_it(self):
+        references=self.reference_images(50);ids=[item['id'] for item in references]
+        doc=self.document('cinema-studio',{'reference_asset_ids':ids},ids)
+        self.assertEqual(doc['state']['reference_asset_ids'],ids)
+        active=ids[:3]
+        endpoint=f"/api/apps/cinema-studio/documents/{doc['id']}/jobs"
+        body={'expected_revision':doc['revision'],'operation':'reference-to-video',
+              'request':self.request(model_id='ltx-2.5',effect_id='reference-to-video',reference_asset_ids=active,steps=8,fps=24)}
+        response=self.client.post(endpoint,json=body)
+        self.assertEqual(response.status_code,201,response.text);job=response.json()
+        self.assertEqual(job['request']['reference_asset_ids'],active)
+        self.wait(job['id'])
+        self.assertEqual(self.asset_roles[-1],['reference_0','reference_1','reference_2'])
+        context=self.client.get(f"/api/jobs/{job['id']}/app-context").json()
+        self.assertEqual(context['document_snapshot']['state']['reference_asset_ids'],ids)
+        retry=self.client.post(f"/api/jobs/{job['id']}/retry")
+        self.assertEqual(retry.status_code,201,retry.text);replacement=retry.json()
+        self.assertEqual(replacement['request']['reference_asset_ids'],active)
+        self.assertNotEqual(replacement['id'],job['id'])
+        self.wait(replacement['id'])
+        self.assertEqual(self.asset_roles[-1],['reference_0','reference_1','reference_2'])
+
+    def test_reference_limits_scope_and_catalog_surface(self):
+        references=self.reference_images(11);ids=[item['id'] for item in references]
+        request=lambda model_id='ltx-2.5',**changes:self.request(model_id=model_id,steps=8,fps=24,**changes)
+        empty=self.client.post('/api/jobs',json=request(effect_id='reference-to-video'))
+        self.assertEqual(empty.status_code,422,empty.text)
+        self.assertIn('one to nine',empty.text)
+        for count in (1,9):
+            response=self.client.post('/api/jobs',json=request(effect_id='reference-to-video',reference_asset_ids=ids[:count]))
+            self.assertEqual(response.status_code,201,response.text)
+            self.assertEqual(response.json()['request']['reference_asset_ids'],ids[:count])
+            self.wait(response.json()['id'])
+            self.assertEqual(self.asset_roles[-1],[f'reference_{index}' for index in range(count)])
+        over=self.client.post('/api/jobs',json=request(effect_id='reference-to-video',reference_asset_ids=ids[:10]))
+        self.assertEqual(over.status_code,422,over.text)
+        self.assertIn('at most 9',over.text)
+        unsupported=self.client.post('/api/jobs',json=request(model_id='ltx-2.3',effect_id='reference-to-video',reference_asset_ids=ids[:1]))
+        self.assertEqual(unsupported.status_code,422,unsupported.text)
+        self.assertIn('does not support',unsupported.text)
+        legacy=self.client.post('/api/jobs',json=request(effect_id='image-to-video',source_asset_id=ids[0]))
+        self.assertEqual(legacy.status_code,201,legacy.text)
+        self.wait(legacy.json()['id'])
+        self.assertEqual(self.asset_roles[-1],['source'])
+        for extra in ({'reference_asset_id':ids[1]},{'reference_asset_ids':ids[1:3]}):
+            i2v=self.client.post('/api/jobs',json=request(effect_id='image-to-video',source_asset_id=ids[0],**extra))
+            self.assertEqual(i2v.status_code,422,i2v.text)
+        duplicate=self.client.post('/api/jobs',json=request(effect_id='reference-to-video',reference_asset_ids=[ids[0],ids[0]]))
+        self.assertEqual(duplicate.status_code,422,duplicate.text)
+        self.assertIn('distinct',duplicate.text)
+        singular=self.client.post('/api/jobs',json=request(effect_id='reference-to-video',reference_asset_id=ids[0]))
+        self.assertEqual(singular.status_code,422,singular.text)
+        self.assertIn('ordered reference_asset_ids',singular.text)
+        with_source=self.client.post('/api/jobs',json=request(effect_id='reference-to-video',source_asset_id=ids[0],reference_asset_ids=ids[1:4]))
+        self.assertEqual(with_source.status_code,422,with_source.text)
+        self.assertIn('accepts only reference images',with_source.text)
+        unknown=self.client.post('/api/jobs',json=request(effect_id='reference-to-video',reference_asset_ids=['0'*32]))
+        self.assertEqual(unknown.status_code,404,unknown.text)
+        doc=self.document('cinema-studio',{'reference_asset_ids':ids[:1]},ids[:1])
+        foreign=self.client.post(f"/api/apps/cinema-studio/documents/{doc['id']}/jobs",json={
+            'expected_revision':doc['revision'],'operation':'reference-to-video',
+            'request':request(effect_id='reference-to-video',reference_asset_ids=ids[:2])})
+        self.assertEqual(foreign.status_code,422,foreign.text)
+        self.assertIn('Attach all render inputs',foreign.text)
+        catalog=self.client.get('/api/catalog').json()
+        effect=next(item for item in catalog['effects'] if item['id']=='reference-to-video')
+        self.assertEqual((effect['min_references'],effect['max_references']),(1,9))
+        self.assertEqual(effect['model_ids'],['ltx-2.5'])
+        model=next(item for item in catalog['models'] if item['id']=='ltx-2.5')
+        self.assertEqual(model['reference_limits_by_task']['reference-video'],9)
+        apps=self.client.get('/api/apps').json()
+        cinema=next(item for item in apps['items'] if item['id']=='cinema-studio')
+        operation=next(item for item in cinema['operations'] if item['id']=='reference-to-video')
+        self.assertTrue(operation['available'])
+        self.assertEqual(operation['model_ids'],['ltx-2.5'])
+        self.assertEqual((operation['min_references'],operation['max_references']),(1,9))
+        self.assertEqual(operation['reference_limits_by_model'],{'ltx-2.5':{'min':1,'max':9}})
+        image_operation=next(item for item in cinema['operations'] if item['id']=='image-to-video')
+        self.assertEqual(image_operation['reference_limits_by_model']['ltx-2.5'],{'min':0,'max':1})
 
     def test_speech_and_talking_video_bundles_include_dependencies_and_trim(self):
         response=self.client.post('/api/jobs',json=self.request(model_id='kokoro-82m',effect_id='generate-speech',prompt='Package this speech graph.'))

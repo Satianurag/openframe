@@ -1,17 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
+import type { ChangeEvent, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { api, mediaUrl, post, upload } from '../api';
 import { Icon } from '../Icon';
 import type { Asset, Catalog, Job, Settings } from '../types';
 import { AppSwitcher } from './AppSwitcher';
 import { useAppDocument } from './useAppDocument';
-import { durationFrames, renderRequest, renderSize } from './renderRequest';
+import { durationFrames, renderRequest, renderSize, resolveProvider } from './renderRequest';
 import { loadProjectSnapshot, showProjectDraft } from './projectReuse';
 import { AnchoredPopover } from '../Popovers';
 import './cinema-studio.css';
 import cinemaReferenceFallback from './cinema-reference.json';
 import { LightingEditor, PaletteEditor, defaultLights } from './CinemaCreativeEditors';
 import type { CinemaLight, ColorPalette, LightingPreset } from './CinemaCreativeEditors';
+import { compileCinemaPrompt, compileReferenceSheetLegend, describeCameraMovement } from './cinemaPrompt';
+import type { CinemaReferenceRole } from './cinemaPrompt';
 
+type CinemaReferenceEntry = {
+  asset_id: string;
+  name: string;
+  role: CinemaReferenceRole;
+};
 type CinemaState = {
   prompt: string;
   mode: 'image' | 'video';
@@ -22,7 +30,12 @@ type CinemaState = {
   duration: number;
   variants: number;
   generate_audio: boolean;
+  /** Legacy per-shot list; kept in sync so old drafts, reuse and sequences keep working. */
   reference_asset_ids: string[];
+  /** Project reference library (up to 50 images). */
+  references: CinemaReferenceEntry[];
+  /** Ordered per-shot selection sent as source/reference_asset_ids. */
+  active_reference_ids: string[];
   attachment_asset_ids: string[];
   film: { genre: string; era: string; tempo: string };
   camera: { body: string; lens: string; aperture: string; movements: string[] };
@@ -36,6 +49,8 @@ type CinemaState = {
 };
 type Preview = { title: string; poster?: string; video?: string; colors?: string[] };
 type CinemaReference = Record<string, Preview[]>;
+const LIBRARY_LIMIT = 50;
+const REFERENCE_EFFECT_ID = 'reference-to-video';
 const initial: CinemaState = {
   prompt: '',
   mode: 'video',
@@ -47,6 +62,8 @@ const initial: CinemaState = {
   variants: 1,
   generate_audio: true,
   reference_asset_ids: [],
+  references: [],
+  active_reference_ids: [],
   attachment_asset_ids: [],
   film: { genre: 'General', era: 'Auto', tempo: 'Auto' },
   camera: { body: 'Auto', lens: 'Auto', aperture: 'Auto', movements: [] },
@@ -58,13 +75,123 @@ const initial: CinemaState = {
   lighting_presets: [],
   pinned_presets: [],
 };
+const referenceRoles: CinemaReferenceRole[] = ['character', 'location', 'prop'];
+const uniqueIds = (values: string[]) => [...new Set(values.filter(Boolean))];
+const referenceLibrary = (state: CinemaState): CinemaReferenceEntry[] =>
+  Array.isArray(state.references) ? state.references : [];
+const activeReferenceIds = (state: CinemaState): string[] =>
+  uniqueIds(
+    Array.isArray(state.active_reference_ids)
+      ? state.active_reference_ids
+      : Array.isArray(state.reference_asset_ids)
+        ? state.reference_asset_ids
+        : [],
+  );
 const assetIds = (state: CinemaState) => [
-  ...state.reference_asset_ids,
-  ...(state.attachment_asset_ids || []),
-  ...(state.palette_presets || [])
-    .map((preset) => preset.image_asset_id)
-    .filter((id): id is string => !!id),
+  ...new Set([
+    ...referenceLibrary(state).map((entry) => entry.asset_id),
+    ...activeReferenceIds(state),
+    ...(Array.isArray(state.reference_asset_ids) ? state.reference_asset_ids : []),
+    ...(state.attachment_asset_ids || []),
+    ...(state.palette_presets || [])
+      .map((preset) => preset.image_asset_id)
+      .filter((id): id is string => !!id),
+  ]),
 ];
+const cinemaEffectId = (mode: 'image' | 'video', count: number, referenceAvailable: boolean) =>
+  mode === 'image'
+    ? count
+      ? 'edit-image'
+      : 'create-image'
+    : count === 0
+      ? 'text-to-video'
+      : referenceAvailable || count > 1
+        ? REFERENCE_EFFECT_ID
+        : 'image-to-video';
+function referenceLimitFromCatalog(
+  effect: Catalog['effects'][number] | undefined,
+  model: Catalog['models'][number] | undefined,
+  fallback: number,
+) {
+  const effectRecord = (effect || {}) as Record<string, unknown>;
+  const modelRecord = (model || {}) as Record<string, unknown>;
+  let maximum: number | undefined;
+  for (const value of [
+    effectRecord.max_references,
+    effectRecord.max_reference_images,
+    effectRecord.reference_limit,
+    effectRecord.reference_image_limit,
+  ]) {
+    const limit = Number(value);
+    if (Number.isFinite(limit) && limit > 0) {
+      maximum = limit;
+      break;
+    }
+  }
+  // LTX 2.5 declares its ordered-reference ceiling per task rather than in
+  // the flat max_references field (which is 1 for its other reference tasks).
+  const task = typeof effectRecord.task === 'string' ? effectRecord.task : '';
+  const taskLimits = modelRecord.reference_limits_by_task as
+    | Record<string, unknown>
+    | undefined;
+  const taskLimit = Number(taskLimits?.[task]);
+  if (Number.isFinite(taskLimit) && taskLimit > 0)
+    maximum = maximum === undefined ? taskLimit : Math.min(maximum, taskLimit);
+  if (maximum !== undefined) return Math.max(1, maximum);
+  const modelLimit = Number(modelRecord.max_references);
+  // An older model entry still says max_references: 1. Only trust a model
+  // value that actually declares multi-reference support for this effect.
+  if (Number.isFinite(modelLimit) && modelLimit > 1) return modelLimit;
+  return fallback;
+}
+function normalizeCinemaState(raw: Partial<CinemaState> | undefined): CinemaState {
+  const value = (raw || {}) as Partial<CinemaState>;
+  const legacy = Array.isArray(value.reference_asset_ids)
+    ? uniqueIds(value.reference_asset_ids.filter((id): id is string => typeof id === 'string'))
+    : [];
+  const active = Array.isArray(value.active_reference_ids)
+    ? uniqueIds(
+        value.active_reference_ids.filter((id): id is string => typeof id === 'string'),
+      )
+    : legacy;
+  const entries = (Array.isArray(value.references) ? value.references : [])
+    .filter(
+      (entry): entry is CinemaReferenceEntry =>
+        !!entry && typeof entry.asset_id === 'string' && typeof entry.name === 'string',
+    )
+    .map((entry) => ({
+      asset_id: entry.asset_id,
+      name: entry.name,
+      role: referenceRoles.includes(entry.role) ? entry.role : ('prop' as CinemaReferenceRole),
+    }));
+  const known = new Set(entries.map((entry) => entry.asset_id));
+  for (const id of active)
+    if (!known.has(id)) {
+      entries.push({ asset_id: id, name: '', role: 'prop' });
+      known.add(id);
+    }
+  return {
+    ...initial,
+    ...value,
+    film: { ...initial.film, ...(value.film || {}) },
+    camera: {
+      ...initial.camera,
+      ...(value.camera || {}),
+      movements: Array.isArray(value.camera?.movements) ? value.camera.movements : [],
+    },
+    references: entries,
+    active_reference_ids: active,
+    reference_asset_ids: active,
+    attachment_asset_ids: Array.isArray(value.attachment_asset_ids)
+      ? value.attachment_asset_ids
+      : [],
+    palette_colors: Array.isArray(value.palette_colors) ? value.palette_colors : [],
+    custom_lights: Array.isArray(value.custom_lights) ? value.custom_lights : [],
+    palette_presets: Array.isArray(value.palette_presets) ? value.palette_presets : [],
+    lighting_presets: Array.isArray(value.lighting_presets) ? value.lighting_presets : [],
+    pinned_presets: Array.isArray(value.pinned_presets) ? value.pinned_presets : [],
+  };
+}
 const filmOptions = {
   genre: ['Drama', 'Noir', 'Comedy', 'Horror', 'Action', 'General', 'Epic'],
   era: ['1960s', '1980s', '1990s', '2000s', '2020s', 'Auto'],
@@ -110,6 +237,8 @@ export function CinemaStudio({
 }) {
   const session = useAppDocument('cinema-studio', initial, assetIds);
   const { state, update } = session;
+  const [mention, setMention] = useState<{ start: number; query: string } | null>(null);
+  const [mentionIndex, setMentionIndex] = useState(0);
   const [view, setView] = useState('Home');
   const [showLearn, setShowLearn] = useState(true);
   const [panel, setPanel] = useState<string | null>(null);
@@ -135,14 +264,37 @@ export function CinemaStudio({
     session.jobs.find((job) => job.id === selectedJobSnapshot?.id) || selectedJobSnapshot;
   const dialog = useRef<HTMLDialogElement>(null);
   const fileInput = useRef<HTMLInputElement>(null);
-  const effectId =
-    state.mode === 'image'
-      ? state.reference_asset_ids.length
-        ? 'edit-image'
-        : 'create-image'
-      : state.reference_asset_ids.length
-        ? 'image-to-video'
-        : 'text-to-video';
+  const promptInput = useRef<HTMLTextAreaElement>(null);
+  const mentionMenu = useRef<HTMLDivElement>(null);
+  const migratedDocument = useRef('');
+  const activeIds = activeReferenceIds(state);
+  const library = [...referenceLibrary(state)];
+  for (const id of activeIds)
+    if (!library.some((entry) => entry.asset_id === id))
+      library.push({ asset_id: id, name: '', role: 'prop' });
+  const assetFor = (id: string) => assets.find((asset) => asset.id === id);
+  const referenceName = (entry: CinemaReferenceEntry, index: number) =>
+    entry.name.trim() || assetFor(entry.asset_id)?.name || `Reference ${index + 1}`;
+  const activeReferences = activeIds.map((id, index) => {
+    const entry = library.find((item) => item.asset_id === id);
+    const asset = assetFor(id);
+    return {
+      id,
+      asset,
+      role: entry?.role || ('prop' as CinemaReferenceRole),
+      name: entry ? referenceName(entry, index) : asset?.name || `Reference ${index + 1}`,
+    };
+  });
+  const referenceEffect = catalog.effects.find((item) => item.id === REFERENCE_EFFECT_ID);
+  const referenceEffectInCatalog =
+    !!referenceEffect &&
+    referenceEffect.model_ids.some((id) => catalog.models.some((item) => item.id === id));
+  const referenceOperation = session.application?.operations.find(
+    (item) => item.id === REFERENCE_EFFECT_ID,
+  );
+  const referenceOperationAvailable = !session.application || !!referenceOperation?.available;
+  const referenceEffectAvailable = referenceEffectInCatalog && referenceOperationAvailable;
+  const effectId = cinemaEffectId(state.mode, activeIds.length, referenceEffectAvailable);
   const effect = catalog.effects.find((item) => item.id === effectId);
   const models = catalog.models.filter((item) => effect?.model_ids.includes(item.id));
   const model =
@@ -150,14 +302,55 @@ export function CinemaStudio({
     (!state.model_id
       ? models.find((item) => item.id === (state.mode === 'image' ? 'flux3-klein' : 'ltx-2.5')) || models[0]
       : undefined);
-  const provider = state.provider || settings.default_provider || 'local';
-  const maxReferences = state.mode === 'image' ? Number(model?.max_references || 4) : 1;
+  const referenceModel =
+    catalog.models.find(
+      (item) => item.id === state.model_id && referenceEffect?.model_ids.includes(item.id),
+    ) || catalog.models.find((item) => referenceEffect?.model_ids.includes(item.id));
+  const imageReferenceLimit = Number(model?.max_references || 4);
+  const referenceLimit = referenceLimitFromCatalog(referenceEffect, referenceModel, 9);
+  const provider = resolveProvider(state.provider, settings.default_provider);
+  const maxReferences =
+    state.mode === 'image' ? imageReferenceLimit : referenceEffectAvailable ? referenceLimit : 1;
+  const effectLabel =
+    state.mode === 'image'
+      ? activeIds.length
+        ? 'Edit image'
+        : 'Create image'
+      : activeIds.length === 0
+        ? 'Text to video'
+        : referenceEffectAvailable
+          ? 'Reference to video'
+          : activeIds.length === 1
+            ? 'Image to video'
+            : 'Reference to video (unavailable)';
+  const referenceSummary =
+    state.mode === 'image'
+      ? `${imageReferenceLimit} active image${imageReferenceLimit === 1 ? '' : 's'} allowed by ${model?.name || 'the selected image model'}. The first is the edit source; any remaining images are references.`
+      : referenceEffectAvailable
+        ? `1–${referenceLimit} active references use reference-to-video${referenceModel ? ` (${referenceModel.name})` : ''}; they are sent in this order and composed into a reference sheet. No reference is used as the opening frame.`
+        : referenceEffectInCatalog && !referenceOperationAvailable
+          ? 'The catalog lists reference-to-video, but this app build does not expose an available render operation. Only image-to-video (1 active reference) can be submitted.'
+          : 'This catalog offers only image-to-video for video: 1 active reference. reference-to-video is unavailable on this backend, so extra references cannot be submitted.';
+  const referenceBlockReason =
+    state.mode === 'video' && activeIds.length >= 2 && !referenceEffectInCatalog
+      ? 'Reference-to-video is not offered by this catalog. Remove references to use image-to-video, or update the backend.'
+      : state.mode === 'video' && activeIds.length >= 2 && !referenceOperationAvailable
+        ? 'Reference-to-video is not available in this app build. Remove references to use image-to-video, or update the backend.'
+        : state.mode === 'video' && activeIds.length >= 1 && referenceEffectAvailable && !!referenceEffect && !model
+          ? `Reference-to-video requires ${referenceEffect.model_ids.join(' or ')}. Choose a supported model in the model menu.`
+          : activeIds.length > maxReferences
+            ? `${effectLabel} accepts ${maxReferences} active reference${maxReferences === 1 ? '' : 's'}. Remove ${activeIds.length - maxReferences}.`
+            : '';
+  const activeNote =
+    referenceBlockReason || `${effectLabel} · ${activeIds.length}/${maxReferences} active reference${maxReferences === 1 ? '' : 's'}`;
   const currentFilm = filmOptions[filmTab];
   const selectedFilm = state.film[filmTab];
   const filmIndex = Math.max(0, currentFilm.indexOf(selectedFilm));
-  const selectedReferences = state.reference_asset_ids
-    .map((id) => assets.find((asset) => asset.id === id))
-    .filter((asset): asset is Asset => !!asset);
+  const mentionMatches = mention
+    ? library.filter((entry, index) =>
+        referenceName(entry, index).toLowerCase().includes(mention.query.toLowerCase()),
+      )
+    : [];
   useEffect(() => {
     fetch('/reference-media/components.json')
       .then((response) => (response.ok ? response.json() : null))
@@ -167,8 +360,9 @@ export function CinemaStudio({
       .then((value) => setAssets(value.items))
       .catch((reason) => setError(reason.message));
   }, []);
+  const libraryKey = library.map((entry) => entry.asset_id).join(',');
   useEffect(() => {
-    for (const id of state.reference_asset_ids)
+    for (const id of uniqueIds([...activeIds, ...library.map((entry) => entry.asset_id)]))
       if (!assets.some((asset) => asset.id === id))
         void api<Asset>(`/assets/${id}`)
           .then((asset) =>
@@ -177,7 +371,35 @@ export function CinemaStudio({
             ),
           )
           .catch(() => {});
-  }, [state.reference_asset_ids.join(','), assets.length]);
+  }, [activeIds.join(','), libraryKey, assets.length]);
+  useEffect(() => {
+    const doc = session.document;
+    if (!session.ready || !doc || migratedDocument.current === doc.id) return;
+    migratedDocument.current = doc.id;
+    const raw = doc.state as Partial<CinemaState>;
+    if (
+      Array.isArray(raw.references) &&
+      Array.isArray(raw.active_reference_ids) &&
+      Array.isArray(raw.reference_asset_ids)
+    )
+      return;
+    const normalized = normalizeCinemaState(raw);
+    update({
+      references: normalized.references,
+      active_reference_ids: normalized.active_reference_ids,
+      reference_asset_ids: normalized.reference_asset_ids,
+    });
+  }, [session.ready, session.document?.id]);
+  useEffect(() => {
+    if (!mention) return;
+    const outside = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (mentionMenu.current?.contains(target) || promptInput.current?.contains(target)) return;
+      setMention(null);
+    };
+    document.addEventListener('pointerdown', outside);
+    return () => document.removeEventListener('pointerdown', outside);
+  }, [mention]);
   useEffect(() => {
     const element = dialog.current;
     if (panel || preview || selectedJob) element?.showModal();
@@ -202,20 +424,72 @@ export function CinemaStudio({
     const fallback = mode === 'image' ? 'flux-klein-4b' : 'ltx-2.3';
     update({ mode, model_id: catalog.models.some((item) => item.id === preferred) ? preferred : fallback });
   }
-  function toggleReference(asset: Asset) {
-    if (state.reference_asset_ids.includes(asset.id))
-      update({ reference_asset_ids: state.reference_asset_ids.filter((id) => id !== asset.id) });
-    else if (state.reference_asset_ids.length < maxReferences)
-      update({ reference_asset_ids: [...state.reference_asset_ids, asset.id] });
-    else
-      setError(
-        `This ${state.mode} workflow accepts ${maxReferences} reference image${maxReferences === 1 ? '' : 's'}. Remove one first.`,
-      );
+  function commitReferences(nextLibrary: CinemaReferenceEntry[], nextActive: string[]) {
+    const ids = new Set(nextLibrary.map((entry) => entry.asset_id));
+    const active = uniqueIds(nextActive).filter((id) => ids.has(id));
+    update({
+      references: nextLibrary,
+      active_reference_ids: active,
+      reference_asset_ids: active,
+    });
+  }
+  function referenceLimitError() {
+    if (referenceBlockReason) return referenceBlockReason;
+    return `${effectLabel} accepts ${maxReferences} active reference${maxReferences === 1 ? '' : 's'}${model ? ` on ${model.name}` : ''}. Remove one first.`;
+  }
+  function addActiveReference(id: string) {
+    if (activeIds.includes(id)) return true;
+    if (activeIds.length >= maxReferences) {
+      setError(referenceLimitError());
+      return false;
+    }
+    commitReferences(library, [...activeIds, id]);
+    setError('');
+    return true;
+  }
+  function toggleActiveReference(id: string) {
+    if (activeIds.includes(id)) commitReferences(library, activeIds.filter((item) => item !== id));
+    else addActiveReference(id);
+  }
+  function addReferenceAsset(asset: Asset, activate = true) {
+    if (library.some((entry) => entry.asset_id === asset.id)) {
+      if (activate) toggleActiveReference(asset.id);
+      return;
+    }
+    if (library.length >= LIBRARY_LIMIT) {
+      setError(`The project reference library is full (${LIBRARY_LIMIT}). Remove an image first.`);
+      return;
+    }
+    const nextLibrary = [...library, { asset_id: asset.id, name: asset.name || '', role: 'prop' as CinemaReferenceRole }];
+    commitReferences(
+      nextLibrary,
+      activate && activeIds.length < maxReferences ? [...activeIds, asset.id] : activeIds,
+    );
+  }
+  function removeReferenceFromLibrary(id: string) {
+    commitReferences(
+      library.filter((entry) => entry.asset_id !== id),
+      activeIds.filter((item) => item !== id),
+    );
+  }
+  function updateReferenceEntry(
+    id: string,
+    changes: Partial<Pick<CinemaReferenceEntry, 'name' | 'role'>>,
+  ) {
+    commitReferences(
+      library.map((entry) => (entry.asset_id === id ? { ...entry, ...changes } : entry)),
+      activeIds,
+    );
+  }
+  function clearActiveReferences() {
+    commitReferences(library, []);
   }
   async function uploadReferences(files: FileList | null) {
     if (!files?.length) return;
-    if (files.length + state.reference_asset_ids.length > maxReferences) {
-      setError(`Choose up to ${maxReferences} reference image${maxReferences === 1 ? '' : 's'}.`);
+    if (files.length + library.length > LIBRARY_LIMIT) {
+      setError(
+        `Choose up to ${LIBRARY_LIMIT - library.length} more image${LIBRARY_LIMIT - library.length === 1 ? '' : 's'}; the project library holds ${LIBRARY_LIMIT}.`,
+      );
       return;
     }
     setUploading(true);
@@ -223,9 +497,16 @@ export function CinemaStudio({
       const added: Asset[] = [];
       for (const file of Array.from(files)) added.push(await upload(file));
       setAssets((items) => [...added, ...items]);
-      update({
-        reference_asset_ids: [...state.reference_asset_ids, ...added.map((asset) => asset.id)],
-      });
+      const entries: CinemaReferenceEntry[] = added.map((asset) => ({
+        asset_id: asset.id,
+        name: asset.name || '',
+        role: 'prop',
+      }));
+      const openSlots = Math.max(0, maxReferences - activeIds.length);
+      commitReferences(
+        [...library, ...entries],
+        [...activeIds, ...entries.slice(0, openSlots).map((entry) => entry.asset_id)],
+      );
     } catch (reason) {
       setError((reason as Error).message);
     } finally {
@@ -233,42 +514,122 @@ export function CinemaStudio({
       if (fileInput.current) fileInput.current.value = '';
     }
   }
+  function detectMention(value: string, caret: number) {
+    const match = /(^|[\s(])@([^\s@\n]{0,40})$/.exec(value.slice(0, caret));
+    if (!match) {
+      setMention(null);
+      return;
+    }
+    setMention({ start: caret - match[2].length - 1, query: match[2] });
+    setMentionIndex(0);
+  }
+  function changePrompt(event: ChangeEvent<HTMLTextAreaElement>) {
+    const value = event.target.value;
+    update({ prompt: value });
+    detectMention(value, event.target.selectionStart ?? value.length);
+  }
+  function insertMention(entry: CinemaReferenceEntry) {
+    if (!mention) return;
+    const index = library.findIndex((item) => item.asset_id === entry.asset_id);
+    const name = referenceName(entry, index);
+    const start = mention.start;
+    const textarea = promptInput.current;
+    const caret = textarea?.selectionStart ?? state.prompt.length;
+    if (!activeIds.includes(entry.asset_id) && activeIds.length >= maxReferences) {
+      setError(referenceLimitError());
+      setMention(null);
+      return;
+    }
+    const nextActive = activeIds.includes(entry.asset_id)
+      ? activeIds
+      : [...activeIds, entry.asset_id];
+    update({
+      prompt: `${state.prompt.slice(0, start)}@${name} ${state.prompt.slice(caret)}`,
+      references: library,
+      active_reference_ids: nextActive,
+      reference_asset_ids: nextActive,
+    });
+    setMention(null);
+    setError('');
+    requestAnimationFrame(() => {
+      const field = promptInput.current;
+      if (!field) return;
+      field.focus();
+      const position = start + name.length + 2;
+      field.setSelectionRange(position, position);
+    });
+  }
+  function promptKeyDown(event: ReactKeyboardEvent<HTMLTextAreaElement>) {
+    if (!mention) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setMention(null);
+      return;
+    }
+    if (!mentionMatches.length) return;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      setMentionIndex(
+        (index) =>
+          (index + (event.key === 'ArrowDown' ? 1 : -1) + mentionMatches.length) %
+          mentionMatches.length,
+      );
+    } else if (event.key === 'Enter' || event.key === 'Tab') {
+      event.preventDefault();
+      insertMention(mentionMatches[Math.min(mentionIndex, mentionMatches.length - 1)]);
+    }
+  }
   async function generate() {
-    if (!model || !state.prompt.trim() || submitting) return;
+    if (submitting) return;
     setError('');
     setSubmitting(true);
     try {
-      if (state.reference_asset_ids.length > maxReferences)
-        throw new Error(`Remove extra references: this workflow accepts ${maxReferences}.`);
+      if (!state.prompt.trim()) throw new Error('Describe your shot before generating.');
+      if (referenceBlockReason) throw new Error(referenceBlockReason);
+      if (activeIds.length > maxReferences)
+        throw new Error(`${effectLabel} accepts ${maxReferences} active references. Remove the extra references first.`);
+      if (!effect) throw new Error('This generation operation is not in the catalog.');
+      if (!model)
+        throw new Error(
+          `Choose a model that supports ${effect.name}. The saved model does not support this operation.`,
+        );
       const operation = session.application?.operations.find((item) => item.id === effectId);
       if (!operation?.available)
         throw new Error(operation?.reason || 'This operation is not available.');
       const doc = await session.save();
       if (!doc) throw new Error('Save this project before generating.');
-      const style = [
-        state.film.genre !== 'General' && `${state.film.genre} film genre`,
-        state.film.era !== 'Auto' && `${state.film.era} period`,
-        state.film.tempo !== 'Auto' && `${state.film.tempo} pacing`,
-        state.camera.body !== 'Auto' && `${state.camera.body} cinematography`,
-        state.camera.lens !== 'Auto' && `${state.camera.lens} lens look`,
-        state.camera.aperture !== 'Auto' && `${state.camera.aperture} depth of field`,
-        ...state.camera.movements.filter((name) => !state.prompt.includes('#' + name)),
-        state.palette !== 'Auto' &&
-          `${state.palette} color palette${state.palette_colors?.length ? ': ' + state.palette_colors.join(', ') : ''}`,
-        state.lighting !== 'Auto' &&
-          `${state.lighting} lighting${state.custom_lights?.length ? ': ' + state.custom_lights.map((light, index) => `Light ${index + 1} ${light.position.toLowerCase()}, color ${light.color}, brightness ${light.brightness}%, diffusion ${light.diffuse}%`).join('; ') : ''}`,
-      ]
-        .filter(Boolean)
-        .join('. ');
+      const legend =
+        state.mode === 'video' && activeReferences.length
+          ? compileReferenceSheetLegend(
+              activeReferences.map((reference) => ({
+                name: reference.name,
+                role: reference.role,
+              })),
+            )
+          : '';
+      const direction = compileCinemaPrompt(state);
+      const usesReferenceVideo = state.mode === 'video' && effectId === REFERENCE_EFFECT_ID;
+      const sourceAssetId =
+        state.mode === 'image'
+          ? activeIds[0]
+          : !usesReferenceVideo && activeIds.length === 1
+            ? activeIds[0]
+            : undefined;
+      const referenceAssetIds =
+        state.mode === 'image'
+          ? activeIds.slice(1)
+          : usesReferenceVideo
+            ? activeIds
+            : undefined;
       const request = renderRequest(model, {
         effect_id: effectId,
-        prompt: [state.prompt.trim(), style].filter(Boolean).join('\n'),
+        prompt: [state.prompt.trim(), legend, direction].filter(Boolean).join('\n\n'),
         provider,
         ...renderSize(model, state.aspect_ratio, state.quality),
         frames: state.mode === 'image' ? 1 : durationFrames(model, state.duration),
         fps: state.mode === 'image' ? 1 : Number(model.default_fps || 24),
-        source_asset_id: state.reference_asset_ids[0],
-        reference_asset_ids: state.reference_asset_ids.slice(1),
+        source_asset_id: sourceAssetId,
+        reference_asset_ids: referenceAssetIds,
         batch_size: state.mode === 'image' ? state.variants : 1,
         generate_audio: state.mode === 'video' && state.generate_audio && !!model.supports_audio,
       });
@@ -293,7 +654,7 @@ export function CinemaStudio({
   async function reuse(job: Job) {
     try {
       const snapshot = await loadProjectSnapshot<CinemaState>(job, 'cinema-studio', catalog, assetIds);
-      if (!await session.newDocument(snapshot.state)) return;
+      if (!await session.newDocument(normalizeCinemaState(snapshot.state))) return;
       const draft = await session.save(true);
       if (!draft) throw new Error('The reused project could not be saved.');
       showProjectDraft(draft.id, '/generate');
@@ -483,7 +844,7 @@ export function CinemaStudio({
                 <button
                   key={asset.id}
                   onClick={() => {
-                    toggleReference(asset);
+                    addReferenceAsset(asset);
                     setView('Home');
                   }}
                 >
@@ -557,12 +918,16 @@ export function CinemaStudio({
           </div>
           <div className="cin-composer-wrap">
             <div className="cin-creative-controls">
-              <button className="cin-reference-control" onClick={() => open('References')}>
+              <button
+                className="cin-reference-control"
+                onClick={() => open('References')}
+                title={`${library.length} of ${LIBRARY_LIMIT} images in the project library · ${activeIds.length}/${maxReferences} active for this shot`}
+              >
                 <Icon name="image" size={20} />
                 <span>
                   References
                   <small>
-                    {state.reference_asset_ids.length}/{maxReferences}
+                    {library.length}/{LIBRARY_LIMIT}
                   </small>
                 </span>
               </button>
@@ -581,28 +946,111 @@ export function CinemaStudio({
                 </button>
               ))}
             </div>
+            {(activeIds.length > 0 || referenceBlockReason) && (
+              <p className={`cin-reference-note ${referenceBlockReason ? 'warning' : ''}`}>
+                {activeNote}
+              </p>
+            )}
             <div className="cin-prompt-box">
               <div className="cin-prompt-content">
-                {selectedReferences.length > 0 && (
+                {activeReferences.length > 0 && (
                   <div className="cin-selected-refs">
-                    {selectedReferences.map((asset) => (
+                    {activeReferences.map((reference, index) => (
                       <button
-                        key={asset.id}
-                        title={`Remove ${asset.name}`}
-                        onClick={() => toggleReference(asset)}
+                        key={reference.id}
+                        title={`${reference.name} — ${reference.role}. Position ${index + 1} in the reference sheet. Remove from this shot.`}
+                        aria-label={`Remove ${reference.name} from this shot`}
+                        onClick={() => toggleActiveReference(reference.id)}
                       >
-                        <img src={asset.thumbnail_url || mediaUrl(asset)} alt={asset.name} />
+                        <b className="cin-ref-order">{index + 1}</b>
+                        {reference.asset ? (
+                          <img
+                            src={reference.asset.thumbnail_url || mediaUrl(reference.asset)}
+                            alt={reference.name}
+                          />
+                        ) : (
+                          <span className="cin-ref-placeholder">
+                            <Icon name="image" size={14} />
+                          </span>
+                        )}
+                        <span className="cin-ref-name">{reference.name}</span>
                         <Icon name="close" size={12} />
                       </button>
                     ))}
                   </div>
                 )}
                 <textarea
+                  ref={promptInput}
                   value={state.prompt}
-                  onChange={(event) => update({ prompt: event.target.value })}
-                  placeholder="Describe your shot. Add references or select camera movements"
+                  onChange={changePrompt}
+                  onKeyDown={promptKeyDown}
+                  onClick={(event) =>
+                    detectMention(
+                      event.currentTarget.value,
+                      event.currentTarget.selectionStart ?? event.currentTarget.value.length,
+                    )
+                  }
+                  placeholder="Describe your shot. Type @ to mention a reference, or select camera movements"
                   aria-label="Describe your shot"
                 />
+                {mention && (
+                  <div
+                    ref={mentionMenu}
+                    className="cin-mention-menu"
+                    role="listbox"
+                    aria-label="Project references"
+                  >
+                    <h3>Insert project reference</h3>
+                    {mentionMatches.length ? (
+                      mentionMatches.map((entry, index) => {
+                        const itemIndex = library.findIndex(
+                          (item) => item.asset_id === entry.asset_id,
+                        );
+                        const name = referenceName(entry, itemIndex);
+                        const asset = assetFor(entry.asset_id);
+                        return (
+                          <button
+                            key={entry.asset_id}
+                            type="button"
+                            role="option"
+                            aria-selected={index === Math.min(mentionIndex, mentionMatches.length - 1)}
+                            className={
+                              index === Math.min(mentionIndex, mentionMatches.length - 1)
+                                ? 'active'
+                                : ''
+                            }
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => insertMention(entry)}
+                          >
+                            {asset ? (
+                              <img src={asset.thumbnail_url || mediaUrl(asset)} alt="" />
+                            ) : (
+                              <span className="cin-ref-placeholder">
+                                <Icon name="image" size={14} />
+                              </span>
+                            )}
+                            <span>
+                              <strong>{name}</strong>
+                              <small>{entry.role}</small>
+                            </span>
+                            {activeIds.includes(entry.asset_id) && (
+                              <em>{activeIds.indexOf(entry.asset_id) + 1}</em>
+                            )}
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <p>
+                        {library.length
+                          ? 'No project references match that name.'
+                          : 'No project references yet. Add images in the References panel.'}
+                      </p>
+                    )}
+                    <small className="cin-mention-hint">
+                      ↑↓ choose · Enter insert · Esc close. Choosing a reference adds it to this shot.
+                    </small>
+                  </div>
+                )}
                 <div className="cin-config-row">
                   <span className="cin-variants">
                     <button
@@ -662,7 +1110,7 @@ export function CinemaStudio({
               </div>
               <button
                 className="cin-generate"
-                disabled={!session.ready || !state.prompt.trim() || submitting || !model}
+                disabled={!session.ready || !state.prompt.trim() || submitting}
                 onClick={() => void generate()}
               >
                 <Icon name="spark" size={18} />
@@ -912,7 +1360,8 @@ export function CinemaStudio({
                   <p>
                     Adds to the prompt box, or type # there.
                     <br />
-                    Several per shot; order matters.
+                    Several per shot; order matters. The render prompt expands each move with a
+                    short description.
                   </p>
                   <div className="cin-movement-tools">
                     <button
@@ -937,6 +1386,8 @@ export function CinemaStudio({
                     <button
                       key={item.title}
                       className={state.camera.movements.includes(item.title) ? 'selected' : ''}
+                      title={describeCameraMovement(item.title)}
+                      aria-label={`${item.title}: ${describeCameraMovement(item.title)}`}
                       onClick={() =>
                         update({
                           prompt: state.camera.movements.includes(item.title)
@@ -967,36 +1418,165 @@ export function CinemaStudio({
           </div>
         )}
         {panel === 'References' && (
-          <div className="cin-reference-picker">
-            <button
-              className="cin-upload"
-              onClick={() => fileInput.current?.click()}
-              disabled={uploading}
+          <div className="cin-reference-picker cin-references-panel">
+            <header className="cin-reference-header">
+              <button
+                className="cin-upload"
+                onClick={() => fileInput.current?.click()}
+                disabled={uploading || library.length >= LIBRARY_LIMIT}
+              >
+                <Icon name="upload" />
+                {uploading ? 'Uploading…' : 'Upload images'}
+              </button>
+              <span className="cin-library-counter">
+                {library.length}/{LIBRARY_LIMIT} project references
+              </span>
+            </header>
+            <p className="cin-reference-summary">{referenceSummary}</p>
+            <section
+              className={`cin-reference-active-summary ${referenceBlockReason ? 'warning' : ''}`}
             >
-              <Icon name="upload" />
-              {uploading ? 'Uploading…' : 'Upload images'}
-            </button>
-            <p>
-              {state.mode === 'image'
-                ? 'Use up to four images as visual references.'
-                : 'Use one opening image for image-to-video.'}
-            </p>
-            <div>
-              {assets
-                .filter((asset) => asset.kind === 'image')
-                .map((asset) => (
-                  <button
-                    key={asset.id}
-                    className={state.reference_asset_ids.includes(asset.id) ? 'selected' : ''}
-                    onClick={() => toggleReference(asset)}
-                  >
-                    <img src={asset.thumbnail_url || mediaUrl(asset)} alt={asset.name} />
-                    {state.reference_asset_ids.includes(asset.id) && (
-                      <Icon name="check" size={18} />
-                    )}
-                  </button>
-                ))}
-            </div>
+              <div>
+                <strong>
+                  {activeIds.length}/{maxReferences} active for this shot
+                </strong>
+                <span>
+                  {effectLabel}
+                  {model ? ` · ${model.name}` : ''}
+                </span>
+              </div>
+              <div>
+                <span>{library.length}/{LIBRARY_LIMIT} in library</span>
+                {activeIds.length > 0 && (
+                  <button onClick={clearActiveReferences}>Clear active</button>
+                )}
+              </div>
+              {referenceBlockReason && <p role="alert">{referenceBlockReason}</p>}
+            </section>
+            <section className="cin-reference-library-section">
+              <header>
+                <h3>Project library</h3>
+                <span>Active order is the reference-sheet order (1 → {maxReferences}).</span>
+              </header>
+              {library.length ? (
+                <div className="cin-reference-library">
+                  {library.map((entry, index) => {
+                    const asset = assetFor(entry.asset_id);
+                    const active = activeIds.includes(entry.asset_id);
+                    const name = referenceName(entry, index);
+                    return (
+                      <article
+                        key={entry.asset_id}
+                        className={`cin-reference-card ${active ? 'active' : ''}`}
+                      >
+                        <button
+                          className="cin-reference-thumb"
+                          aria-pressed={active}
+                          aria-label={`${active ? 'Deactivate' : 'Activate'} ${name} for this shot`}
+                          onClick={() => toggleActiveReference(entry.asset_id)}
+                        >
+                          {asset ? (
+                            <img
+                              src={asset.thumbnail_url || mediaUrl(asset)}
+                              alt={name}
+                            />
+                          ) : (
+                            <span className="cin-ref-placeholder">
+                              <Icon name="image" size={20} />
+                            </span>
+                          )}
+                          <span className="cin-reference-check">
+                            {active ? (
+                              <b>{activeIds.indexOf(entry.asset_id) + 1}</b>
+                            ) : (
+                              <Icon name="plus" size={13} />
+                            )}
+                          </span>
+                        </button>
+                        <div className="cin-reference-meta">
+                          <input
+                            aria-label={`Name for reference ${index + 1}`}
+                            placeholder={asset?.name || `Reference ${index + 1}`}
+                            value={entry.name}
+                            onChange={(event) =>
+                              updateReferenceEntry(entry.asset_id, {
+                                name: event.target.value,
+                              })
+                            }
+                          />
+                          <select
+                            aria-label={`Role for ${name}`}
+                            value={entry.role}
+                            onChange={(event) =>
+                              updateReferenceEntry(entry.asset_id, {
+                                role: event.target.value as CinemaReferenceRole,
+                              })
+                            }
+                          >
+                            {referenceRoles.map((role) => (
+                              <option key={role} value={role}>
+                                {role[0].toUpperCase() + role.slice(1)}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="cin-reference-actions">
+                          <button onClick={() => toggleActiveReference(entry.asset_id)}>
+                            {active ? 'Deactivate' : 'Activate'}
+                          </button>
+                          <button
+                            className="cin-reference-remove"
+                            aria-label={`Remove ${name} from the project library`}
+                            title="Remove from project library"
+                            onClick={() => removeReferenceFromLibrary(entry.asset_id)}
+                          >
+                            <Icon name="trash" size={14} />
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p>
+                  No project references yet. Upload images or add a workspace image below; the
+                  library holds {LIBRARY_LIMIT}.
+                </p>
+              )}
+            </section>
+            <section className="cin-reference-workspace">
+              <header>
+                <h3>Workspace images</h3>
+                <span>Adding an image puts it in this project; it is not deleted from the workspace.</span>
+              </header>
+              <div className="cin-reference-assets">
+                {assets
+                  .filter(
+                    (asset) =>
+                      asset.kind === 'image' &&
+                      !library.some((entry) => entry.asset_id === asset.id),
+                  )
+                  .map((asset) => (
+                    <button
+                      key={asset.id}
+                      disabled={library.length >= LIBRARY_LIMIT}
+                      onClick={() => addReferenceAsset(asset)}
+                      title={`Add ${asset.name} to the project reference library`}
+                    >
+                      <img src={asset.thumbnail_url || mediaUrl(asset)} alt={asset.name} />
+                      <span>
+                        <Icon name="plus" size={12} />
+                        Add
+                      </span>
+                    </button>
+                  ))}
+              </div>
+              {!assets.some(
+                (asset) =>
+                  asset.kind === 'image' &&
+                  !library.some((entry) => entry.asset_id === asset.id),
+              ) && <p>No unadded workspace images. Upload a new image above.</p>}
+            </section>
           </div>
         )}
         {panel === 'Projects' && (

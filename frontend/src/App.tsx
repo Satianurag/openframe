@@ -2050,7 +2050,7 @@ export default function App() {
           <div className="draw-empty">
             <div className="draw-preview">
               <img
-                src="https://cdn.higgsfield.ai/card/5fbc1e60-009c-4a23-b804-7a7c5a2376d3.webp"
+                src="/reference-media/c4ec024d8b28ad5bd42b.webp"
                 alt="Higgsfield input-image example for drawing an edit mask"
               />
               <span className="draw-example-mask" />

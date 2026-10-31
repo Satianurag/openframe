@@ -36,16 +36,37 @@ const initial: State = {
 };
 const assetIds = (value: State) => (value.source_asset_id ? [value.source_asset_id] : []);
 const examples = [
-  { title: 'Relight', slug: 'relight' },
-  { title: 'Inpaint', slug: 'inpaint' },
-  { title: 'Layer Decomposition', slug: 'layers' },
-  { title: 'Edit text', slug: 'edittext' },
-  { title: 'Effects', slug: 'effects' },
-].map((item) => ({
-  ...item,
-  poster: `https://static.higgsfield.ai/public/edit/hero/${item.slug}-video.webp`,
-  video: `https://static.higgsfield.ai/public/edit/hero/${item.slug}-video.mp4`,
-}));
+  {
+    title: 'Relight',
+    slug: 'relight',
+    poster: '/reference-media/324d87f81d469e1c53f6.webp',
+    video: '/reference-media/7cc6347a4569855f6935.mp4',
+  },
+  {
+    title: 'Inpaint',
+    slug: 'inpaint',
+    poster: '/reference-media/a45431c00d6dee9a1902.webp',
+    video: '/reference-media/6693476c455d2f1c02ab.mp4',
+  },
+  {
+    title: 'Layer Decomposition',
+    slug: 'layers',
+    poster: '/reference-media/e25e5ec986709f52d5df.webp',
+    video: '/reference-media/81cf406c9031751cc529.mp4',
+  },
+  {
+    title: 'Edit text',
+    slug: 'edittext',
+    poster: '/reference-media/ce335f1d3cc273a791ca.webp',
+    video: '/reference-media/5945253569854c69a254.mp4',
+  },
+  {
+    title: 'Effects',
+    slug: 'effects',
+    poster: '/reference-media/2005c7396b72a3c84f02.webp',
+    video: '/reference-media/eaa80760c3ea14d7e411.mp4',
+  },
+];
 
 export function ImageLayers({ catalog, settings, onSettings }: EngineAppProps) {
   const session = useAppDocument('mini-apps', initial, assetIds, 'image-layers', 'Layers');

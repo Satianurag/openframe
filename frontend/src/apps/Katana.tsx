@@ -6,7 +6,7 @@ import { RestyleFirstFrame } from './RestyleFirstFrame';
 import type { Job } from '../types';
 import { useAppDocument } from './useAppDocument';
 import { loadProjectSnapshot, missingProjectSnapshot, projectReuseDescription, showProjectDraft } from './projectReuse';
-import { renderRequest, renderSize, modelSupportsReference, modelProviderIssue } from './renderRequest';
+import { renderRequest, renderSize, modelSupportsReference, modelProviderIssue, resolveProvider } from './renderRequest';
 import { officialRecastAvailable, preferredRecastSupport, recastSupportIssue, recastReferenceCleanupAvailable, recastReferenceCleanupIssue } from './recastSupport';
 import { AssetPicker, boundedVideoFrames, videoIntervalIssue, exportDraft, importReference, ReferenceMedia, ResultDialog, SourceSlot, useReferenceLibrary, useWorkspaceAssets, WorkspaceDialog, WorkspaceHistory } from './engine-apps-shared';
 import type { EngineAppProps, ReferenceItem } from './engine-apps-shared';
@@ -46,7 +46,7 @@ export function Katana({ catalog, settings, onSettings }: EngineAppProps) {
   const validMethods = model?.restyle_methods?.filter((item) => !item.effect_ids || item.effect_ids.includes(state.operation)) || [];
   const strengthControl = model && effect ? model.strength_controls?.[effect.task] : undefined;
   const supportsEnhancement = !!model && !!effect && Array.isArray(model.prompt_enhancement_tasks) && model.prompt_enhancement_tasks.includes(effect.task);
-  const provider = state.provider || settings.default_provider || 'local';
+  const provider = resolveProvider(state.provider, settings.default_provider);
   const providerIssue = modelProviderIssue(model, provider, effect?.task);
   const cleanupAvailable = recastReferenceCleanupAvailable(catalog, provider);
   const cleanupIssue = state.operation==='character-replacement' && model?.id==='scail-2' ? recastReferenceCleanupIssue(catalog,provider,state.recast_reference_cleanup??false) : '';

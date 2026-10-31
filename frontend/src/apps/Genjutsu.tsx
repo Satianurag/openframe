@@ -10,7 +10,7 @@ import { useAppDocument } from './useAppDocument';
 import { buildMotionRequest } from './motionRequest';
 import { MotionControls, motionDefaults } from './MotionControls';
 import type { MotionConditioning } from './MotionControls';
-import { modelProviderIssue, modelSupportsReference, renderRequest, renderSize } from './renderRequest';
+import { modelProviderIssue, modelSupportsReference, renderRequest, renderSize, resolveProvider } from './renderRequest';
 import {
   AssetPicker,
   SourceSlot,
@@ -165,7 +165,7 @@ export function Genjutsu({ catalog, settings, onSettings }: EngineAppProps) {
   const strengthControl = (
     model?.strength_controls as Record<string, { label: string; hint?: string }> | undefined
   )?.[effect?.task || ''];
-  const provider = state.provider || settings.default_provider || 'local';
+  const provider = resolveProvider(state.provider, settings.default_provider);
   const providerIssue = modelProviderIssue(model, provider, effect?.task);
   const fps = Number(model?.fixed_fps ?? state.fps ?? model?.default_fps ?? 16);
   const fpsValid = Number.isFinite(fps) && fps >= 1 && fps <= 120;

@@ -78,6 +78,8 @@ def main():
         print(f"Configure the shared Linux CUDA isolated runtime using {target / 'RECAST-RUNTIME.md'}. ViTMatte is used only for semantic soft-alpha output, not Recast support.")
     if args.model in {"ltx-2.3", "ltx-2.5"}:
         print(f"python -m pip install -r {root / 'custom_nodes/ComfyUI-LTXVideo/requirements.txt'}")
+    if args.model == "ltx-2.5":
+        print("The LTX 2.5 profile includes the official Ingredients IC-LoRA for reference-to-video; the bundled OpenFrameReferenceSheet node is copied with the OpenFrame pack and needs no extra dependency.")
     if args.model in {"longcat-avatar-1.5", "ldf-vfi"}:
         print(f"python -m pip install -r {root / 'custom_nodes' / dependencies[args.model][0] / 'requirements.txt'}")
         print("Use the pinned ComfyUI runtime. Model weights must already be provisioned; runtime inference does not download them.")

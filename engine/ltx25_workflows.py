@@ -17,7 +17,7 @@ def build_ltx25_workflow(r, assets=None):
 
     w, h, frames, fps, task = r["width"], r["height"], r["frames"], r["fps"], r["task"]
     prefix = "".join(c for c in str(r.get("job_id", "OpenFrame")) if c.isalnum() or c in "-_")[:100] or "OpenFrame"
-    editing = task not in {"text-to-video", "image-to-video", "transition-video"}
+    editing = task in {"inpaint", "restyle", "video-outpaint", "video-extend", "video-upscale", "alpha-matte", "clean-plate", "sdr-to-hdr"}
     # Absent mode deliberately preserves historical editing graphs, which froze
     # source audio (or silence) regardless of the old generate_audio checkbox.
     generated_edit_audio = r.get("audio_mode") == "generated" and task in {"inpaint", "restyle"}
@@ -33,6 +33,22 @@ def build_ltx25_workflow(r, assets=None):
     fw, fh = (((w + multiple - 1) // multiple) * multiple, ((h + multiple - 1) // multiple) * multiple) if refine else (w, h)
     sw, sh = (fw // 2, fh // 2) if refine else (w, h)
     source = mask = blend = original = source_audio = final_image = midpoint = restyle_reference = None
+    reference_sheet = None
+
+    if task == "reference-video":
+        references = r.get("reference_asset_ids") or []
+        if not 1 <= len(references) <= 9:
+            raise ValueError("Reference-to-video requires one to nine ordered reference images.")
+        missing = [f"reference_{index}" for index in range(len(references)) if not files.get(f"reference_{index}")]
+        if missing:
+            raise ValueError("Reference-to-video is missing " + ", ".join(missing) + ".")
+        sheet_inputs = {}
+        for index in range(len(references)):
+            sheet_inputs[f"image_{index + 1}"] = node(f"reference_{index}", "LoadImage", image=files[f"reference_{index}"])
+        # Row-major order preserves the request's left-to-right element order.
+        columns = 3 if len(references) >= 3 else len(references)
+        reference_sheet = node("reference_sheet", "OpenFrameReferenceSheet", columns=columns,
+                               width=w, height=h, gap=8, **sheet_inputs)
 
     if task == "image-to-video":
         source = node("image", "LoadImage", image=files["source"])
@@ -67,6 +83,7 @@ def build_ltx25_workflow(r, assets=None):
         "alpha-matte": "ltx-2.5-22b-ic-lora-alpha-gen-0.9.safetensors",
         "video-upscale": "ltx-2.5-22b-ic-lora-refine-details-1.0.safetensors" if tiled else "ltx-2.5-22b-ic-lora-pixel-spatial-upscaler-x2-1.0.safetensors",
         "sdr-to-hdr": "ltx-2.5-22b-ic-lora-sdr-to-hdr-1.0.safetensors",
+        "reference-video": "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors",
     }.get(task)
     if canny:
         adapter = "ltx-2.3-22b-ic-lora-union-control-ref0.5.safetensors"
@@ -75,7 +92,8 @@ def build_ltx25_workflow(r, assets=None):
         # V2V_ICLoRA_Single_Stage graph: full dry RGB guide, no upscaler pass.
         adapter = "ltx-2.5-22b-ic-lora-water-simulation-0.9.safetensors"
     if adapter:
-        model = node("adapter", "LTXICLoRALoaderModelOnly", model=model, lora_name=adapter, strength_model=1.0)
+        model = node("adapter", "LTXICLoRALoaderModelOnly", model=model, lora_name=adapter,
+                     strength_model=1.3 if task == "reference-video" else 1.0)
     if task == "sdr-to-hdr":
         positive = node("positive", "LTXVLoadConditioning", file_name="ltx-2.5-22b-ic-lora-sdr-to-hdr-scene-emb.safetensors", device="cpu")
         negative = node("negative", "ConditioningZeroOut", conditioning=positive)
@@ -185,6 +203,14 @@ def build_ltx25_workflow(r, assets=None):
         positive, negative, latent = ["guide", 0], ["guide", 1], ["guide", 2]
     elif task == "restyle" and not water:
         latent = node("source_latent", "VAEEncodeTiled", pixels=source, vae=vae, tile_size=512, overlap=64, temporal_size=64, temporal_overlap=8)
+    elif task == "reference-video":
+        # Official Ingredients recipe: one sheet, repeated on every frame, is
+        # injected as the IC-LoRA guide rather than used as the opening frame.
+        repeated = node("repeat_reference_sheet", "RepeatImageBatch", image=reference_sheet, amount=frames)
+        node("guide", "LTXAddVideoICLoRAGuide", positive=positive, negative=negative, vae=vae, latent=latent,
+             image=repeated, frame_idx=0, strength=1.0, latent_downscale_factor=["adapter", 1],
+             crop="disabled", use_tiled_encode=False, tile_size=256, tile_overlap=64)
+        positive, negative, latent = ["guide", 0], ["guide", 1], ["guide", 2]
     elif adapter:
         if inpaint_reference is not None:
             processed = node("preprocess_inpaint_reference", "LTXVPreprocess", image=inpaint_reference, img_compression=18)

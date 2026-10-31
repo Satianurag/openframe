@@ -18,6 +18,7 @@ import {
   modelSupportsReference,
   renderRequest,
   renderSize,
+  resolveProvider,
 } from './renderRequest';
 import {
   AssetPicker,
@@ -62,7 +63,7 @@ const presets: Preset[] = [
       'Create a professional studio headshot of the person in the source image. Preserve their recognizable facial appearance. Soft directional light, natural skin texture, a simple neutral background, refined realistic photography.',
     note: 'Reference-guided portrait editing; identity is not trained or guaranteed.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/f4d5bd00-a028-4ca0-9a99-7536ff404619.webp',
+      '/reference-media/40fe81a8ed2e0453aca1.webp',
     source_url: 'https://higgsfield.ai/apps/ai-headshot-generator',
   },
   {
@@ -77,7 +78,7 @@ const presets: Preset[] = [
       'Relight the source image while preserving the scene composition, subject appearance, pose and materials. Render coherent illumination and natural shadows.',
     note: 'Portrait Relight restores the original background around one person. Facial detail and edge lighting can change. Lighting-map and FLUX alternatives remain available for other subjects.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/a838d9d6-5840-4d8c-a66b-b6deb090be56.webp',
+      '/reference-media/55cea2e45b33dde14d8c.webp',
     source_url: 'https://higgsfield.ai/apps/relight',
   },
   {
@@ -93,7 +94,7 @@ const presets: Preset[] = [
       "Dress the person in the first image in the outfit shown in the second reference image. Preserve the person's recognizable face, pose and the original background. Render natural garment folds and coherent lighting.",
     note: 'Klein uses both images as visual references. Fit and identity consistency need review.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/dcafc3f9-a87a-41ec-8ef8-f5443a0a7315.webp',
+      '/reference-media/afc709090beda2439a15.webp',
     source_url: 'https://higgsfield.ai/apps/outfit-swap',
   },
   {
@@ -108,7 +109,7 @@ const presets: Preset[] = [
       'Place the supplied photo as the recognizable canvas inside a classic 1990s desktop paint application displayed on a vintage CRT monitor. Include a gray window frame, small paint-tool icons and a color palette around the photo, with a curved glass screen, subtle scanlines and a restrained lo-fi vaporwave atmosphere. Keep the person and composition recognizable inside the canvas; show the monitor as a coherent physical object. Do not add unrelated people or advertising slogans.',
     note: 'An editable retro-screen composition using Klein. Optional region painting is a separate localized edit; interface lettering and source details need review.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/b7db644e-9e07-4a05-9887-501ddc9e8291.webp',
+      '/reference-media/3f59f3f673c30f5be024.webp',
     source_url: 'https://higgsfield.ai/apps/paint-app',
   },
   {
@@ -122,7 +123,7 @@ const presets: Preset[] = [
     prompt: 'Extract the foreground with a clean soft alpha boundary.',
     note: 'Dedicated BiRefNet segmentation. The output retains the source image dimensions.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/425fd0f6-52e4-4bdb-ba55-8b8912ad98fc.webp',
+      '/reference-media/da552ac353c5755cb4b2.webp',
     source_url: 'https://higgsfield.ai/apps/image-background-remover',
   },
   {
@@ -137,7 +138,7 @@ const presets: Preset[] = [
       'Use the supplied image as the artwork on a large, realistic urban billboard. Show the billboard within an architecturally coherent street scene with natural perspective, daylight and realistic materials. Do not add invented brand slogans.',
     note: 'A durable image-composition stage followed by image-to-video animation. Review display readability, product details and temporal stability.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/552a98ef-7b13-4cbb-8263-6de84addff79.webp',
+      '/reference-media/361e4d6fbff6cffb40c1.webp',
     source_url: 'https://higgsfield.ai/apps/billboard',
   },
   {
@@ -152,7 +153,7 @@ const presets: Preset[] = [
       'A premium product reveal, slow camera orbit, controlled studio highlights and an elegant backdrop. Keep the product recognizable with coherent shape and materials.',
     note: 'Prompt-directed image animation, not a reconstructed 3D product or guaranteed 360\u00b0 scan.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/0adbc3f9-335c-4c64-8d9e-14b5fa8de146.webp',
+      '/reference-media/9b6704fb3a329f859813.webp',
     source_url: 'https://higgsfield.ai/apps/bullet-time-scene',
   },
   {
@@ -166,7 +167,7 @@ const presets: Preset[] = [
       'A person speaking naturally to the camera, clear facial expression, subtle head movement, stable framing and consistent lighting.',
     note: 'The selected portrait-animation model conditions video on your image and uploaded recording. The original selected audio is retained. The preview is a portrait reference only, not a lip-sync result; review the generated mouth motion.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/f4d5bd00-a028-4ca0-9a99-7536ff404619.webp',
+      '/reference-media/40fe81a8ed2e0453aca1.webp',
     source_url: 'https://higgsfield.ai/apps/ai-headshot-generator',
   },
   {
@@ -182,7 +183,7 @@ const presets: Preset[] = [
       "Replace the main character in the first scene image with the person or character in the second reference. Follow the first scene's pose, framing and lighting while keeping the second reference recognizable.",
     note: 'A generated multi-reference image edit; it is not a face-swap or identity-lock model.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/7a71628b-3cb3-443b-bd96-5f0a75425575.webp',
+      '/reference-media/da5c72aa06a93c89e2b0.webp',
     source_url: 'https://higgsfield.ai/apps/character-swap',
   },
   {
@@ -198,7 +199,7 @@ const presets: Preset[] = [
       "The character in the reference image follows the source performer's body motion and facial movement. Maintain coherent anatomy, stable appearance and natural expression.",
     note: 'The selected motion model follows the driving performance and character reference. A clear human performer works best; inspect hands, expression and identity in the result.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/e184f451-2a79-443f-8e17-d7b24e0d2e21.webp',
+      '/reference-media/ce4398ea4df0b2c695b2.webp',
     source_url: 'https://higgsfield.ai/apps/recast',
   },
   {
@@ -214,7 +215,7 @@ const presets: Preset[] = [
       "The reference character performs the source person's movements in the original scene. Preserve the surrounding background and use natural, consistent lighting.",
     note: 'SCAIL-2 follows the full driving footage with automatic single-person segmentation. A painted first-frame mask overrides source selection. Inspect the raw clip, tracked edges, hands and held objects; exact performance fidelity is not guaranteed.',
     poster:
-      'https://higgsfield.ai/cdn-cgi/image/fit=scale-down,format=webp,onerror=redirect,width=1920,quality=85/https://cdn.higgsfield.ai/application_main/e184f451-2a79-443f-8e17-d7b24e0d2e21.webp',
+      '/reference-media/ce4398ea4df0b2c695b2.webp',
     source_url: 'https://higgsfield.ai/apps/recast',
   },
   {
@@ -291,9 +292,9 @@ const videoUtilities: {
     description: 'Generate outside the original picture while preserving its pixels.',
     icon: 'image',
     badge: 'Reference preview',
-    video: 'https://cdn.higgsfield.ai/application_detail/af30a374-5805-45e1-ba1a-114e56bdf835.mp4',
+    video: '/reference-media/91be9c967520232980f7.mp4',
     poster:
-      'https://cdn.higgsfield.ai/application_detail/c77244ba-288f-409b-aa9d-8ec7617d8f7b.webp',
+      '/reference-media/0a96ffd21fc2a028da87.webp',
     category: 'Image Utilities',
   },
   {
@@ -302,8 +303,8 @@ const videoUtilities: {
     description: 'Separate an image into editable transparent layers.',
     icon: 'layers',
     badge: 'Reference preview',
-    video: 'https://static.higgsfield.ai/public/edit/hero/layers-video.mp4',
-    poster: 'https://static.higgsfield.ai/public/edit/hero/layers-video.webp',
+    video: '/reference-media/81cf406c9031751cc529.mp4',
+    poster: '/reference-media/e25e5ec986709f52d5df.webp',
     category: 'Image Utilities',
   },
   {
@@ -326,7 +327,7 @@ const videoUtilities: {
     description: 'Generate a bridge between two images or short videos.',
     icon: 'spark',
     badge: 'Reference preview',
-    video: 'https://cdn.higgsfield.ai/application_main/e4c366d4-f237-4f07-bd86-5b77808fafe6.mp4',
+    video: '/reference-media/28b632c79343452bf1a9.mp4',
   },
   {
     id: 'fps-boost',
@@ -334,8 +335,8 @@ const videoUtilities: {
     description: 'Generate intermediate frames at a higher frame rate.',
     icon: 'film',
     badge: 'Reference preview',
-    video: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/fps-booster.mp4',
-    poster: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/fps-booster-poster.webp',
+    video: '/reference-media/cdfed63e476a374ee627.mp4',
+    poster: '/reference-media/abfb3ba53fe03704e84e.webp',
   },
   {
     id: 'video-depth',
@@ -343,8 +344,8 @@ const videoUtilities: {
     description: 'Estimate temporal depth and export lossless depth data.',
     icon: 'layers',
     badge: 'Reference preview',
-    video: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/depth-map.mp4',
-    poster: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/depth-map-poster.webp',
+    video: '/reference-media/d86242bce10cc3d73821.mp4',
+    poster: '/reference-media/a84840ea719371dc4dfa.webp',
   },
 ];
 const categories = [
@@ -447,11 +448,11 @@ export function MiniApps({ catalog, settings, onSettings }: EngineAppProps) {
       title: item.name,
       poster:
         detail && item.id === 'background'
-          ? 'https://cdn.higgsfield.ai/application_detail/f6a30266-5ec9-4b03-b682-093e53dc0dbd.webp'
+          ? '/reference-media/cd4cf26ee7d14d72720f.webp'
           : item.poster,
       video:
         detail && item.id === 'background'
-          ? 'https://cdn.higgsfield.ai/application_detail/4ab0ba35-bccd-4053-a97c-778cd694449b.mp4'
+          ? '/reference-media/15b84cec684fb13f9cd0.mp4'
           : item.video,
     };
   }
@@ -515,7 +516,7 @@ export function MiniApps({ catalog, settings, onSettings }: EngineAppProps) {
     !!effect &&
     Array.isArray(model.prompt_enhancement_tasks) &&
     model.prompt_enhancement_tasks.includes(effect.task);
-  const provider = state.provider || settings.default_provider || 'local';
+  const provider = resolveProvider(state.provider, settings.default_provider);
   const selectedProvider = catalog.providers.find((item) => item.id === provider);
   const cleanupAvailable = recastReferenceCleanupAvailable(catalog, provider);
   const cleanupIssue = model?.id === 'scail-2' ? recastReferenceCleanupIssue(catalog, provider, recastReferenceCleanup) : '';

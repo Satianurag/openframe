@@ -24,6 +24,12 @@ python -m engine.setup --comfy-dir /path/to/ComfyUI --model birefnet
 python -m engine.setup --comfy-dir /path/to/ComfyUI --model kokoro-82m
 ```
 
+Reference-to-video uses the official LTX 2.5 Ingredients IC-LoRA. The LTX 2.5
+profile includes that adapter, and the OpenFrame pack ships the
+`OpenFrameReferenceSheet` node that tiles one to nine ordered stills into the
+single sheet injected on every frame; no extra dependency or node pack is
+required. The gated LoRA repository must be accepted before provisioning.
+
 For semantic mask tracking install the pinned SAM2 package (CUDA extension is not
 needed for this workflow):
 

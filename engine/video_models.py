@@ -34,15 +34,21 @@ def video_model_files(existing):
     ]:
         extra = {"tasks": ["text-to-video", "image-to-video", "transition-video", "restyle"], "when": {"video_refinement": "two-stage"}} if category == "latent_upscale_models" else {}
         if category == "text_encoders":
-            extra["tasks"] = ["text-to-video", "image-to-video", "transition-video", "inpaint", "restyle", "video-outpaint", "video-extend", "video-upscale", "alpha-matte", "clean-plate"]
+            extra["tasks"] = ["text-to-video", "image-to-video", "reference-video", "transition-video", "inpaint", "restyle", "video-outpaint", "video-extend", "video-upscale", "alpha-matte", "clean-plate"]
         ltx.append(_file("Lightricks/LTX-2.5", LTX25_REVISION, file, category, size, sha, requires_access=True, license="LTX-2.5 repository license; Gemma component terms apply", **extra))
-    ltx.append(_file("Comfy-Org/gemma-4", "63d0f7c476756b88910170c1df75e2384ea1af31", "text_encoders/gemma4_e2b_it_bf16.safetensors", "text_encoders", 10278774160, "dcc3c8d27be2db2ef38b78d564ebfa1e92eb24665ed2751f2983275f03a067c8", tasks=["text-to-video", "image-to-video", "transition-video", "inpaint", "restyle", "video-outpaint", "video-extend", "video-upscale", "clean-plate"], license="See Gemma 4 model terms", feature="enhance_prompt"))
+    ltx.append(_file("Comfy-Org/gemma-4", "63d0f7c476756b88910170c1df75e2384ea1af31", "text_encoders/gemma4_e2b_it_bf16.safetensors", "text_encoders", 10278774160, "dcc3c8d27be2db2ef38b78d564ebfa1e92eb24665ed2751f2983275f03a067c8", tasks=["text-to-video", "image-to-video", "reference-video", "transition-video", "inpaint", "restyle", "video-outpaint", "video-extend", "video-upscale", "clean-plate"], license="See Gemma 4 model terms", feature="enhance_prompt"))
     ltx.append(_file("Lightricks/LTX-2.3-22b-IC-LoRA-Union-Control", "20a580c8606c06a0988d40375a61309e0fe5893d", "ltx-2.3-22b-ic-lora-union-control-ref0.5.safetensors", "loras", 654465352, "a1b888a87f661d27f08b394ae559e8e1050be33900bcc36a5cdf659e48f88d18", tasks=["restyle"], when={"restyle_method": "canny"}, license="LTX-2 Community License", source_note="Explicit LTX 2.5 pairing in the pinned Union-Control workflow; reference downscale factor comes from adapter metadata."))
     ltx.append(_file("Lightricks/LTX-2.5-22b-IC-LoRA-Water-Simulation", "7a458d0c206d6f80ee7bae2f46e21e959f6fc42e",
         "ltx-2.5-22b-ic-lora-water-simulation-0.9.safetensors", "loras", 906080568,
         "58c244d24a4381858749e66fae9fd1b91aec6b546f83f3f81a7a10b4934a7857",
         tasks=["restyle"], when={"restyle_method": "water"}, requires_access=True,
         license="LTX-2.x Community License", source_note="Official model card specifies native-resolution stage1 only, full dry RGB guide, ADD WATER caption, strength1 and CFG1; no refinement."))
+    ltx.append(_file("Lightricks/LTX-2.3-22b-IC-LoRA-Ingredients", "9cb727f45e0b88cfb49ce90cd6c04bbee4dda07e",
+        "ltx-2.3-22b-ic-lora-ingredients-0.9.safetensors", "loras", 1308778338,
+        "515e4e139001ac6282357a5b35372e42e98b3affd5fcc886a52242abeed19559",
+        tasks=["reference-video"], requires_access=True,
+        license="LTX-2 Community License",
+        source_note="Official reference-sheet Ingredients adapter pinned by the LTX 2.5 single-stage distilled example; strength 1.3."))
     inpaint = next(dict(x) for x in existing["ltx-2.3"] if x.get("tasks") == ["inpaint"])
     inpaint["tasks"] = ["inpaint", "video-outpaint"]
     inpaint["source_note"] = "Explicitly paired with LTX 2.5 in the official 2.5 inpaint/outpaint templates; the 2.3 filename is intentional."

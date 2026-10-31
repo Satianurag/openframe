@@ -6,7 +6,7 @@ import { AnchoredPopover } from '../Popovers';
 import type { Asset, Job, Model } from '../types';
 import { useAppDocument } from './useAppDocument';
 import { loadProjectSnapshot, missingProjectSnapshot, projectReuseDescription, showProjectDraft } from './projectReuse';
-import { modelSupportsReference, renderRequest, renderSize } from './renderRequest';
+import { modelSupportsReference, renderRequest, renderSize, resolveProvider } from './renderRequest';
 import { buildMotionRequest } from './motionRequest';
 import { officialRecastAvailable, preferredRecastSupport, recastSupportIssue, recastReferenceCleanupAvailable, recastReferenceCleanupIssue } from './recastSupport';
 import { MotionControls, motionDefaults } from './MotionControls';
@@ -134,7 +134,7 @@ export function AIInfluencer({ catalog, settings, onSettings }: EngineAppProps) 
             ? state.recast_model_id || 'wan-animate'
             : state.motion_model_id || 'wan-animate'),
   );
-  const provider = state.provider || settings.default_provider || 'local';
+  const provider = resolveProvider(state.provider, settings.default_provider);
   const cleanupAvailable = recastReferenceCleanupAvailable(catalog, provider);
   const cleanupIssue = model?.id === 'scail-2' ? recastReferenceCleanupIssue(catalog, provider, state.recast_reference_cleanup ?? false) : '';
   const officialSupportAvailable = officialRecastAvailable(catalog, provider);

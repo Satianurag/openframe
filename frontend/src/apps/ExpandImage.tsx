@@ -54,8 +54,8 @@ const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const grid = (value: number) => Math.max(256, Math.ceil(value / 16) * 16);
 const example = {
   title: 'Higgsfield Expand Image reference example',
-  poster: 'https://cdn.higgsfield.ai/application_detail/c77244ba-288f-409b-aa9d-8ec7617d8f7b.webp',
-  video: 'https://cdn.higgsfield.ai/application_detail/af30a374-5805-45e1-ba1a-114e56bdf835.mp4',
+  poster: '/reference-media/0a96ffd21fc2a028da87.webp',
+  video: '/reference-media/91be9c967520232980f7.mp4',
 };
 
 function fitCanvas(asset: Asset, ratio: string) {

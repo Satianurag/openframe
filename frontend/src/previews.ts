@@ -1,25 +1,25 @@
 /** Higgsfield public reference media. Sources: docs/reference-vfx-starters.json. */
 export const previewSources: Record<string, string> = {
-  "text-to-video": "https://static-public-media.higgsfield.ai/what-if-styles/published/e0cfd82b68d60927791d6061d7e7627690a1e9519ee247f5950bb2eb237b21ce",
-  "image-to-video": "https://cdn.higgsfield.ai/card/5fbc1e60-009c-4a23-b804-7a7c5a2376d3.webp",
-  "remove-object": "https://static.higgsfield.ai/video-edit-tutorial/v4/smart-clean-up.webp",
-  "replace-object": "https://static.higgsfield.ai/video-edit-tutorial/v4/precise-object-swap.webp",
-  "restyle": "https://static.higgsfield.ai/video-edit-tutorial/recolor-restyle.webp",
-  "cinematic": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.webp",
-  "relight": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.webp",
-  "weather": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.webp",
-  "video-outpaint": "https://static.higgsfield.ai/video-edit-tutorial/v4/re-frame-composition.webp",
-  "product-reveal": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Product.webp",
-  "slow-motion": "https://static.higgsfield.ai/c894871c-6906-40be-8bba-b50652dd7646.webp"
+  "text-to-video": "/reference-media/c1f667f4a63e86ed2242.jpg",
+  "image-to-video": "/reference-media/c4ec024d8b28ad5bd42b.webp",
+  "remove-object": "/reference-media/6f69ecde79b740158e6f.webp",
+  "replace-object": "/reference-media/2c0e63e7a754ee0cf927.webp",
+  "restyle": "/reference-media/7d1e1419f2a3a0303478.webp",
+  "cinematic": "/reference-media/efed453aa0797a432f06.webp",
+  "relight": "/reference-media/efed453aa0797a432f06.webp",
+  "weather": "/reference-media/efed453aa0797a432f06.webp",
+  "video-outpaint": "/reference-media/c3744eaad45995048138.webp",
+  "product-reveal": "/reference-media/56e39f71c86d723b4c6d.webp",
+  "slow-motion": "/reference-media/0276c14d141ea6e20fc9.webp"
 };
 export const previewVideos: Record<string, string> = {
-  "text-to-video": "https://static-public-media.higgsfield.ai/what-if-styles/published/040e4aa0061dfb0f14e7de34a54fe75ccf2de3c7e796e5a616af6cf88bc78eac",
-  "cinematic": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.mp4",
-  "relight": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.mp4",
-  "weather": "https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.mp4",
-  "product-reveal": "https://static.higgsfield.ai/public/marketing-studio/hero-banners/marketing-studio-slider-poster-Product.mp4",
-  "slow-motion": "https://static.higgsfield.ai/c894871c-6906-40be-8bba-b50652dd7646.mp4",
-  "dissolve": "https://cdn.higgsfield.ai/minimax_hailuo_sample/c8090662-b51f-44d2-b675-364c10437e9d.mp4"
+  "text-to-video": "/reference-media/b77dc5e627d7910c5eaa.mp4",
+  "cinematic": "/reference-media/fad272e0aa9f73619058.mp4",
+  "relight": "/reference-media/fad272e0aa9f73619058.mp4",
+  "weather": "/reference-media/fad272e0aa9f73619058.mp4",
+  "product-reveal": "/reference-media/e0a8ef9f80c48dfe2995.mp4",
+  "slow-motion": "/reference-media/957165bfd03cae40f71b.mp4",
+  "dissolve": "/reference-media/b89bafaa0f868bf9db49.mp4"
 };
 
 /** No manufactured before/after comparison is added to public reference media. */

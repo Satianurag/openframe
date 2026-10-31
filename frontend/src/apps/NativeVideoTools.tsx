@@ -65,41 +65,41 @@ const details: Record<
     subtitle: 'Generate a continuation',
     explanation:
       'The output contains the selected source context plus new footage. Sequel places the context first; Prequel places it last. The rest of a longer original is not automatically included. Keeping source audio applies only to that context. New footage is silent unless continuation audio is enabled.',
-    hero: 'https://static.higgsfield.ai/seedance-2.5/video-banner-general.mp4',
-    poster: 'https://static.higgsfield.ai/seedance-25-preset.webp',
+    hero: '/reference-media/15c7b33206f15ff2fd8e.mp4',
+    poster: '/reference-media/3511227f280cec9f6696.webp',
   },
   'video-outpaint': {
     title: 'AI Reframe',
     subtitle: 'Generate outside the existing frame',
     explanation:
       'The fitted source region is retained and the missing canvas is generated. Source scale and anchors determine placement. This workflow does not accept side-reference images or automatically track the subject.',
-    hero: 'https://static.higgsfield.ai/reframe-preset-black.mp4',
+    hero: '/reference-media/38baca952a9789673101.mp4',
   },
   'video-upscale': {
     title: 'Upscale',
     subtitle: 'Increase resolution and refine details',
     explanation:
       'Pixel 2× uses the dedicated upscaling adapter and retains exactly twice the native source dimensions. Tiled refinement uses a separate detail adapter on the explicitly chosen canvas.',
-    hero: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/upscale.mp4',
-    poster: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/upscale-poster.webp',
+    hero: '/reference-media/7c44d258386aff0d26b3.mp4',
+    poster: '/reference-media/9bc86de6f92c6ac5a2dd.webp',
   },
   'alpha-matte': {
     title: 'Automatic Alpha',
     subtitle: 'Extract the model’s foreground matte',
     explanation:
       'LTX AlphaGen automatically estimates foreground alpha. It does not use text to choose an object. Original RGB and the inferred alpha produce a transparent WebM; a grayscale mask video is also exported.',
-    hero: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/remove-background.mp4',
+    hero: '/reference-media/ef7698848acbb214af45.mp4',
     poster:
-      'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/remove-background-poster.webp',
+      '/reference-media/d2f52c156f431aa1b06c.webp',
   },
   'semantic-matte': {
     title: 'Remove Background',
     subtitle: 'Keep the subject described in your prompt',
     explanation:
       'SAM3.1 tracks the named foreground concept. Its mask becomes an explicit trimap for ViTMatte, then alpha is combined with the original RGB. Selection mistakes and fine-edge flicker are possible; inspect the exported mask.',
-    hero: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/remove-background.mp4',
+    hero: '/reference-media/ef7698848acbb214af45.mp4',
     poster:
-      'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/remove-background-poster.webp',
+      '/reference-media/d2f52c156f431aa1b06c.webp',
   },
   'clean-plate': {
     title: 'Clean Plate',
@@ -112,8 +112,8 @@ const details: Record<
     subtitle: 'Create a high-bit-depth HDR output',
     explanation:
       'A dedicated HDR adapter and scene embedding convert the source. The downloadable master is distinct from the SDR preview shown in browsers. An HDR-capable player and display are needed to assess the master.',
-    hero: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/sdr-to-hdr.mp4',
-    poster: 'https://static.higgsfield.ai/video-edit-form/v2/tools-hero/sdr-to-hdr-poster.webp',
+    hero: '/reference-media/5680d32072a1f4644904.mp4',
+    poster: '/reference-media/c773425a32af25b0f311.webp',
   },
 };
 const defaults = (kind: NativeVideoOperation): State => ({
@@ -593,7 +593,11 @@ export function NativeVideoTool({
                     onChange={() => session.update({ output_view: value })}
                   />
                   <img
-                    src={`https://static.higgsfield.ai/video-edit-form/v2/remove-background/${value === 'result' ? 'cut-video' : 'alpha-mask'}.webp`}
+                    src={
+                      value === 'result'
+                        ? '/reference-media/4a802ae5cb5e0989cef0.webp'
+                        : '/reference-media/b26133f8906727ca0e6a.webp'
+                    }
                     alt="Reference output illustration"
                   />
                   <span>{value === 'result' ? 'Cutout video' : 'Alpha mask'}</span>
@@ -983,7 +987,13 @@ export function NativeVideoTool({
                   (title, index) => (
                     <article key={title}>
                       <img
-                        src={`https://static.higgsfield.ai/reframe-tutor/bottompieace${index ? index + 1 : ''}.webp`}
+                        src={
+                          [
+                            '/reference-media/10e906d7800ec878d1d3.webp',
+                            '/reference-media/ba4f8dcd6f1757854b09.webp',
+                            '/reference-media/bbf9d1cd8ba7e58f586f.webp',
+                          ][index]
+                        }
                         alt="Higgsfield reference illustration"
                       />
                       <h3>{title.toUpperCase()}</h3>
@@ -1011,7 +1021,7 @@ export function NativeVideoTool({
                 playsInline
                 controls
                 preload="metadata"
-                src="https://static.higgsfield.ai/video-edit-tutorial/v4/relight-and-atmosphere.mp4"
+                src="/reference-media/fad272e0aa9f73619058.mp4"
               />
               <h2>{info.title.toUpperCase()}</h2>
               <p>{info.explanation}</p>

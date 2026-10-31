@@ -7,7 +7,7 @@ import { AppSwitcher } from './AppSwitcher';
 import { SequencePlanner } from './SequencePlanner';
 import { useAppDocument } from './useAppDocument';
 import { loadProjectSnapshot, missingProjectSnapshot, projectReuseDescription, showProjectDraft } from './projectReuse';
-import { modelProviderIssue, renderRequest, renderSize } from './renderRequest';
+import { modelProviderIssue, renderRequest, renderSize, resolveProvider } from './renderRequest';
 import { AssetPicker, boundedVideoFrames, importReference, ReferenceDialog, ReferenceMedia, ResultDialog, SourceSlot, useReferenceLibrary, useWorkspaceAssets, WorkspaceDialog, WorkspaceHistory } from './engine-apps-shared';
 import type { EngineAppProps, ReferenceItem } from './engine-apps-shared';
 import './engine-apps.css';
@@ -33,7 +33,7 @@ export function MarketingAds({catalog,settings,onSettings}:EngineAppProps){
   const [finishing,setFinishing]=useState(false);
   const finishingVideo=assets.get(state.finishing_video_asset_id||'');
   useEffect(()=>{if(!library.hero?.length||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const timer=setInterval(()=>setCarousel(value=>(value+1)%library.hero!.length),6500);return()=>clearInterval(timer);},[library.hero?.length]);
-  const provider=state.provider||settings.default_provider||'local';
+  const provider=resolveProvider(state.provider, settings.default_provider);
   const speechModels=catalog.models.filter(item=>catalog.effects.find(effect=>effect.id==='generate-speech')?.model_ids.includes(item.id));
   const speechModelId=state.speech_model_id||'ming-narration';
   const speechModel=speechModels.find(item=>item.id===speechModelId);

@@ -1,7 +1,7 @@
 """Build one explicit ComfyUI API graph per selected model; no hidden inference."""
 import copy
 import secrets
-from .catalog import model_by_id, effect_by_id, allows_restyle_first_frame
+from .catalog import model_by_id, effect_by_id, allows_restyle_first_frame, reference_limits
 
 
 class WorkflowError(ValueError):
@@ -22,6 +22,8 @@ def normalize_request(request):
     if (r.get("reference_asset_id") or r.get("reference_asset_ids")) and effect["task"] not in model.get("reference_tasks", []) and not allows_restyle_first_frame(model, r):
         raise WorkflowError("This model/task does not support an additional reference image. Image-to-video uses its source image as the reference.")
     r.update(model_id=model["id"], effect_id=effect["id"], task=effect["task"])
+    if effect["task"] == "reference-video" and r.get("reference_asset_id"):
+        raise WorkflowError("Reference-to-video uses ordered reference_asset_ids, not a single reference_asset_id.")
     if allows_restyle_first_frame(model, r) and r.get("reference_asset_ids"):
         raise WorkflowError("Canny first-frame conditioning accepts one edited full-frame image, not an image list.")
     vace_mode = r.get("vace_reference_mode", "appearance")
@@ -34,9 +36,20 @@ def normalize_request(request):
     validate_image_brightness(r, model)
     image_task = model.get("output_kind") == "image"
     non_video = model.get("output_kind") in {"image", "audio"}
-    reference_count = len(r.get("reference_asset_ids") or []) + bool(r.get("reference_asset_id")) + (bool(r.get("source_asset_id")) if image_task else 0)
-    if reference_count > model.get("max_references", 1):
-        raise WorkflowError("Too many reference images for this model.")
+    ordered_references = r.get("reference_asset_ids") or []
+    if len(set(ordered_references)) != len(ordered_references):
+        raise WorkflowError("Reference images must be distinct.")
+    if effect["task"] == "reference-video":
+        if any(r.get(key) for key in ("source_asset_id", "mask_asset_id", "audio_asset_id", "end_asset_id")):
+            raise WorkflowError("Reference-to-video accepts only ordered reference images, without a source, mask, audio or end asset.")
+        if len(ordered_references) < max(1, reference_limits(model, effect)["min"]):
+            raise WorkflowError("Reference-to-video requires one to nine ordered reference images.")
+    elif ordered_references and not image_task:
+        raise WorkflowError("Ordered reference images are supported only by reference-to-video and image generation/editing; use one reference_asset_id instead.")
+    reference_count = len(ordered_references) + bool(r.get("reference_asset_id")) + (bool(r.get("source_asset_id")) if image_task else 0)
+    reference_limit = reference_limits(model, effect)["max"]
+    if reference_count > reference_limit:
+        raise WorkflowError(f"This operation accepts at most {reference_limit} reference image{'s' if reference_limit != 1 else ''}.")
     for key, default in [("width", model.get("default_width", 512)), ("height", model.get("default_height", 288)), ("frames", 121 if effect["task"] == "transition-video" else model["default_frames"]), ("steps", model["default_steps"])]:
         r[key] = int(r.get(key, default))
     r["fps"] = float(r.get("fps", model["default_fps"]))

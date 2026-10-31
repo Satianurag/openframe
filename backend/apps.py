@@ -19,7 +19,7 @@ from .store import now
 APPS = [
     ("content-factory", "Content Factory", ["plan-shots", "generate-series", "generate-speech", "claude-export"]),
     ("supercomputer", "Supercomputer", ["plan-shots", "render-sequence", "agent-run"]),
-    ("cinema-studio", "Cinema Studio", ["text-to-video", "image-to-video", "create-image", "edit-image", "plan-shots", "render-sequence", "extend-video"]),
+    ("cinema-studio", "Cinema Studio", ["text-to-video", "reference-to-video", "image-to-video", "create-image", "edit-image", "plan-shots", "render-sequence", "extend-video"]),
     ("ai-influencer", "AI Influencer", ["create-image", "edit-image", "motion-transfer", "character-replacement", "replace-object", "train-identity"]),
     ("marketing-ads", "Marketing / Ads", ["create-image", "edit-image", "product-reveal", "restyle", "remove-background", "generate-speech", "render-sequence", "link-to-ad", "recreate-ad"]),
     ("canvas", "Canvas", ["create-image", "edit-image", "text-to-video", "image-to-video", "generate-speech", "speak", "remove-background", "remove-object", "replace-object", "restyle", "motion-transfer", "character-replacement", "execute-board"]),
@@ -42,8 +42,10 @@ def app_definition(app_id: str):
 
 
 def app_catalog():
-    from engine.catalog import get_catalog
-    effects = {effect["id"]: effect for effect in get_catalog()["effects"]}
+    from engine.catalog import get_catalog, reference_limits
+    catalog = get_catalog()
+    effects = {effect["id"]: effect for effect in catalog["effects"]}
+    models = {model["id"]: model for model in catalog["models"]}
     result = []
     for ident, name, operations in APPS:
         entries = []
@@ -59,10 +61,16 @@ def app_catalog():
                     "execution": "planner" if operation == "plan-shots" else "sequence", "effect_ids": [], "model_ids": ["qwen3.8-planner"] if operation == "plan-shots" else []})
                 continue
             effect = effects.get(operation)
-            entries.append({"id": operation, "label": effect["name"] if effect else operation.replace("-", " ").title(),
-                            "available": effect is not None,
-                            "reason": "Implemented; select and check a compatible compute provider." if effect else "This operation has no implemented generation handler. Your draft can be saved; no substitute render will be submitted.",
-                            "effect_ids": [operation] if effect else [], "model_ids": effect["model_ids"] if effect else []})
+            entry = {"id": operation, "label": effect["name"] if effect else operation.replace("-", " ").title(),
+                     "available": effect is not None,
+                     "reason": "Implemented; select and check a compatible compute provider." if effect else "This operation has no implemented generation handler. Your draft can be saved; no substitute render will be submitted.",
+                     "effect_ids": [operation] if effect else [], "model_ids": effect["model_ids"] if effect else []}
+            if effect:
+                limits = {model_id: reference_limits(models.get(model_id), effect) for model_id in effect["model_ids"] if model_id in models}
+                entry["min_references"] = min((item["min"] for item in limits.values()), default=0)
+                entry["max_references"] = max((item["max"] for item in limits.values()), default=0)
+                entry["reference_limits_by_model"] = limits
+            entries.append(entry)
         result.append({"id": ident, "name": name, "operations": entries})
     return {"items": result}
 
@@ -138,6 +146,8 @@ def validate_state(app_id, state, asset_ids):
                 if normalized == "asset_ids" or normalized.endswith("_asset_ids"):
                     if not isinstance(item, list) or any(ident not in asset_ids for ident in item):
                         raise HTTPException(422, "Every referenced asset must appear in asset_ids")
+                    if normalized == "reference_asset_ids" and (len(item) > 50 or len(set(item)) != len(item)):
+                        raise HTTPException(422, "A project may store at most 50 distinct reference images; each job sends only its active subset")
                 visit(item, depth + 1)
         elif isinstance(value, list):
             for item in value:

@@ -11,6 +11,12 @@ export function modelSupportsReference(
   );
 }
 
+export function resolveProvider(saved: string | undefined, fallback: string | undefined): string {
+  if (saved === 'local' || saved === 'comfy-cloud') return saved;
+  if (fallback === 'local' || fallback === 'comfy-cloud') return fallback;
+  return 'local';
+}
+
 export function modelProviderIssue(model: Model | undefined, provider: string, task?: string): string {
   if (!['local', 'comfy-cloud'].includes(provider)) return 'This saved connection is unavailable. Select Local ComfyUI or a supported Comfy Cloud operation explicitly; the saved provider has not been changed.';
   const supported = model?.supported_providers;

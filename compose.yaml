@@ -9,8 +9,6 @@ services:
       OPENFRAME_DATA_DIR: /data
       OPENFRAME_ALLOWED_ORIGINS: http://localhost:${OPENFRAME_PORT:-8000},http://127.0.0.1:${OPENFRAME_PORT:-8000}
       OPENFRAME_COMFY_URL: ${OPENFRAME_COMFY_URL:-http://host.docker.internal:8188}
-      MODAL_TOKEN_ID: ${MODAL_TOKEN_ID:-}
-      MODAL_TOKEN_SECRET: ${MODAL_TOKEN_SECRET:-}
       OPENFRAME_COMFY_CLOUD_API_KEY: ${OPENFRAME_COMFY_CLOUD_API_KEY:-}
     extra_hosts:
       - "host.docker.internal:host-gateway"

@@ -149,11 +149,18 @@ function FrameTool({ tool, catalog, settings, onSettings }: EngineAppProps & { t
     value.height % 2 === 0;
   const jobs = session.jobs.filter((job) => job.request.effect_id === tool);
   const heroSlug = depth ? 'depth-map' : 'fps-booster';
-  const hero = {
-    title: `${title} reference`,
-    poster: `https://static.higgsfield.ai/video-edit-form/v2/tools-hero/${heroSlug}-poster.webp`,
-    video: `https://static.higgsfield.ai/video-edit-form/v2/tools-hero/${heroSlug}.mp4`,
-  };
+  const hero =
+    heroSlug === 'depth-map'
+      ? {
+          title: `${title} reference`,
+          poster: '/reference-media/a84840ea719371dc4dfa.webp',
+          video: '/reference-media/d86242bce10cc3d73821.mp4',
+        }
+      : {
+          title: `${title} reference`,
+          poster: '/reference-media/abfb3ba53fe03704e84e.webp',
+          video: '/reference-media/cdfed63e476a374ee627.mp4',
+        };
   function choose(asset: Asset) {
     workspace.add(asset);
     const fps = asset.fps || 0;

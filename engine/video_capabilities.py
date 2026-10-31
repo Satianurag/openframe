@@ -8,7 +8,14 @@ def video_provider_capabilities(info):
     def options(node, field):
         inputs = info.get(node, {}).get("input", {})
         value = inputs.get("required", {}).get(field, inputs.get("optional", {}).get(field, []))
-        return set(value[0]) if value and isinstance(value[0], list) else set()
+        if not value:
+            return set()
+        head = value[0]
+        if isinstance(head, (list, tuple, set)):
+            return set(head)
+        if head == "COMBO" and len(value) > 1 and isinstance(value[1], dict):
+            return set(value[1].get("options") or [])
+        return set()
 
     def whisper_ready():
         value = info.get("OpenFrameWhisperLoader", {}).get("input", {}).get("required", {}).get("precision", [])
@@ -43,6 +50,7 @@ def video_provider_capabilities(info):
         "alpha-matte": {"LTXAddVideoICLoRAGuide", "OpenFrameCanvasVideo", "OpenFrameSaveAlphaVideo"},
         "clean-plate": {"LTXAddVideoICLoRAGuide", "OpenFrameVideoInput"},
         "sdr-to-hdr": {"LTXAddVideoICLoRAGuide", "LTXVLoadConditioning", "ImageColorSpace", "OpenFrameSaveHDRVideo"},
+        "reference-video": {"LTXICLoRALoaderModelOnly", "LTXAddVideoICLoRAGuide", "OpenFrameReferenceSheet", "RepeatImageBatch"},
     }
     model_ids, details = [], {}
     for model in VIDEO_MODELS:

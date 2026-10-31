@@ -49,7 +49,9 @@ def create_app(data_dir: Path | str | None = None) -> FastAPI:
 
     app = FastAPI(title="OpenFrame Studio", version="0.1.0", lifespan=lifespan)
     origins = [origin.strip().rstrip("/") for origin in os.environ.get(
-        "OPENFRAME_ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8000,http://127.0.0.1:8000"
+        "OPENFRAME_ALLOWED_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174,"
+        "http://localhost:8000,http://127.0.0.1:8000,http://localhost:8001,http://127.0.0.1:8001"
     ).split(",") if origin.strip()]
     app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False,
                        allow_methods=["GET", "POST", "PATCH", "DELETE"], allow_headers=["Content-Type"])
@@ -433,7 +435,7 @@ def checked_media_path(store: Store, value: str) -> Path:
 
 
 def validate_request(request: RenderRequest, store: Store, *, require_assets: bool = True) -> tuple[dict, list[str]]:
-    from engine.catalog import get_catalog, allows_restyle_first_frame
+    from engine.catalog import get_catalog, allows_restyle_first_frame, reference_limits
     catalog = get_catalog()
     data = request.model_dump()
     if SECRET_FIELDS.intersection(request.model_extra or {}):
@@ -683,7 +685,23 @@ def validate_request(request: RenderRequest, store: Store, *, require_assets: bo
         raise HTTPException(422, "Upload a voice recording for this operation")
     if assets.get("audio") and (not effect.get("requires_audio") or assets["audio"]["kind"] != "audio"):
         raise HTTPException(422, "Audio input is supported only by the uploaded-speech operation")
-    if require_assets and (effect.get("requires_reference") or model.get("requires_reference")) and "reference" not in assets:
+    ordered_references = data["reference_asset_ids"]
+    reference_limit = reference_limits(model, effect)
+    if len(set(ordered_references)) != len(ordered_references):
+        raise HTTPException(422, "Reference images must be distinct; remove duplicate asset IDs")
+    if effect["task"] == "reference-video":
+        if data["reference_asset_id"]:
+            raise HTTPException(422, "Reference-to-video uses ordered reference_asset_ids, not a single reference image")
+        if any(assets.get(role) for role in ("source", "mask", "audio", "end")):
+            raise HTTPException(422, "Reference-to-video accepts only reference images; remove the source, mask, audio or end asset")
+        if len(ordered_references) < max(1, reference_limit["min"]):
+            raise HTTPException(422, "Reference-to-video requires one to nine ordered reference images")
+        if len(ordered_references) > reference_limit["max"]:
+            raise HTTPException(422, f"Reference-to-video accepts at most {reference_limit['max']} reference images; remove the extra references instead of relying on truncation")
+    elif ordered_references and not image_task:
+        raise HTTPException(422, "This operation accepts at most one reference image; use reference_asset_id. Ordered reference lists are supported only by reference-to-video and image generation/editing")
+    has_reference = "reference" in assets or (effect["task"] == "reference-video" and bool(ordered_references))
+    if require_assets and (effect.get("requires_reference") or model.get("requires_reference")) and not has_reference:
         message = "Upload the edited full starting frame for the selected video interval" if model.get("reference_image_role") == "edited-first-frame" else "Upload a reference character image"
         raise HTTPException(422, message)
     references = [asset for role, asset in assets.items() if role == "reference" or role.startswith("reference_")]
@@ -699,10 +717,9 @@ def validate_request(request: RenderRequest, store: Store, *, require_assets: bo
             raise HTTPException(422, "The edited starting frame must match the source video's native dimensions exactly")
     if references and effect["task"] not in model.get("reference_tasks", []) and not allows_restyle_first_frame(model, data):
         raise HTTPException(422, "This model/task does not support additional reference images")
-    if data["reference_asset_ids"] and not image_task:
-        raise HTTPException(422, "Multiple reference images are currently supported only by image generation/editing")
-    if len(references) + (bool(source) if image_task else 0) > model.get("max_references", 1):
-        raise HTTPException(422, "Too many reference images; the source image counts toward this model's limit")
+    if len(references) + (bool(source) if image_task else 0) > reference_limit["max"]:
+        message = "Too many reference images; the source image counts toward this model's limit" if image_task else "Too many reference images for this operation"
+        raise HTTPException(422, message)
     if image_task and source and source["kind"] != "image":
         raise HTTPException(422, "Image operations require image inputs")
     if assets.get("mask") and assets["mask"]["kind"] not in {"image", "video"}:

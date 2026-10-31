@@ -823,10 +823,19 @@ class SequenceDriver:
                     db.execute("UPDATE sequence_shots SET record=? WHERE sequence_id=? AND episode_index=? AND position=?", (json.dumps(shot), record["id"], episode_index, position))
                 db.execute("UPDATE sequences SET updated_at=?,record=? WHERE id=?", (record["updated_at"], json.dumps(record), record["id"]))
 
+    def audio_provider(self, episode):
+        provider = episode.get("audio_provider") or "local"
+        from engine.catalog import get_catalog
+        if provider not in {item["id"] for item in get_catalog()["providers"]}:
+            # Narration and caption runtimes are local-only; legacy drafts may
+            # still name a provider that has since been retired.
+            provider = "local"
+        return provider
+
     def advance_narration(self, record, episode_index, position, shot):
         narration = shot["narration"]
         if not shot.get("narration_job_id"):
-            self.enqueue_audio(record, {"model_id": "ming-narration", "effect_id": "narrate-shot", "provider": record["episodes"][episode_index].get("audio_provider") or "local",
+            self.enqueue_audio(record, {"model_id": "ming-narration", "effect_id": "narrate-shot", "provider": self.audio_provider(record["episodes"][episode_index]),
                 "prompt": narration["text"], "voice": narration["voice"], "speech_speed": narration["speed"], "caption_language": narration["language"],
                 "seed": shot["request"]["seed"], "width": 64, "height": 64, "frames": 1, "fps": 1, "steps": 1, "guidance": 1,
                 "generate_captions": record["episodes"][episode_index].get("captions", {}).get("mode") == "narration"}, episode_index, position, shot)
@@ -860,7 +869,7 @@ class SequenceDriver:
             raise ValueError("Soundtrack captions require an explicit foreground soundtrack")
         if not episode.get("transcription_job_id"):
             available = asset(self.store, episode["audio_asset_id"], "audio")["duration"] - episode["audio_start"]
-            self.enqueue_audio(record, {"model_id": "qwen-caption", "effect_id": "transcribe-audio", "provider": episode.get("audio_provider") or "local", "prompt": "",
+            self.enqueue_audio(record, {"model_id": "qwen-caption", "effect_id": "transcribe-audio", "provider": self.audio_provider(episode), "prompt": "",
                 "audio_asset_id": episode["audio_asset_id"], "audio_start": episode["audio_start"], "audio_duration": min(episode["planned_duration"], available) if episode.get("pad_audio_silence") else episode["planned_duration"],
                 "caption_language": episode["captions"].get("language", "English"), "generate_captions": True,
                 "width": 64, "height": 64, "frames": 1, "fps": 1, "steps": 1, "guidance": 1, "seed": 42}, episode_index)
@@ -880,6 +889,11 @@ class SequenceDriver:
 
     def submit_shot(self, record, episode_index, position, shot, episode_rows):
         request = deepcopy(shot["request"])
+        from engine.catalog import get_catalog
+        if request.get("provider") not in {item["id"] for item in get_catalog()["providers"]}:
+            # A draft can outlive a retired provider. The editor already resolves
+            # it to the current default; follow that visible choice when starting.
+            request["provider"] = self.settings()["default_provider"]
         dependency_asset = None
         if shot["source_from_previous"]:
             previous = episode_rows[position - 1][1]
